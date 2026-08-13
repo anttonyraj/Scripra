@@ -5,7 +5,9 @@ import { useState, useRef, useEffect } from "react";
 // SpeechRecognition type definitions
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     SpeechRecognition: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     webkitSpeechRecognition: any;
   }
 }
@@ -16,6 +18,7 @@ export default function DemoClient() {
   const [interimTranscript, setInterimTranscript] = useState("");
   const [error, setError] = useState<string | null>(null);
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
@@ -32,6 +35,7 @@ export default function DemoClient() {
       recognition.interimResults = true;
       recognition.lang = "en-US";
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       recognition.onresult = (event: any) => {
         let finalTrans = "";
         let interimTrans = "";
@@ -50,6 +54,7 @@ export default function DemoClient() {
         setInterimTranscript(interimTrans);
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       recognition.onerror = (event: any) => {
         console.error("Speech recognition error", event.error);
         if (event.error !== "no-speech") {
@@ -118,7 +123,7 @@ export default function DemoClient() {
               </svg>
               <p className="text-[15px]">Click the microphone to begin.</p>
               <p className="text-[13px] mt-2 max-w-[300px] text-center opacity-80">
-                Try saying: "We're going to ship the new version on Friday. Michael, can you finish testing?"
+              Try saying: &quot;We&apos;re going to ship the new version on Friday. Michael, can you finish testing?&quot;
               </p>
             </div>
           )}
