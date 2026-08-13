@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scripra — brand system v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   SCRIPRA — BRAND SYSTEM v2
+   Sibling to Sonictra. Sonictra = sound crossing languages.
+   Scripra  = conversation becoming knowledge.
+   No waveforms anywhere: that motif belongs to Sonictra.
+   ========================================================================== */
+:root{
+  --ink:#101828;
+  --ink-2:#475467;
+  --ink-3:#8A93A6;
+
+  --indigo:#5B5CF0;        /* PRIMARY */
+  --indigo-deep:#3D34C4;   /* hover, dense type */
+  --indigo-lift:#9B9CFF;   /* light strokes */
+  --indigo-mist:#EEEEFE;
+
+  --amber:#F0A02A;         /* ACCENT — anything a human owes someone */
+  --amber-deep:#A96A08;
+  --amber-mist:#FDF2DE;
+
+  --teal:#12A47C;          /* SEMANTIC — done */
+  --rose:#E14B5A;          /* SEMANTIC — risk. Kept free of brand duty. */
+
+  --canvas:#FAFAFF;
+  --card:#FFFFFF;
+  --line:rgba(91,92,240,.14);
+
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+
+  --wave-a:155,156,255;
+  --wave-b:91,92,240;
+  --wave-c:61,52,196;
+}
+
+/* --- DARK THEME ---
+   Indigo and amber both lift on a dark ground; the light-mode values go
+   muddy. Same brand, different stops. --- */
+[data-theme="dark"]{
+  --ink:#EDEFFA;
+  --ink-2:#9AA3C4;
+  --ink-3:#646E93;
+
+  --indigo:#7B7CFF;
+  --indigo-deep:#9B9CFF;
+  --indigo-lift:#5B5CF0;
+  --indigo-mist:rgba(123,124,255,.14);
+
+  --amber:#F5B14A;
+  --amber-deep:#F5B14A;
+  --amber-mist:rgba(245,177,74,.13);
+
+  --teal:#2DC79B;
+  --rose:#FF6B7A;
+
+  --canvas:#0B1020;
+  --card:#141C38;
+  --line:rgba(139,148,200,.17);
+
+  --wave-a:123,124,255;
+  --wave-b:155,156,255;
+  --wave-c:61,52,196;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;background:var(--canvas);color:var(--ink);
+  font-family:var(--sans);-webkit-font-smoothing:antialiased;
+  transition:background-color .3s ease, color .3s ease;
+}
+
+/* --- theme toggle --- */
+.theme-tog{
+  position:fixed;top:20px;right:20px;z-index:50;
+  display:flex;gap:2px;padding:3px;
+  background:var(--card);border:1px solid var(--line);border-radius:100px;
+}
+.theme-tog button{
+  border:0;background:none;cursor:pointer;
+  font-family:var(--sans);font-size:11.5px;font-weight:600;
+  color:var(--ink-3);padding:6px 13px;border-radius:100px;
+  transition:background .2s, color .2s;
+}
+.theme-tog button.on{background:var(--indigo);color:#fff;}
+.theme-tog button:not(.on):hover{color:var(--ink);}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+/* ---------------- HERO ---------------- */
+.hero{position:relative;min-height:84vh;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:80px 24px;}
+#bg{position:absolute;inset:0;width:100%;height:100%;display:block;}
+.hero-inner{position:relative;z-index:2;text-align:center;max-width:900px;}
+.eyebrow{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--indigo);background:var(--card);border:1px solid var(--line);border-radius:100px;padding:8px 20px;margin-bottom:32px;}
+.hero h1{font-size:clamp(40px,6.6vw,78px);font-weight:700;letter-spacing:-.035em;line-height:1.02;margin:0 0 20px;}
+.hero .sub{font-size:clamp(19px,2.4vw,27px);font-weight:600;letter-spacing:-.015em;margin:0 0 20px;color:var(--indigo-deep);}
+.hero .lede{font-size:17px;line-height:1.65;color:var(--ink-2);max-width:620px;margin:0 auto 38px;}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn{font-size:15px;font-weight:600;padding:14px 28px;border-radius:10px;border:1px solid transparent;cursor:pointer;text-decoration:none;display:inline-block;transition:background .2s ease, transform .15s ease;}
+.btn:hover{transform:translateY(-1px);}
+.btn.solid{background:var(--indigo);color:#fff;}
+.btn.solid:hover{background:#6E6FF5;}
+.btn.line{background:var(--card);color:var(--ink);border-color:var(--line);}
+.trust{margin-top:32px;font-size:13px;color:var(--ink-3);}
+
+/* ---------------- SECTIONS ---------------- */
+section.spec{padding:72px 0;border-top:1px solid var(--line);}
+.spec h2{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px;}
+.spec .note{font-size:15px;line-height:1.7;color:var(--ink-2);max-width:660px;margin:0 0 34px;}
+
+/* ---------------- LOGO ---------------- */
+.logo{display:inline-flex;align-items:center;gap:13px;cursor:pointer;}
+.logo-mark{width:40px;height:40px;flex:0 0 auto;}
+.logo-type .name{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;}
+.logo-type .tag{font-size:8.5px;font-weight:600;letter-spacing:.19em;text-transform:uppercase;color:var(--ink-3);margin-top:4px;}
+.logo-lab{display:flex;gap:44px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:40px;}
+.hint{font-size:13px;color:var(--ink-3);}
+.dark-strip{background:var(--ink);border-radius:16px;padding:40px;margin-top:16px;display:flex;gap:44px;align-items:center;flex-wrap:wrap;}
+.dark-strip .logo-type .name{color:#fff;}
+.dark-strip .logo-type .tag,.dark-strip .hint{color:rgba(255,255,255,.45);}
+
+/* ---------------- SENTENCE → STRUCTURE ---------------- */
+.transform{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:52px 44px;}
+.said{font-size:clamp(21px,3vw,32px);font-weight:600;letter-spacing:-.02em;line-height:1.4;min-height:1.5em;margin:0 0 8px;}
+.said .cursor{display:inline-block;width:2px;height:1em;background:var(--indigo);vertical-align:-2px;margin-left:2px;}
+.said-by{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-bottom:34px;}
+.arrows{height:26px;display:flex;justify-content:center;align-items:center;color:var(--indigo-lift);font-size:20px;opacity:0;transition:opacity .5s ease;}
+.arrows.on{opacity:1;}
+.extracted{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:26px;}
+.ex{border-radius:12px;padding:16px 18px;border:1px solid var(--line);background:var(--canvas);opacity:0;transform:translateY(10px);transition:opacity .55s ease, transform .55s ease;}
+.ex.on{opacity:1;transform:none;}
+.ex .k{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:7px;}
+.ex .v{font-size:15px;line-height:1.45;}
+.ex .m{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:9px;}
+.replay{margin-top:26px;background:none;border:1px solid var(--line);color:var(--ink-2);font-family:var(--sans);font-size:13px;font-weight:500;padding:9px 18px;border-radius:8px;cursor:pointer;}
+.replay:hover{border-color:var(--indigo);color:var(--indigo);}
+
+/* ---------------- PALETTE ---------------- */
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:14px;}
+.sw{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--card);}
+.sw .chip{height:80px;}
+.sw .meta{padding:11px 13px;}
+.sw .nm{font-size:13px;font-weight:600;}
+.sw .hx{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:3px;}
+.sw .use{font-size:11.5px;color:var(--ink-3);margin-top:6px;line-height:1.4;}
+
+footer{padding:48px 0 70px;border-top:1px solid var(--line);}
+footer p{font-size:13px;color:var(--ink-3);margin:0;}
+
+@media (prefers-reduced-motion:reduce){#bg{display:none;}}
+</style>
+</head>
+<body data-theme="light">
+
+<div class="theme-tog" role="group" aria-label="Colour theme">
+  <button id="tLight" class="on">Light</button>
+  <button id="tDark">Dark</button>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<div class="hero">
+  <canvas id="bg"></canvas>
+  <div class="hero-inner">
+    <div class="eyebrow">AI conversation intelligence</div>
+    <h1>Every conversation,<br>remembered.</h1>
+    <div class="sub">Capture. Understand. Act.</div>
+    <p class="lede">
+      Scripra turns meetings, calls and lectures into searchable transcripts,
+      decisions, action items and organisational memory.
+    </p>
+    <div class="cta">
+      <a class="btn solid" href="#">Try Scripra</a>
+      <a class="btn line" href="#">Scripra for business</a>
+    </div>
+    <div class="trust">Speaker separation · 100+ languages · Every claim traceable to its timestamp</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ===================== LOGO ===================== -->
+  <section class="spec">
+    <h2>Logo</h2>
+    <p class="note">
+      Four transcript lines draw in from the left, then curve into an S and drop a
+      memory node that pulses once. Conversation becoming record becoming recall —
+      no waveform, because that language belongs to Sonictra. Hover to replay.
+    </p>
+
+    <div class="logo-lab">
+      <div class="logo" id="logoA">
+        <svg class="logo-mark" viewBox="0 0 40 40" fill="none" aria-label="Scripra">
+          <g stroke-linecap="round" fill="none">
+            <path class="ln" d="M9 9 H31"          stroke="#9B9CFF" stroke-width="3"/>
+            <path class="ln" d="M9 16.5 H26"       stroke="#5B5CF0" stroke-width="3"/>
+            <path class="ln" d="M14 23.5 H31"      stroke="#5B5CF0" stroke-width="3"/>
+            <path class="ln" d="M9 31 H31"         stroke="#3D34C4" stroke-width="3"/>
+            <path class="sc" d="M30 10.5 C30 6.5 10 6.5 10 14 C10 20.5 30 19.5 30 26 C30 33.5 10 33.5 10 29.5"
+                  stroke="#5B5CF0" stroke-width="3.4" opacity="0"/>
+          </g>
+          <circle class="nd" cx="31.5" cy="31" r="3.4" fill="#F0A02A" opacity="0"/>
+        </svg>
+        <div class="logo-type">
+          <div class="name">Scripra</div>
+          <div class="tag">Conversation intelligence</div>
+        </div>
+      </div>
+      <div class="hint">Primary lockup · light surface</div>
+    </div>
+
+    <div class="dark-strip">
+      <div class="logo" id="logoB">
+        <svg class="logo-mark" viewBox="0 0 40 40" fill="none" aria-label="Scripra">
+          <g stroke-linecap="round" fill="none">
+            <path class="ln" d="M9 9 H31"     stroke="#6E6FF5" stroke-width="3"/>
+            <path class="ln" d="M9 16.5 H26"  stroke="#9B9CFF" stroke-width="3"/>
+            <path class="ln" d="M14 23.5 H31" stroke="#9B9CFF" stroke-width="3"/>
+            <path class="ln" d="M9 31 H31"    stroke="#FFFFFF" stroke-width="3"/>
+            <path class="sc" d="M30 10.5 C30 6.5 10 6.5 10 14 C10 20.5 30 19.5 30 26 C30 33.5 10 33.5 10 29.5"
+                  stroke="#FFFFFF" stroke-width="3.4" opacity="0"/>
+          </g>
+          <circle class="nd" cx="31.5" cy="31" r="3.4" fill="#F0A02A" opacity="0"/>
+        </svg>
+        <div class="logo-type">
+          <div class="name">Scripra</div>
+          <div class="tag">Conversation intelligence</div>
+        </div>
+      </div>
+      <div class="hint">Inverse lockup · app chrome, footer</div>
+    </div>
+  </section>
+
+  <!-- ===================== SENTENCE → STRUCTURE ===================== -->
+  <section class="spec">
+    <h2>What Scripra actually does</h2>
+    <p class="note">
+      This belongs below the fold, not behind the headline — readable words competing
+      with an h1 make both harder to read. Here it has room to explain itself.
+      It runs when scrolled into view.
+    </p>
+
+    <div class="transform" id="tf">
+      <p class="said" id="said"><span class="cursor" id="cur"></span></p>
+      <div class="said-by" id="saidBy"></div>
+
+      <div class="arrows" id="arw">↓</div>
+
+      <div class="extracted">
+        <div class="ex" data-i="0">
+          <div class="k" style="color:var(--indigo-deep)">Decision</div>
+          <div class="v">Ship the new version on Friday.</div>
+          <div class="m">High confidence · 12:04</div>
+        </div>
+        <div class="ex" data-i="1">
+          <div class="k" style="color:var(--amber-deep)">Action item</div>
+          <div class="v">Finish regression testing.</div>
+          <div class="m">Michael · by Thursday · 12:11</div>
+        </div>
+        <div class="ex" data-i="2">
+          <div class="k" style="color:var(--amber-deep)">Commitment</div>
+          <div class="v">Send the customer update.</div>
+          <div class="m">Sarah · 12:19</div>
+        </div>
+        <div class="ex" data-i="3">
+          <div class="k" style="color:#B03A47">Risk</div>
+          <div class="v">Security approval still outstanding.</div>
+          <div class="m">4 weeks running · 12:26</div>
+        </div>
+      </div>
+
+      <button class="replay" id="replay">Replay</button>
+    </div>
+  </section>
+
+  <!-- ===================== PALETTE ===================== -->
+  <section class="spec">
+    <h2>Palette</h2>
+    <p class="note">
+      Indigo primary, amber accent. Amber rather than coral because coral sits on top
+      of red, and red has a job here — risks and blockers. Keeping the accent clear of
+      the danger colour means a CTA never reads as a warning.
+    </p>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#5B5CF0"></div><div class="meta"><div class="nm">Indigo</div><div class="hx">#5B5CF0</div><div class="use">Primary. Logo, links, CTA.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#3D34C4"></div><div class="meta"><div class="nm">Indigo deep</div><div class="hx">#3D34C4</div><div class="use">Headings on tint, dense type.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#9B9CFF"></div><div class="meta"><div class="nm">Indigo lift</div><div class="hx">#9B9CFF</div><div class="use">Background strokes, inverse.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#F0A02A"></div><div class="meta"><div class="nm">Amber</div><div class="hx">#F0A02A</div><div class="use">Accent. Tasks, commitments, memory node.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#12A47C"></div><div class="meta"><div class="nm">Teal</div><div class="hx">#12A47C</div><div class="use">Semantic only. Done, confirmed.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E14B5A"></div><div class="meta"><div class="nm">Rose</div><div class="hx">#E14B5A</div><div class="use">Semantic only. Risks, blockers.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#101828"></div><div class="meta"><div class="nm">Ink</div><div class="hx">#101828</div><div class="use">Display type, dark chrome.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#FAFAFF;border-bottom:1px solid rgba(91,92,240,.14)"></div><div class="meta"><div class="nm">Canvas</div><div class="hx">#FAFAFF</div><div class="use">Page. Indigo-tinted white.</div></div></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Scripra brand system v2 · a product of AIworkX · sibling to Sonictra</p>
+  </footer>
+</div>
+
+<script>
+/* ==========================================================================
+   1. LOGO — transcript lines draw in, curve into an S, memory node pulses
+   ========================================================================== */
+function playLogo(root){
+  const lines = root.querySelectorAll('.ln');
+  const s     = root.querySelector('.sc');
+  const node  = root.querySelector('.nd');
+
+  lines.forEach((p,i)=>{
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = len;
+    p.style.strokeDashoffset = len;
+    p.style.opacity = 1;
+    p.animate(
+      [{strokeDashoffset:len},{strokeDashoffset:0}],
+      {duration:420, delay:i*110, easing:'cubic-bezier(.4,0,.2,1)', fill:'forwards'}
+    );
+  });
+
+  const hold = lines.length*110 + 420;
+
+  lines.forEach(p=>{
+    p.animate([{opacity:1},{opacity:0}],
+      {duration:340, delay:hold+180, easing:'ease', fill:'forwards'});
+  });
+
+  const sLen = s.getTotalLength();
+  s.style.strokeDasharray = sLen;
+  s.style.strokeDashoffset = sLen;
+  s.animate([{opacity:1,strokeDashoffset:sLen},{opacity:1,strokeDashoffset:0}],
+    {duration:700, delay:hold+240, easing:'cubic-bezier(.4,0,.2,1)', fill:'forwards'});
+
+  node.animate(
+    [{opacity:0,transform:'scale(.2)'},
+     {opacity:1,transform:'scale(1.5)',offset:.6},
+     {opacity:1,transform:'scale(1)'}],
+    {duration:620, delay:hold+900, easing:'cubic-bezier(.34,1.5,.5,1)', fill:'forwards'}
+  );
+}
+['logoA','logoB'].forEach(id=>{
+  const n=document.getElementById(id); if(!n) return;
+  playLogo(n);
+  n.addEventListener('mouseenter',()=>playLogo(n));
+});
+
+/* ==========================================================================
+   2. SENTENCE → STRUCTURE
+   Types a real sentence, then extracts it into structured records.
+   ========================================================================== */
+(function(){
+  const SENTENCE = "Okay — we'll ship the new version Friday. Michael, can you finish regression testing by Thursday? I'll send the customer update.";
+  const said   = document.getElementById('said');
+  const cur    = document.getElementById('cur');
+  const saidBy = document.getElementById('saidBy');
+  const arw    = document.getElementById('arw');
+  const cards  = [...document.querySelectorAll('.ex')];
+  const replay = document.getElementById('replay');
+  let timers = [];
+
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    said.textContent = ''; said.appendChild(cur);
+    saidBy.textContent = '';
+    arw.classList.remove('on');
+    cards.forEach(c=>c.classList.remove('on'));
+  }
+
+  function run(){
+    reset();
+    let i = 0;
+    (function type(){
+      if(i < SENTENCE.length){
+        said.insertBefore(document.createTextNode(SENTENCE[i]), cur);
+        i++;
+        timers.push(setTimeout(type, SENTENCE[i-1]===' ' ? 22 : 30));
+      }else{
+        cur.style.display = 'none';
+        saidBy.textContent = 'Antony · Product review · 12:04';
+        timers.push(setTimeout(()=>arw.classList.add('on'), 420));
+        cards.forEach((c,n)=>{
+          timers.push(setTimeout(()=>c.classList.add('on'), 800 + n*220));
+        });
+      }
+    })();
+  }
+
+  replay.addEventListener('click', ()=>{ cur.style.display=''; run(); });
+
+  let fired = false;
+  new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting && !fired){ fired = true; run(); } });
+  },{threshold:.35}).observe(document.getElementById('tf'));
+})();
+
+/* ==========================================================================
+   3. HERO BACKGROUND — conversation ribbons + nodes
+   Thin transcript-like lines drift right. Occasionally one branches and
+   terminates in a node. Abstract only: no readable words behind the headline.
+   ========================================================================== */
+(function(){
+  const cv = document.getElementById('bg'); if(!cv) return;
+  const ctx = cv.getContext('2d');
+  let W=0,H=0,t=0,raf=null;
+  const ribbons = [];
+
+  /* wave colours are declared as CSS vars so the animation follows the theme */
+  const C = {a:'155,156,255', b:'91,92,240', c:'61,52,196', node:'240,160,42'};
+  function readColours(){
+    const cs = getComputedStyle(document.body);
+    C.a = (cs.getPropertyValue('--wave-a') || C.a).trim();
+    C.b = (cs.getPropertyValue('--wave-b') || C.b).trim();
+    C.c = (cs.getPropertyValue('--wave-c') || C.c).trim();
+    C.node = document.body.getAttribute('data-theme') === 'dark'
+             ? '245,177,74' : '240,160,42';
+  }
+  readColours();
+
+  function build(){
+    ribbons.length = 0;
+    const N = 34;
+    for(let i=0;i<N;i++){
+      ribbons.push({
+        y: (i+0.5)/N,
+        len: 0.18 + Math.random()*0.42,
+        x: Math.random(),
+        sp: 0.00035 + Math.random()*0.0009,
+        amp: 6 + Math.random()*16,
+        ph: Math.random()*Math.PI*2,
+        node: Math.random() < 0.22,
+        nodeT: Math.random()*Math.PI*2
+      });
+    }
+  }
+  function size(){
+    const r = cv.getBoundingClientRect();
+    const d = Math.min(window.devicePixelRatio||1,2);
+    cv.width = r.width*d; cv.height = r.height*d;
+    W = r.width; H = r.height;
+    ctx.setTransform(d,0,0,d,0,0);
+  }
+  size(); build();
+  window.addEventListener('resize', ()=>{ size(); });
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    for(const r of ribbons){
+      r.x += r.sp;
+      if(r.x > 1.2) r.x = -r.len - 0.1;
+
+      const y0 = r.y*H;
+      const x0 = r.x*W, x1 = (r.x + r.len)*W;
+
+      ctx.beginPath();
+      for(let x=x0; x<=x1; x+=6){
+        const u = (x - x0)/(x1 - x0 || 1);
+        const fade = Math.sin(u*Math.PI);
+        const y = y0 + Math.sin(u*3.1 + t*0.5 + r.ph)*r.amp*fade;
+        x===x0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      }
+      const g = ctx.createLinearGradient(x0,0,x1,0);
+      g.addColorStop(0,   'rgba('+C.a+',0)');
+      g.addColorStop(0.28,'rgba('+C.a+',.40)');
+      g.addColorStop(0.62,'rgba('+C.b+',.30)');
+      g.addColorStop(1,   'rgba('+C.c+',0)');
+      ctx.strokeStyle = g; ctx.lineWidth = 1.1; ctx.stroke();
+
+      /* a ribbon occasionally branches off into a node */
+      if(r.node){
+        const bx = x1 - (x1-x0)*0.16;
+        const by = y0 + Math.sin(3.1*0.84 + t*0.5 + r.ph)*r.amp*0.5;
+        const drop = 16 + Math.sin(t*0.6 + r.nodeT)*5;
+        ctx.beginPath();
+        ctx.moveTo(bx,by);
+        ctx.quadraticCurveTo(bx+12, by, bx+20, by+drop);
+        ctx.strokeStyle = 'rgba('+C.node+',.34)';
+        ctx.lineWidth = 1; ctx.stroke();
+
+        const pulse = 0.5 + 0.5*Math.sin(t*1.4 + r.nodeT);
+        ctx.beginPath();
+        ctx.arc(bx+20, by+drop, 2 + pulse*1.6, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba('+C.node+',' + (0.30 + pulse*0.34) + ')';
+        ctx.fill();
+      }
+    }
+
+    t += 0.012;
+    raf = requestAnimationFrame(draw);
+  }
+
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches) draw();
+
+  new IntersectionObserver((es)=>{
+    es.forEach(e=>{
+      if(e.isIntersecting && !raf) draw();
+      else if(!e.isIntersecting && raf){ cancelAnimationFrame(raf); raf=null; }
+    });
+  }).observe(cv);
+
+  window.__scripraWaveRefresh = readColours;
+})();
+
+/* ==========================================================================
+   4. THEME SWITCH
+   Respects the OS preference on first visit, remembers the choice after.
+   Storage is wrapped: if it's unavailable the toggle still works in-session.
+   ========================================================================== */
+(function(){
+  const body = document.body;
+  const bL = document.getElementById('tLight');
+  const bD = document.getElementById('tDark');
+
+  function store(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function load(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+
+  function apply(mode){
+    body.setAttribute('data-theme', mode);
+    bL.classList.toggle('on', mode === 'light');
+    bD.classList.toggle('on', mode === 'dark');
+    if(window.__scripraWaveRefresh) window.__scripraWaveRefresh();
+    store('scripra-theme', mode);
+  }
+
+  const saved = load('scripra-theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  apply(saved || (prefersDark ? 'dark' : 'light'));
+
+  bL.addEventListener('click', ()=>apply('light'));
+  bD.addEventListener('click', ()=>apply('dark'));
+})();
+</script>
+</body>
+</html>

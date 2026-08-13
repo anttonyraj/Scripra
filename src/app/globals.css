@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand System - Marketing & App (Light) */
+    --canvas: #FAFAFF;
+    --card: #FFFFFF;
+    --panel: #FFFFFF;
+    --raise: #F2F3FC;
+    
+    --line: rgba(91,92,240,0.14);
+    --line-hi: rgba(91,92,240,0.26);
+
+    --ink: #101828;
+    --ink-2: #475467;
+    --ink-3: #8A93A6;
+
+    --indigo: #5B5CF0;
+    --indigo-deep: #3D34C4;
+    --indigo-dim: #5B5CF0;
+    --indigo-lift: #9B9CFF;
+    --indigo-mist: #EEEEFE;
+    --indigo-wash: rgba(91,92,240,0.10);
+
+    --amber: #F0A02A;
+    --amber-deep: #A96A08;
+    --amber-mist: #FDF2DE;
+    --amber-wash: rgba(240,160,42,0.16);
+
+    --teal: #12A47C;
+    --teal-deep: #0E8A66;
+    --teal-wash: rgba(18,164,124,0.14);
+
+    --rose: #E14B5A;
+    --rose-deep: #C93744;
+    --rose-wash: rgba(225,75,90,0.12);
+
+    --av-a: #5B5CF0;
+    --av-b: #F0A02A;
+    --av-c: #12A47C;
+    --av-ink: #FFFFFF;
+
+    /* Hero wave animation */
+    --wave-a: 155, 156, 255;
+    --wave-b: 91, 92, 240;
+    --wave-c: 61, 52, 196;
+  }
+
+  [data-theme="dark"] {
+    --canvas: #0B1020;
+    --card: #141C38;
+    --panel: #101733;
+    --raise: #1A2445;
+    
+    --line: rgba(139,148,200,0.17);
+    --line-hi: rgba(139,148,200,0.30);
+
+    --ink: #EDEFFA;
+    --ink-2: #9AA3C4;
+    --ink-3: #646E93;
+
+    --indigo: #7B7CFF;
+    --indigo-deep: #9B9CFF;
+    --indigo-dim: #5B5CF0;
+    --indigo-lift: #5B5CF0;
+    --indigo-mist: rgba(123,124,255,0.14);
+    --indigo-wash: rgba(123,124,255,0.14);
+
+    --amber: #F5B14A;
+    --amber-deep: #F5B14A;
+    --amber-mist: rgba(245,177,74,0.13);
+    --amber-wash: rgba(245,177,74,0.13);
+
+    --teal: #2DC79B;
+    --teal-deep: #2DC79B;
+    --teal-wash: rgba(45,199,155,0.13);
+
+    --rose: #FF6B7A;
+    --rose-deep: #FF6B7A;
+    --rose-wash: rgba(255,107,122,0.13);
+
+    --av-a: #7B7CFF;
+    --av-b: #F5B14A;
+    --av-c: #2DC79B;
+    --av-ink: #0B1020;
+
+    --wave-a: 123, 124, 255;
+    --wave-b: 155, 156, 255;
+    --wave-c: 61, 52, 196;
+  }
+}
+
+body {
+  background-color: var(--canvas);
+  color: var(--ink);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-sans), Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

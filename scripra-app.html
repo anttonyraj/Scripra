@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scripra — product app (dark)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   SCRIPRA — PRODUCT APP, DARK
+   Same brand as the light marketing site. Indigo primary, amber for anything
+   a human owes someone, rose for risk, teal for done.
+   Surfaces step up: canvas → panel → card → raised.
+   ========================================================================== */
+:root{
+  --canvas:#FAFAFF;
+  --panel:#FFFFFF;
+  --card:#FFFFFF;
+  --raise:#F2F3FC;
+  --line:rgba(91,92,240,.14);
+  --line-hi:rgba(91,92,240,.26);
+
+  --ink:#101828;
+  --ink-2:#475467;
+  --ink-3:#8A93A6;
+
+  --indigo:#5B5CF0;
+  --indigo-dim:#5B5CF0;
+  --indigo-wash:rgba(91,92,240,.10);
+
+  --amber:#A96A08;
+  --amber-wash:rgba(240,160,42,.16);
+
+  --teal:#0E8A66;
+  --teal-wash:rgba(18,164,124,.14);
+
+  --rose:#C93744;
+  --rose-wash:rgba(225,75,90,.12);
+
+  --av-a:#5B5CF0;
+  --av-b:#F0A02A;
+  --av-c:#12A47C;
+  --av-ink:#FFFFFF;
+
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+
+[data-theme="dark"]{
+  --canvas:#0B1020;
+  --panel:#101733;
+  --card:#141C38;
+  --raise:#1A2445;
+  --line:rgba(139,148,200,.16);
+  --line-hi:rgba(139,148,200,.30);
+
+  --ink:#EDEFFA;
+  --ink-2:#9AA3C4;
+  --ink-3:#646E93;
+
+  --indigo:#7B7CFF;
+  --indigo-dim:#5B5CF0;
+  --indigo-wash:rgba(123,124,255,.14);
+
+  --amber:#F5B14A;
+  --amber-wash:rgba(245,177,74,.13);
+
+  --teal:#2DC79B;
+  --teal-wash:rgba(45,199,155,.13);
+
+  --rose:#FF6B7A;
+  --rose-wash:rgba(255,107,122,.13);
+
+  --av-a:#7B7CFF;
+  --av-b:#F5B14A;
+  --av-c:#2DC79B;
+  --av-ink:#0B1020;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;background:var(--canvas);color:var(--ink);
+  font-family:var(--sans);-webkit-font-smoothing:antialiased;font-size:14px;
+  transition:background-color .3s ease, color .3s ease;
+}
+
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh;}
+
+/* ---------------- SIDEBAR ---------------- */
+.side{background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px 22px;}
+.brand svg{width:28px;height:28px;flex:0 0 auto;}
+.brand .nm{font-size:17px;font-weight:700;letter-spacing:-.02em;}
+
+.nav{display:flex;flex-direction:column;gap:2px;margin-bottom:26px;}
+.nav a{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 11px;border-radius:8px;text-decoration:none;
+  color:var(--ink-2);font-size:13.5px;font-weight:500;
+}
+.nav a:hover{background:var(--raise);color:var(--ink);}
+.nav a.on{background:var(--indigo-wash);color:var(--indigo);}
+.nav a .dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.65;}
+.nav .grp{
+  font-size:9.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);padding:14px 11px 6px;
+}
+.count{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-3);}
+
+.side-cta{
+  margin-top:auto;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:14px;
+}
+.side-cta .t{font-size:12.5px;font-weight:600;margin-bottom:5px;}
+.side-cta .d{font-size:11.5px;color:var(--ink-3);line-height:1.5;margin-bottom:11px;}
+.side-cta button{
+  width:100%;background:var(--indigo-dim);color:#fff;border:0;
+  font-family:var(--sans);font-size:12.5px;font-weight:600;
+  padding:8px;border-radius:7px;cursor:pointer;
+}
+
+/* ---------------- MAIN ---------------- */
+.main{padding:26px 32px 60px;min-width:0;}
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:6px;}
+h1{font-size:23px;font-weight:600;letter-spacing:-.02em;margin:0 0 5px;}
+.meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);}
+.acts{display:flex;gap:8px;}
+.btn{
+  background:var(--raise);border:1px solid var(--line-hi);color:var(--ink);
+  font-family:var(--sans);font-size:12.5px;font-weight:500;
+  padding:8px 14px;border-radius:8px;cursor:pointer;
+}
+.btn:hover{border-color:var(--indigo);}
+.btn.pri{background:var(--indigo-dim);border-color:transparent;color:#fff;font-weight:600;}
+
+.speakers{display:flex;gap:7px;margin:18px 0 24px;flex-wrap:wrap;}
+.sp{
+  display:flex;align-items:center;gap:7px;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:100px;padding:5px 12px 5px 5px;font-size:12.5px;
+}
+.sp .av{
+  width:22px;height:22px;border-radius:50%;display:grid;place-items:center;
+  font-size:10px;font-weight:600;color:var(--av-ink);
+}
+.sp .tt{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);}
+
+.cols{display:grid;grid-template-columns:1fr 400px;gap:22px;}
+
+/* ---------------- INSIGHT CARDS ---------------- */
+.card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:13px;padding:18px 20px;margin-bottom:14px;
+}
+.card h2{
+  font-size:10px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;
+  margin:0 0 13px;display:flex;align-items:center;gap:8px;
+}
+.card h2 .n{
+  font-family:var(--mono);font-size:10px;letter-spacing:0;
+  background:var(--raise);color:var(--ink-3);
+  padding:1px 7px;border-radius:100px;
+}
+.recap{margin:0;padding-left:17px;}
+.recap li{font-size:14px;line-height:1.65;color:var(--ink);margin-bottom:7px;}
+.recap li::marker{color:var(--indigo);}
+
+.item{
+  border-top:1px solid var(--line);padding:13px 0;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.item:first-of-type{border-top:0;padding-top:0;}
+.item:last-child{padding-bottom:0;}
+.item .body{flex:1;min-width:0;}
+.item .txt{font-size:14px;line-height:1.5;}
+.item .sub{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.tag{
+  font-size:10.5px;font-weight:600;letter-spacing:.03em;
+  padding:3px 9px;border-radius:100px;white-space:nowrap;
+}
+.tag.i{background:var(--indigo-wash);color:var(--indigo);}
+.tag.a{background:var(--amber-wash);color:var(--amber);}
+.tag.t{background:var(--teal-wash);color:var(--teal);}
+.tag.r{background:var(--rose-wash);color:var(--rose);}
+.ts{
+  font-family:var(--mono);font-size:10.5px;color:var(--ink-3);
+  background:none;border:0;cursor:pointer;padding:2px 4px;border-radius:4px;
+}
+.ts:hover{color:var(--indigo);background:var(--indigo-wash);}
+
+.chk{
+  width:17px;height:17px;flex:0 0 auto;margin-top:1px;
+  border:1.5px solid var(--line-hi);border-radius:5px;
+  cursor:pointer;display:grid;place-items:center;
+}
+.chk.done{background:var(--teal);border-color:var(--teal);}
+.chk.done::after{content:'';width:4px;height:8px;border:solid var(--card);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px);}
+.item.done .txt{color:var(--ink-3);text-decoration:line-through;}
+
+/* ---------------- TRANSCRIPT ---------------- */
+.tr{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:13px;padding:6px 0;max-height:640px;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:var(--line-hi) transparent;
+}
+.tr::-webkit-scrollbar{width:7px;}
+.tr::-webkit-scrollbar-thumb{background:var(--line-hi);border-radius:4px;}
+.tr .hd{
+  position:sticky;top:0;background:var(--panel);z-index:2;
+  padding:12px 18px;border-bottom:1px solid var(--line);
+  font-size:10px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-3);
+}
+.seg{padding:11px 18px;display:grid;grid-template-columns:52px 1fr;gap:11px;border-radius:0;}
+.seg .t{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);padding-top:2px;}
+.seg .who{font-size:11px;font-weight:600;margin-bottom:3px;}
+.seg .sx{font-size:13.5px;line-height:1.55;color:var(--ink-2);}
+.seg.hit{background:var(--indigo-wash);}
+.seg.hit .sx{color:var(--ink);}
+
+.hintbar{
+  margin-top:16px;font-size:12px;color:var(--ink-3);line-height:1.6;
+  border-left:2px solid var(--indigo-dim);padding-left:12px;
+}
+
+.theme-tog{
+  display:flex;gap:2px;padding:3px;margin-left:8px;
+  background:var(--raise);border:1px solid var(--line);border-radius:100px;
+}
+.theme-tog button{
+  border:0;background:none;cursor:pointer;
+  font-family:var(--sans);font-size:11.5px;font-weight:600;
+  color:var(--ink-3);padding:6px 12px;border-radius:100px;
+}
+.theme-tog button.on{background:var(--indigo-dim);color:#fff;}
+
+@media (max-width:980px){
+  .app{grid-template-columns:1fr;}
+  .side{display:none;}
+  .cols{grid-template-columns:1fr;}
+  .main{padding:20px;}
+}
+</style>
+</head>
+<body data-theme="dark">
+
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="side" style="display:flex;flex-direction:column;">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" fill="none" aria-label="Scripra">
+        <g stroke-linecap="round" fill="none">
+          <path d="M30 10.5 C30 6.5 10 6.5 10 14 C10 20.5 30 19.5 30 26 C30 33.5 10 33.5 10 29.5"
+                stroke="var(--indigo)" stroke-width="3.4"/>
+        </g>
+        <circle cx="31.5" cy="31" r="3.4" fill="var(--av-b)"/>
+      </svg>
+      <div class="nm">Scripra</div>
+    </div>
+
+    <nav class="nav">
+      <a href="#" class="on"><span class="dot"></span> Conversations <span class="count">24</span></a>
+      <a href="#"><span class="dot"></span> Ask Scripra</a>
+      <a href="#"><span class="dot"></span> Search</a>
+      <div class="grp">Across meetings</div>
+      <a href="#"><span class="dot"></span> Decisions <span class="count">61</span></a>
+      <a href="#"><span class="dot"></span> Action items <span class="count">9</span></a>
+      <a href="#"><span class="dot"></span> Commitments <span class="count">4</span></a>
+      <a href="#"><span class="dot"></span> Risks <span class="count">2</span></a>
+      <div class="grp">Workspace</div>
+      <a href="#"><span class="dot"></span> People</a>
+      <a href="#"><span class="dot"></span> Glossary</a>
+      <a href="#"><span class="dot"></span> Settings</a>
+    </nav>
+
+    <div class="side-cta">
+      <div class="t">3 items overdue</div>
+      <div class="d">Two from customer meetings. Security approval has slipped four weeks.</div>
+      <button>Review follow-ups</button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <div class="top">
+      <div>
+        <h1>Product review — August release</h1>
+        <div class="meta">13 Aug 2026 · 42 min · English · 3 speakers</div>
+      </div>
+      <div class="acts">
+        <button class="btn">Export</button>
+        <button class="btn">Share</button>
+        <button class="btn pri">Ask Scripra</button>
+        <div class="theme-tog" role="group" aria-label="Colour theme">
+          <button id="tLight">Light</button>
+          <button id="tDark" class="on">Dark</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="speakers">
+      <div class="sp"><span class="av" style="background:var(--av-a)">A</span> Antony <span class="tt">48%</span></div>
+      <div class="sp"><span class="av" style="background:var(--av-b)">M</span> Michael <span class="tt">31%</span></div>
+      <div class="sp"><span class="av" style="background:var(--av-c)">S</span> Sarah <span class="tt">21%</span></div>
+    </div>
+
+    <div class="cols">
+      <!-- ---- insights ---- -->
+      <div>
+        <div class="card">
+          <h2>Quick recap</h2>
+          <ul class="recap">
+            <li>The team agreed to ship the August release on Friday the 12th, moving it back one week from the original date.</li>
+            <li>Regression testing is the remaining blocker; Michael owns it and expects to finish Thursday.</li>
+            <li>Security approval has now been raised in four consecutive reviews without resolution.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Decisions <span class="n">2</span></h2>
+          <div class="item">
+            <div class="body">
+              <div class="txt">Ship the August release on Friday 12 September.</div>
+              <div class="sub">
+                <span class="tag i">High confidence</span>
+                <button class="ts" data-seg="s1">12:04</button>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="body">
+              <div class="txt">Hold the pricing change until after launch.</div>
+              <div class="sub">
+                <span class="tag i" style="opacity:.7">Medium confidence</span>
+                <button class="ts" data-seg="s4">28:37</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Action items <span class="n">3</span></h2>
+          <div class="item">
+            <div class="chk" role="checkbox" aria-checked="false" tabindex="0"></div>
+            <div class="body">
+              <div class="txt">Finish regression testing on the release branch.</div>
+              <div class="sub">
+                <span class="tag a">Michael</span><span class="tag a">Thursday</span>
+                <button class="ts" data-seg="s2">12:11</button>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="chk" role="checkbox" aria-checked="false" tabindex="0"></div>
+            <div class="body">
+              <div class="txt">Send the customer update to Acme.</div>
+              <div class="sub">
+                <span class="tag a">Sarah</span>
+                <button class="ts" data-seg="s3">12:19</button>
+              </div>
+            </div>
+          </div>
+          <div class="item done">
+            <div class="chk done" role="checkbox" aria-checked="true" tabindex="0"></div>
+            <div class="body">
+              <div class="txt">Circulate the release checklist.</div>
+              <div class="sub">
+                <span class="tag t">Done · yesterday</span>
+                <button class="ts" data-seg="s1">09:52</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Risks <span class="n">1</span></h2>
+          <div class="item">
+            <div class="body">
+              <div class="txt">Security approval is still outstanding and now blocks the launch date.</div>
+              <div class="sub">
+                <span class="tag r">4 reviews running</span>
+                <button class="ts" data-seg="s5">31:02</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- transcript ---- -->
+      <div>
+        <div class="tr" id="tr">
+          <div class="hd">Transcript</div>
+
+          <div class="seg" id="s1">
+            <div class="t">12:04</div>
+            <div><div class="who" style="color:var(--av-a)">Antony</div>
+              <div class="sx">Okay — let's commit. We ship the August release Friday the twelfth. One week later than we said, but it's the honest date.</div></div>
+          </div>
+          <div class="seg" id="s2">
+            <div class="t">12:11</div>
+            <div><div class="who" style="color:var(--av-b)">Michael</div>
+              <div class="sx">That works if I get regression testing done. I should finish Thursday, assuming the staging environment stays up.</div></div>
+          </div>
+          <div class="seg" id="s3">
+            <div class="t">12:19</div>
+            <div><div class="who" style="color:var(--av-c)">Sarah</div>
+              <div class="sx">I'll send the customer update to Acme so they're not surprised by the shift.</div></div>
+          </div>
+          <div class="seg">
+            <div class="t">19:45</div>
+            <div><div class="who" style="color:var(--av-a)">Antony</div>
+              <div class="sx">Do we want to bundle the pricing change into the same release, or keep them separate?</div></div>
+          </div>
+          <div class="seg" id="s4">
+            <div class="t">28:37</div>
+            <div><div class="who" style="color:var(--av-c)">Sarah</div>
+              <div class="sx">Separate, I think. If pricing lands the same day, every support ticket becomes ambiguous. Maybe hold it until after launch.</div></div>
+          </div>
+          <div class="seg" id="s5">
+            <div class="t">31:02</div>
+            <div><div class="who" style="color:var(--av-b)">Michael</div>
+              <div class="sx">The bigger problem is security approval. We've raised it in four reviews now and it still hasn't moved. That's the actual blocker, not testing.</div></div>
+          </div>
+          <div class="seg">
+            <div class="t">38:20</div>
+            <div><div class="who" style="color:var(--av-a)">Antony</div>
+              <div class="sx">Understood. I'll escalate it this week and we'll revisit on Monday.</div></div>
+          </div>
+        </div>
+
+        <div class="hintbar">
+          Every insight links to the moment it came from. Click a timestamp.
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* Evidence links: click a timestamp, jump to the segment and flash it. */
+document.querySelectorAll('.ts').forEach(function(b){
+  b.addEventListener('click', function(){
+    var id = b.dataset.seg;
+    var seg = document.getElementById(id);
+    if(!seg) return;
+    document.querySelectorAll('.seg.hit').forEach(function(s){ s.classList.remove('hit'); });
+    seg.classList.add('hit');
+    seg.scrollIntoView({behavior:'smooth', block:'center'});
+    setTimeout(function(){ seg.classList.remove('hit'); }, 2400);
+  });
+});
+
+/* Theme switch — OS preference first, then whatever the user picked. */
+(function(){
+  var body=document.body, bL=document.getElementById('tLight'), bD=document.getElementById('tDark');
+  function store(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function load(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function apply(mode){
+    body.setAttribute('data-theme', mode);
+    bL.classList.toggle('on', mode==='light');
+    bD.classList.toggle('on', mode==='dark');
+    store('scripra-theme', mode);
+  }
+  var saved=load('scripra-theme');
+  apply(saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+  bL.addEventListener('click', function(){ apply('light'); });
+  bD.addEventListener('click', function(){ apply('dark'); });
+})();
+
+/* Action item checkboxes */
+document.querySelectorAll('.chk').forEach(function(c){
+  function toggle(){
+    var done = c.classList.toggle('done');
+    c.setAttribute('aria-checked', done ? 'true' : 'false');
+    c.closest('.item').classList.toggle('done', done);
+  }
+  c.addEventListener('click', toggle);
+  c.addEventListener('keydown', function(e){
+    if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); toggle(); }
+  });
+});
+</script>
+</body>
+</html>
