@@ -81,13 +81,13 @@ export default function ConversationArtifact() {
       schedule(11500, () => setAnimState("memory"));
     }
 
-    // 13s+: Complete
+    // 13s+: Complete & Loop continuously
     schedule(13500, () => {
       setAnimState("complete");
-      if (index === 0) {
-        // Automatically proceed to Voice Note loop after a short delay
-        schedule(1000, () => playLoop(1));
-      }
+      // Seamless continuous loop:
+      schedule(2500, () => {
+        playLoop(index === 0 ? 1 : 0);
+      });
     });
   };
 
@@ -102,35 +102,64 @@ export default function ConversationArtifact() {
   const charsToShow2 = currentText2 ? Math.floor(Math.max(0, (typingProgress - 70) / 30) * currentText2.length) : 0;
 
   return (
-    <div className="w-full max-w-[650px] bg-panel border border-line rounded-[16px] shadow-2xl overflow-hidden flex flex-col relative text-left mx-auto h-[480px]">
-      
-      {/* Source Selector Label (Animated) */}
-      <div className={`absolute top-[-30px] left-1/2 -translate-x-1/2 bg-ink text-white px-4 py-1.5 rounded-t-lg text-[10px] font-bold tracking-widest uppercase transition-all duration-700 z-0 ${animState !== "idle" ? "opacity-100 translate-y-10" : "opacity-0"}`}>
-        CAPTURE SOURCE: {loopIndex === 0 ? "Meeting" : "Voice note"}
-      </div>
+    <div className="w-full max-w-[650px] p-[1px] rounded-[20px] bg-gradient-to-b from-indigo/40 via-line/80 to-teal/40 shadow-[0_20px_60px_rgba(91,92,240,0.18)] relative text-left mx-auto">
+      <div className="w-full bg-panel rounded-[19px] overflow-hidden flex flex-col relative h-[480px]">
+        
+        {/* Source Selector Label (Animated) */}
+        <div className={`absolute top-[-30px] left-1/2 -translate-x-1/2 bg-ink text-white px-4 py-1.5 rounded-t-lg text-[10px] font-mono font-bold tracking-widest uppercase transition-all duration-700 z-0 ${animState !== "idle" ? "opacity-100 translate-y-10" : "opacity-0"}`}>
+          INPUT_SRC: {loopIndex === 0 ? "STREAM // MEETING" : "STREAM // VOICE_NOTE"}
+        </div>
 
-      {/* Top Bar */}
-      <div className="h-12 border-b border-line bg-canvas flex items-center justify-between px-4 z-10 relative shrink-0">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1.5 mr-3">
-            <div className="w-2.5 h-2.5 rounded-full bg-line" />
-            <div className="w-2.5 h-2.5 rounded-full bg-line" />
-            <div className="w-2.5 h-2.5 rounded-full bg-line" />
+        {/* Top Bar */}
+        <div className="h-12 border-b border-line bg-canvas flex items-center justify-between px-4 z-10 relative shrink-0">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1.5 mr-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-rose/50" />
+              <div className="w-2.5 h-2.5 rounded-full bg-amber/50" />
+              <div className="w-2.5 h-2.5 rounded-full bg-teal/50" />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold bg-indigo-wash text-indigo border border-indigo/20 px-2 py-0.5 rounded uppercase tracking-wider">
+                {loopIndex === 0 ? "Meeting Recording" : "Voice Note"}
+              </span>
+              <span className="text-[12px] font-medium text-ink-3">
+                {loopIndex === 0 ? "Product Sync · 42m" : "Idea Memo · 1m"}
+              </span>
+            </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] bg-ink text-white px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
-              {loopIndex === 0 ? "Meeting" : "Voice note"}
-            </span>
-            <span className="text-[12px] font-medium text-ink-3 font-mono">
-              {loopIndex === 0 ? "Product review · 42 min" : "Idea capture · 1 min"}
-            </span>
+            {animState === "capture" && (
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rose-wash text-rose border border-rose/20 text-[10px] font-bold uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose animate-ping" />
+                Recording
+              </div>
+            )}
+            {animState === "transcript" && (
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-indigo-wash text-indigo border border-indigo/20 text-[10px] font-bold uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo animate-pulse" />
+                Transcribing
+              </div>
+            )}
+            {(animState === "understand" || animState === "act") && (
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-wash text-amber border border-amber/20 text-[10px] font-bold uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber animate-pulse" />
+                Extracting Items
+              </div>
+            )}
+            {animState === "recall" && (
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-teal-wash text-teal border border-teal/20 text-[10px] font-bold uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal" />
+                Search &amp; Recall
+              </div>
+            )}
+            {animState === "memory" && (
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-indigo-wash text-indigo border border-indigo/20 text-[10px] font-bold uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo" />
+                Connected Memory
+              </div>
+            )}
           </div>
         </div>
-        <div className={`flex items-center gap-2 transition-opacity duration-300 ${(animState === "capture" || animState === "idle" || animState === "complete") ? "opacity-100" : "opacity-0"}`}>
-          <div className={`w-2 h-2 rounded-full transition-all duration-300 ${animState === "capture" ? "bg-rose animate-pulse" : "bg-line"}`} />
-          <span className="text-[11px] font-bold tracking-wider text-ink-2 uppercase">LIVE</span>
-        </div>
-      </div>
 
       <div className="flex flex-col flex-1 relative overflow-hidden">
         
@@ -357,17 +386,7 @@ export default function ConversationArtifact() {
 
       </div>
 
-      {/* Stage Indicator Overlay (to help user understand what they are looking at) */}
-      <div className="absolute top-[60px] left-1/2 -translate-x-1/2 bg-ink/90 backdrop-blur text-white px-3 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase z-50 shadow-lg">
-        {animState === "idle" && "Waiting"}
-        {animState === "capture" && "1. Capture"}
-        {animState === "transcript" && "2. Transcript"}
-        {animState === "understand" && "3. Understand"}
-        {animState === "act" && "4. Act"}
-        {animState === "recall" && "5. Recall"}
-        {animState === "memory" && "6. Memory"}
-        {animState === "complete" && "Done"}
-      </div>
+
 
       {/* Replay Buttons overlay when complete */}
       <div className={`absolute bottom-6 right-6 flex flex-col gap-2 transition-opacity duration-500 z-50 ${animState === "complete" ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
@@ -391,6 +410,7 @@ export default function ConversationArtifact() {
         </button>
       </div>
 
+      </div>
     </div>
   );
 }

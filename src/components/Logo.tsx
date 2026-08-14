@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 interface LogoProps {
@@ -12,6 +12,8 @@ interface LogoProps {
 export default function Logo({ variant = "primary", className = "", disableAnimation = false }: LogoProps) {
   const containerRef = useRef<HTMLAnchorElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrambleIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [tagline, setTagline] = useState("AI CONVERSATION INTELLIGENCE");
 
   useEffect(() => {
     if (disableAnimation) return;
@@ -77,16 +79,58 @@ export default function Logo({ variant = "primary", className = "", disableAnima
     };
   }, [disableAnimation]);
 
+  useEffect(() => {
+    if (disableAnimation) return;
+
+    const target = "AI CONVERSATION INTELLIGENCE";
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+
+    const scramble = () => {
+      let iteration = 0;
+      if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
+
+      scrambleIntervalRef.current = setInterval(() => {
+        setTagline(
+          target
+            .split("")
+            .map((letter, index) => {
+              if (letter === " ") return " ";
+              if (index < iteration) return target[index];
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("")
+        );
+
+        if (iteration >= target.length) {
+          if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
+        }
+
+        iteration += 1 / 2;
+      }, 30);
+    };
+
+    // Run on initial render
+    scramble();
+    
+    // Repeat every 6 seconds to show it changing
+    const cycle = setInterval(scramble, 6000);
+
+    return () => {
+      clearInterval(cycle);
+      if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
+    };
+  }, [disableAnimation]);
+
   const isPrimary = variant === "primary";
 
   return (
     <Link
       href="/"
       ref={containerRef}
-      className={`inline-flex items-center gap-[13px] cursor-pointer ${className}`}
+      className={`inline-flex items-center gap-1.5 cursor-pointer ${className}`}
       aria-label="Scripra Home"
     >
-      <svg className="w-10 h-10 flex-shrink-0" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <svg className="w-[72px] h-[72px] flex-shrink-0" viewBox="0 0 40 40" fill="none" aria-hidden="true">
         <g strokeLinecap="round" fill="none">
           <path className="ln opacity-0" d="M9 9 H31" stroke={isPrimary ? "var(--indigo-lift)" : "#6E6FF5"} strokeWidth="3" />
           <path className="ln opacity-0" d="M9 16.5 H26" stroke={isPrimary ? "var(--indigo)" : "var(--indigo-lift)"} strokeWidth="3" />
@@ -111,9 +155,12 @@ export default function Logo({ variant = "primary", className = "", disableAnima
           opacity={disableAnimation ? 1 : 0}
         />
       </svg>
-      <div className="flex flex-col">
-        <div className={`text-[26px] font-bold tracking-[-0.03em] leading-none whitespace-nowrap ${isPrimary ? "text-ink" : "text-white"}`}>
-          Scripra AI
+      <div className="flex flex-col justify-center">
+        <div className={`text-[28px] font-bold tracking-[-0.03em] leading-none whitespace-nowrap ${isPrimary ? "text-ink" : "text-white"}`}>
+          Scripra
+        </div>
+        <div className={`text-[10px] font-mono tracking-[0.08em] mt-1 ${isPrimary ? "text-indigo" : "text-white/80"}`}>
+          {tagline}
         </div>
       </div>
     </Link>

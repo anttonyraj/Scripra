@@ -14,19 +14,19 @@ export default function Footer() {
           <div>
             <h3 className="text-[12px] font-semibold tracking-[0.2em] uppercase text-ink-3 mb-4">Product</h3>
             <ul className="space-y-3">
-              <li><Link href="/product/capture" className="text-[13.5px] text-ink-2 hover:text-ink">Capture</Link></li>
-              <li><Link href="/product/understand" className="text-[13.5px] text-ink-2 hover:text-ink">Understand</Link></li>
-              <li><Link href="/product/actions" className="text-[13.5px] text-ink-2 hover:text-ink">Actions</Link></li>
-              <li><Link href="/product/recall" className="text-[13.5px] text-ink-2 hover:text-ink">Recall</Link></li>
+              <li><Link href="/product" className="text-[13.5px] text-ink-2 hover:text-ink">Overview</Link></li>
+              <li><Link href="/how-it-works" className="text-[13.5px] text-ink-2 hover:text-ink">How it Works</Link></li>
+              <li><Link href="/demo" className="text-[13.5px] text-ink-2 hover:text-ink">Live Demo</Link></li>
+              <li><Link href="/pricing" className="text-[13.5px] text-ink-2 hover:text-ink">Pricing</Link></li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-[12px] font-semibold tracking-[0.2em] uppercase text-ink-3 mb-4">Platform</h3>
             <ul className="space-y-3">
-              <li><Link href="/platform/memory" className="text-[13.5px] text-ink-2 hover:text-ink">Memory</Link></li>
-              <li><Link href="/integrations" className="text-[13.5px] text-ink-2 hover:text-ink">Integrations</Link></li>
-              <li><Link href="/security" className="text-[13.5px] text-ink-2 hover:text-ink">Security</Link></li>
+              <li><Link href="/product" className="text-[13.5px] text-ink-2 hover:text-ink">Memory &amp; Context</Link></li>
+              <li><Link href="/#integrations" className="text-[13.5px] text-ink-2 hover:text-ink">Integrations</Link></li>
+              <li><Link href="/security" className="text-[13.5px] text-ink-2 hover:text-ink">Security &amp; Privacy</Link></li>
             </ul>
           </div>
           

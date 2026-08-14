@@ -19,7 +19,13 @@ export default function BuiltForYouSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
           {/* Personal Panel */}
-          <div className="bg-panel border border-line rounded-[32px] p-8 lg:p-12 shadow-sm flex flex-col h-full">
+          <div className="group bg-panel/80 backdrop-blur-md border border-line hover:border-indigo/40 rounded-[32px] p-8 lg:p-12 shadow-sm hover:shadow-[0_20px_50px_rgba(91,92,240,0.12)] transition-all duration-300 flex flex-col h-full relative overflow-hidden">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[10px] font-bold tracking-wider text-indigo uppercase bg-indigo-wash border border-indigo/20 px-3 py-1 rounded-full">
+                FOR INDIVIDUALS
+              </span>
+              <span className="text-[11px] font-medium text-ink-3">Private &amp; Secure</span>
+            </div>
             <h3 className="text-[32px] font-bold tracking-tight text-ink mb-2">For individuals</h3>
             <p className="text-[18px] font-medium text-ink-2 mb-4">Remember everything worth keeping.</p>
             <p className="text-[15px] leading-relaxed text-ink-3 mb-10">
@@ -108,12 +114,18 @@ export default function BuiltForYouSection() {
             </div>
           </div>
 
-          {/* Team Panel */}
-          <div className="bg-panel border border-line rounded-[32px] p-8 lg:p-12 shadow-sm flex flex-col h-full">
+          {/* Teams Panel */}
+          <div className="group bg-panel/80 backdrop-blur-md border border-line hover:border-indigo/40 rounded-[32px] p-8 lg:p-12 shadow-sm hover:shadow-[0_20px_50px_rgba(91,92,240,0.12)] transition-all duration-300 flex flex-col h-full relative overflow-hidden">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[10px] font-bold tracking-wider text-indigo uppercase bg-indigo-wash border border-indigo/20 px-3 py-1 rounded-full">
+                FOR TEAMS
+              </span>
+              <span className="text-[11px] font-medium text-ink-3">Workspace &amp; SSO</span>
+            </div>
             <h3 className="text-[32px] font-bold tracking-tight text-ink mb-2">For teams</h3>
-            <p className="text-[18px] font-medium text-ink-2 mb-4">Turn conversations into shared intelligence.</p>
+            <p className="text-[18px] font-medium text-ink-2 mb-4">Multiply your team's intelligence.</p>
             <p className="text-[15px] leading-relaxed text-ink-3 mb-10">
-              Capture meetings and customer conversations, then keep decisions, actions, commitments and context connected across the organization.
+              A shared knowledge base that builds itself. Everyone stays aligned with shared meeting notes, extracted tasks, and persistent project memory.
             </p>
 
             <div className="flex-1 grid grid-cols-2 gap-x-6 gap-y-8 mb-12">
@@ -187,13 +199,12 @@ export default function BuiltForYouSection() {
             </div>
 
             <div className="mt-auto pt-6 border-t border-line text-center">
-              <Link href="/teams" className="inline-block px-6 py-3 rounded-xl bg-card border border-line text-ink text-[14px] font-semibold hover:border-indigo transition-colors w-full mb-3">
+              <Link href="/pricing" className="inline-block px-6 py-3 rounded-xl bg-card border border-line text-ink text-[14px] font-semibold hover:border-indigo transition-colors w-full mb-3">
                 Explore Scripra for teams
               </Link>
-              <p className="text-[12px] text-ink-3">Turn meetings into decisions, actions and shared memory.</p>
+              <p className="text-[12px] text-ink-3">Upgrade anytime as your team grows.</p>
             </div>
           </div>
-
         </div>
       </div>
     </section>
