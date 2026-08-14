@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 export default function BackgroundAnimation() {
   const spotlightRef1 = useRef<HTMLDivElement>(null);
@@ -39,6 +40,10 @@ export default function BackgroundAnimation() {
     <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-canvas selection-transparent">
       
       <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes sound-bar-horizontal {
+          0%, 100% { transform: scaleX(0.15); opacity: 0.2; }
+          50% { transform: scaleX(1); opacity: 1; }
+        }
         @keyframes data-flow {
           0% { stroke-dashoffset: 100; opacity: 0; }
           20% { opacity: 1; }
@@ -52,12 +57,8 @@ export default function BackgroundAnimation() {
           100% { transform: translateX(95vw); opacity: 0; }
         }
         @keyframes pulse-core {
-          0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(91,92,240,0.5), inset 0 0 20px rgba(18,164,124,0.3); }
-          50% { transform: scale(1.1); box-shadow: 0 0 60px rgba(91,92,240,0.8), inset 0 0 40px rgba(18,164,124,0.6); }
-        }
-        @keyframes rotate-core {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+          0%, 100% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(91,92,240,0.3)); }
+          50% { transform: scale(1.05); filter: drop-shadow(0 0 50px rgba(91,92,240,0.6)); }
         }
         .anim-flow-right { animation: flow-right 12s linear infinite; }
       `}} />
@@ -83,26 +84,26 @@ export default function BackgroundAnimation() {
       {/* 3. Concept Animation: Sound -> Data Flow -> AI Capture */}
       <div className="absolute inset-0 z-10 flex items-center justify-between pointer-events-none overflow-hidden w-full">
         
-        {/* A. Sonic Wave (Vertical Left Edge) */}
-        <div className="absolute left-[-2%] lg:left-[-1%] top-0 bottom-0 w-24 lg:w-32 flex items-center opacity-90 z-20">
-          <svg className="w-full h-[110%] -mt-[5%] drop-shadow-[0_0_15px_rgba(91,92,240,0.5)]" preserveAspectRatio="none" viewBox="0 0 100 1000">
-            {/* Background glowing thick wave */}
-            <path fill="none" stroke="var(--indigo)" strokeWidth="8" strokeOpacity="0.25" d="M 50 0 C 150 333, -50 666, 50 1000">
-              <animate attributeName="d" dur="8s" repeatCount="indefinite" values="M 50 0 C 150 333, -50 666, 50 1000; M 50 0 C -50 333, 150 666, 50 1000; M 50 0 C 150 333, -50 666, 50 1000" />
-            </path>
-            {/* Medium wave teal */}
-            <path fill="none" stroke="var(--teal)" strokeWidth="3" strokeOpacity="0.8" d="M 50 0 C -30 333, 130 666, 50 1000">
-              <animate attributeName="d" dur="5s" repeatCount="indefinite" values="M 50 0 C -30 333, 130 666, 50 1000; M 50 0 C 130 333, -30 666, 50 1000; M 50 0 C -30 333, 130 666, 50 1000" />
-            </path>
-            {/* Bright thin core wave */}
-            <path fill="none" stroke="#ffffff" strokeWidth="1.5" strokeOpacity="0.9" d="M 50 0 C 100 333, 0 666, 50 1000">
-              <animate attributeName="d" dur="4s" repeatCount="indefinite" values="M 50 0 C 100 333, 0 666, 50 1000; M 50 0 C 0 333, 100 666, 50 1000; M 50 0 C 100 333, 0 666, 50 1000" />
-            </path>
-            {/* Fast high frequency wave rose */}
-            <path fill="none" stroke="var(--rose)" strokeWidth="2" strokeOpacity="0.7" d="M 50 0 C 120 166, -20 333, 50 500 C 120 666, -20 833, 50 1000">
-              <animate attributeName="d" dur="3s" repeatCount="indefinite" values="M 50 0 C 120 166, -20 333, 50 500 C 120 666, -20 833, 50 1000; M 50 0 C -20 166, 120 333, 50 500 C -20 666, 120 833, 50 1000; M 50 0 C 120 166, -20 333, 50 500 C 120 666, -20 833, 50 1000" />
-            </path>
-          </svg>
+        {/* A. Rich Sound Waves (Vertical Left Side) */}
+        <div className="absolute left-0 top-0 bottom-0 w-32 flex flex-col justify-center items-start gap-2 lg:gap-3 pl-4 lg:pl-8 opacity-90 z-20">
+          {[...Array(40)].map((_, i) => (
+            <div 
+              key={i} 
+              className="relative h-1.5 lg:h-2 rounded-r-full overflow-hidden shadow-[0_0_15px_rgba(91,92,240,0.6)]"
+              style={{ 
+                width: `${15 + getPseudoRandom(i) * 85}%`,
+                opacity: 1 - Math.abs(20 - i) / 25
+              }}
+            >
+              <div 
+                 className="absolute inset-0 bg-gradient-to-r from-[var(--indigo)] via-[var(--teal)] to-[var(--rose)] opacity-90"
+                 style={{
+                   animation: `sound-bar-horizontal ${2 + getPseudoRandom(i + 10)*3}s ease-in-out infinite alternate`,
+                   transformOrigin: 'left'
+                 }}
+              />
+            </div>
+          ))}
         </div>
 
         {/* B. Flowing Data Lines converging to Right Center */}
@@ -181,21 +182,16 @@ export default function BackgroundAnimation() {
           })}
         </div>
 
-        {/* D. AI Capture Node (Extreme Right Edge) */}
-        <div className="absolute right-[-20px] lg:right-[-40px] top-1/2 -translate-y-1/2 flex items-center justify-center z-30 opacity-90">
-          <div className="relative flex items-center justify-center w-24 h-24 lg:w-32 lg:h-32">
-            {/* Outer Rings */}
-            <div className="absolute inset-0 rounded-full border border-[var(--teal)] opacity-30 border-dashed" style={{ animation: 'rotate-core 15s linear infinite' }}></div>
-            <div className="absolute inset-[-10px] rounded-full border-2 border-[var(--indigo)] opacity-20 border-dotted" style={{ animation: 'rotate-core 20s linear reverse infinite' }}></div>
-            
-            {/* Core Pulsing Brain/Node */}
-            <div 
-              className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-tr from-[var(--indigo)] to-[var(--teal)] flex items-center justify-center relative overflow-hidden shadow-[0_0_20px_rgba(91,92,240,0.6)]" 
-              style={{ animation: 'pulse-core 3s ease-in-out infinite' }}
-            >
-              <div className="absolute inset-0 bg-black/20 mix-blend-overlay"></div>
-              <span className="font-mono text-lg lg:text-xl text-white font-bold tracking-widest z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">AI</span>
-            </div>
+        {/* D. AI Capture Brain Image (Right Side) */}
+        <div className="absolute right-[-40px] lg:right-[-80px] top-1/2 -translate-y-1/2 flex items-center justify-center z-30 opacity-90 pointer-events-none">
+          <div className="relative w-56 h-56 lg:w-80 lg:h-80" style={{ animation: 'pulse-core 6s ease-in-out infinite' }}>
+            <Image 
+              src="/ai-brain-core.jpg" 
+              alt="AI Brain Core" 
+              fill 
+              className="object-contain mix-blend-multiply"
+              priority
+            />
           </div>
         </div>
 
