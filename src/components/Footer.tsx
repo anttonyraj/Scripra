@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-line mt-24">
       <div className="max-w-[1080px] mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
           <div className="col-span-1 md:col-span-2">
             <Logo variant="primary" />
             <p className="mt-4 text-[13px] text-ink-3">AI Conversation Intelligence</p>
@@ -14,18 +14,29 @@ export default function Footer() {
           <div>
             <h3 className="text-[12px] font-semibold tracking-[0.2em] uppercase text-ink-3 mb-4">Product</h3>
             <ul className="space-y-3">
-              <li><Link href="/product" className="text-[13.5px] text-ink-2 hover:text-ink">Overview</Link></li>
-              <li><Link href="/how-it-works" className="text-[13.5px] text-ink-2 hover:text-ink">How it works</Link></li>
-              <li><Link href="/pricing" className="text-[13.5px] text-ink-2 hover:text-ink">Pricing</Link></li>
+              <li><Link href="/product/capture" className="text-[13.5px] text-ink-2 hover:text-ink">Capture</Link></li>
+              <li><Link href="/product/understand" className="text-[13.5px] text-ink-2 hover:text-ink">Understand</Link></li>
+              <li><Link href="/product/actions" className="text-[13.5px] text-ink-2 hover:text-ink">Actions</Link></li>
+              <li><Link href="/product/recall" className="text-[13.5px] text-ink-2 hover:text-ink">Recall</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-[12px] font-semibold tracking-[0.2em] uppercase text-ink-3 mb-4">Platform</h3>
+            <ul className="space-y-3">
+              <li><Link href="/platform/memory" className="text-[13.5px] text-ink-2 hover:text-ink">Memory</Link></li>
+              <li><Link href="/integrations" className="text-[13.5px] text-ink-2 hover:text-ink">Integrations</Link></li>
+              <li><Link href="/security" className="text-[13.5px] text-ink-2 hover:text-ink">Security</Link></li>
             </ul>
           </div>
           
           <div>
             <h3 className="text-[12px] font-semibold tracking-[0.2em] uppercase text-ink-3 mb-4">Company</h3>
             <ul className="space-y-3">
-              <li><Link href="/company" className="text-[13.5px] text-ink-2 hover:text-ink">About</Link></li>
-              <li><Link href="#" className="text-[13.5px] text-ink-2 hover:text-ink">Privacy</Link></li>
-              <li><Link href="#" className="text-[13.5px] text-ink-2 hover:text-ink">Terms</Link></li>
+              <li><a href="https://aiworkx.com" target="_blank" rel="noopener noreferrer" className="text-[13.5px] text-ink-2 hover:text-ink">AIworkX</a></li>
+              <li><Link href="/contact" className="text-[13.5px] text-ink-2 hover:text-ink">Contact</Link></li>
+              <li><Link href="/privacy" className="text-[13.5px] text-ink-2 hover:text-ink">Privacy</Link></li>
+              <li><Link href="/terms" className="text-[13.5px] text-ink-2 hover:text-ink">Terms</Link></li>
             </ul>
           </div>
         </div>

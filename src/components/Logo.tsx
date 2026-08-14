@@ -112,7 +112,7 @@ export default function Logo({ variant = "primary", className = "", disableAnima
         />
       </svg>
       <div className="flex flex-col">
-        <div className={`text-[26px] font-bold tracking-[-0.03em] leading-none ${isPrimary ? "text-ink" : "text-white"}`}>
+        <div className={`text-[26px] font-bold tracking-[-0.03em] leading-none whitespace-nowrap ${isPrimary ? "text-ink" : "text-white"}`}>
           Scripra AI
         </div>
       </div>
