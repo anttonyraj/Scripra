@@ -1,12 +1,19 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function BackgroundAnimation() {
   const spotlightRef1 = useRef<HTMLDivElement>(null);
   const spotlightRef2 = useRef<HTMLDivElement>(null);
+  
+  // To avoid hydration mismatch with random values, we can only render the random bits after mount,
+  // or use deterministic pseudo-random values. Let's use deterministic values based on index.
+  
+  const getPseudoRandom = (seed: number) => {
+    const x = Math.sin(seed + 1) * 10000;
+    return x - Math.floor(x);
+  };
 
   useEffect(() => {
-    let animationFrameId: number;
     let targetX = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
     let targetY = typeof window !== 'undefined' ? window.innerHeight / 2 : 0;
     
@@ -14,7 +21,6 @@ export default function BackgroundAnimation() {
       targetX = e.clientX;
       targetY = e.clientY;
       
-      // Update immediately to avoid perceived lag on fast movements
       if (spotlightRef1.current) {
         spotlightRef1.current.style.background = `radial-gradient(800px circle at ${targetX}px ${targetY}px, rgba(91, 92, 240, 0.3), transparent 40%)`;
       }
@@ -33,29 +39,32 @@ export default function BackgroundAnimation() {
     <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10 bg-canvas selection-transparent">
       
       <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes sound-bar {
-          0%, 100% { transform: scaleY(0.15); opacity: 0.2; }
-          50% { transform: scaleY(1); opacity: 1; }
+        @keyframes sound-bar-horizontal {
+          0%, 100% { transform: scaleX(0.15); opacity: 0.2; }
+          50% { transform: scaleX(1); opacity: 1; }
         }
         @keyframes data-flow {
           0% { stroke-dashoffset: 100; opacity: 0; }
-          50% { opacity: 1; }
+          20% { opacity: 1; }
+          80% { opacity: 1; }
           100% { stroke-dashoffset: -100; opacity: 0; }
         }
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
+        @keyframes flow-right {
+          0% { transform: translateX(0); opacity: 0; }
+          10% { opacity: 1; }
+          80% { opacity: 1; }
+          100% { transform: translateX(85vw); opacity: 0; }
         }
-        @keyframes type-text {
-          0% { opacity: 0; transform: translateY(10px); }
-          20% { opacity: 1; transform: translateY(0); }
-          80% { opacity: 1; transform: translateY(0); }
-          100% { opacity: 0; transform: translateY(-10px); }
+        @keyframes pulse-core {
+          0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(91,92,240,0.5), inset 0 0 20px rgba(18,164,124,0.3); }
+          50% { transform: scale(1.1); box-shadow: 0 0 60px rgba(91,92,240,0.8), inset 0 0 40px rgba(18,164,124,0.6); }
         }
-        .anim-sound { animation: sound-bar 3.5s ease-in-out infinite; transform-origin: bottom; }
-        .anim-flow { animation: data-flow 5s linear infinite; }
-        .anim-float { animation: float-slow 8s ease-in-out infinite; }
-        .anim-type { animation: type-text 6s infinite; }
+        @keyframes rotate-core {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        .anim-sound-h { animation: sound-bar-horizontal 3.5s ease-in-out infinite; transform-origin: left; }
+        .anim-flow-right { animation: flow-right 12s linear infinite; }
       `}} />
 
       {/* Interactive Mouse Spotlights */}
@@ -76,81 +85,120 @@ export default function BackgroundAnimation() {
       <div className="absolute top-[20%] right-[-10%] w-[50%] h-[70%] bg-[var(--rose)] blur-[120px] rounded-full animate-blob [animation-delay:2s] mix-blend-normal opacity-[0.1] z-0" />
       <div className="absolute bottom-[-20%] left-[20%] w-[70%] h-[60%] bg-[var(--teal)] blur-[120px] rounded-full animate-blob [animation-delay:4s] mix-blend-normal opacity-[0.12] z-0" />
 
-      {/* 3. Concept Animation: Sound -> Data Flow */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden">
+      {/* 3. Concept Animation: Sound -> Data Flow -> AI Capture */}
+      <div className="absolute inset-0 z-10 flex items-center justify-between pointer-events-none overflow-hidden max-w-[1600px] mx-auto">
         
-        <div className="w-full max-w-[1280px] mx-auto px-6 h-full relative flex items-center justify-center anim-float z-10">
-          
-          {/* A. Sound Waves (Centered & Slower) */}
-          <div className="flex items-end justify-center gap-2 lg:gap-3 h-48 absolute left-1/2 -translate-x-1/2 bottom-[5%] lg:bottom-[10%] opacity-80">
-            {[...Array(24)].map((_, i) => (
-              <div 
-                key={i} 
-                className="w-2 lg:w-3 bg-[var(--indigo)] rounded-t-full anim-sound shadow-[0_0_15px_rgba(91,92,240,0.6)]"
-                style={{ 
-                  animationDelay: `${i * 0.15}s`,
-                  height: `${15 + Math.random() * 85}%`
-                }}
-              />
-            ))}
-          </div>
+        {/* A. Sound Waves (Vertical Left Side) */}
+        <div className="absolute left-0 top-0 bottom-0 w-32 flex flex-col justify-center items-start gap-2 lg:gap-3 pl-4 lg:pl-8 opacity-80 z-20">
+          {[...Array(40)].map((_, i) => (
+            <div 
+              key={i} 
+              className="h-1 lg:h-1.5 bg-[var(--indigo)] rounded-r-full anim-sound-h shadow-[0_0_15px_rgba(91,92,240,0.6)]"
+              style={{ 
+                animationDelay: `${i * 0.05}s`,
+                width: `${15 + getPseudoRandom(i) * 85}%`,
+                opacity: 1 - Math.abs(20 - i) / 25
+              }}
+            />
+          ))}
+        </div>
 
-          {/* B. Flowing Data Curve (Radiating from Center outwards) */}
-          <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.5 }}>
-            {/* Left Flow */}
-            <path 
-              d="M 50% 85% C 35% 85%, 25% 45%, 5% 45%" 
-              fill="none" 
-              stroke="url(#flowGradientLeft)" 
-              strokeWidth="2.5" 
-              strokeDasharray="15 25"
-              className="anim-flow"
-            />
-            {/* Right Flow */}
-            <path 
-              d="M 50% 85% C 65% 85%, 75% 45%, 95% 45%" 
-              fill="none" 
-              stroke="url(#flowGradientRight)" 
-              strokeWidth="2.5" 
-              strokeDasharray="15 25"
-              className="anim-flow"
-              style={{ animationDelay: '1.5s' }}
-            />
-            <defs>
-              <linearGradient id="flowGradientLeft" x1="100%" y1="0%" x2="0%" y2="0%">
+        {/* B. Flowing Data Lines converging to Right Center */}
+        <svg className="absolute inset-0 w-full h-full opacity-60 z-10">
+          {[...Array(12)].map((_, i) => {
+            const startY = 10 + i * 7.5; // Spread vertically on the left
+            return (
+              <path 
+                key={i}
+                d={`M 5% ${startY}% C 40% ${startY}%, 70% 50%, 90% 50%`} 
+                fill="none" 
+                stroke={`url(#gradient-${i})`} 
+                strokeWidth={getPseudoRandom(i + 100) > 0.5 ? "2" : "1"} 
+                strokeDasharray="15 25"
+                style={{ animation: `data-flow ${6 + getPseudoRandom(i + 200) * 4}s linear infinite`, animationDelay: `${getPseudoRandom(i + 300) * 2}s` }}
+              />
+            )
+          })}
+          <defs>
+            {[...Array(12)].map((_, i) => (
+              <linearGradient key={i} id={`gradient-${i}`} x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="var(--indigo)" stopOpacity="0" />
-                <stop offset="30%" stopColor="var(--indigo)" stopOpacity="0.8" />
-                <stop offset="70%" stopColor="var(--teal)" stopOpacity="0.8" />
+                <stop offset="50%" stopColor="var(--indigo)" stopOpacity="0.8" />
+                <stop offset="80%" stopColor="var(--teal)" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="var(--teal)" stopOpacity="0" />
               </linearGradient>
-              <linearGradient id="flowGradientRight" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="var(--indigo)" stopOpacity="0" />
-                <stop offset="30%" stopColor="var(--indigo)" stopOpacity="0.8" />
-                <stop offset="70%" stopColor="var(--rose)" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="var(--rose)" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-          </svg>
+            ))}
+          </defs>
+        </svg>
 
-          {/* Floating conversion text points */}
-          <div className="absolute top-[60%] left-[25%] font-mono text-[13px] tracking-[0.2em] text-[var(--teal)] font-bold anim-type drop-shadow-md" style={{ animationDelay: '0s' }}>
-            AI_INTELLIGENCE
-          </div>
-          <div className="absolute top-[40%] left-[10%] font-mono text-[12px] tracking-[0.2em] text-[var(--teal)] font-bold anim-type drop-shadow-md" style={{ animationDelay: '2s' }}>
-            MEMORY
-          </div>
-          <div className="absolute top-[60%] right-[25%] font-mono text-[12px] tracking-[0.2em] text-[var(--rose)] font-bold anim-type drop-shadow-md" style={{ animationDelay: '4s' }}>
-            RECALL
-          </div>
-          <div className="absolute top-[40%] right-[10%] font-mono text-[13px] tracking-[0.2em] text-[var(--rose)] font-bold anim-type drop-shadow-md" style={{ animationDelay: '1s' }}>
-            INSIGHTS
-          </div>
-          <div className="absolute bottom-[20%] right-[30%] font-mono text-[11px] tracking-[0.2em] text-[var(--indigo)] font-bold anim-type drop-shadow-md" style={{ animationDelay: '3s' }}>
-            ACTION_ITEMS
-          </div>
-          
+        {/* C. Flowing Text & Particles */}
+        <div className="absolute inset-0 z-20">
+          {/* Flowing Text */}
+          {[
+            { text: "AI_INTELLIGENCE", top: "25%", delay: "0s", duration: "16s", color: "var(--teal)" },
+            { text: "VOICE_RECOGNITION", top: "45%", delay: "4s", duration: "14s", color: "var(--indigo)" },
+            { text: "DATA_PARSING", top: "65%", delay: "2s", duration: "18s", color: "var(--rose)" },
+            { text: "CONTEXT_MEMORY", top: "35%", delay: "8s", duration: "15s", color: "var(--indigo)" },
+            { text: "ACTION_ITEMS", top: "75%", delay: "6s", duration: "17s", color: "var(--teal)" },
+            { text: "PROCESSING_STREAM...", top: "55%", delay: "10s", duration: "13s", color: "var(--rose)" },
+            { text: "SEMANTIC_SEARCH", top: "15%", delay: "12s", duration: "19s", color: "var(--teal)" },
+            { text: "SYNTHESIS", top: "85%", delay: "7s", duration: "16s", color: "var(--indigo)" },
+          ].map((item, i) => (
+            <div 
+              key={i} 
+              className="absolute left-[8%] font-mono text-[11px] lg:text-[13px] tracking-[0.2em] font-bold drop-shadow-md whitespace-nowrap" 
+              style={{ 
+                top: item.top, 
+                animation: `flow-right ${item.duration} linear infinite`, 
+                animationDelay: item.delay,
+                color: item.color
+              }}
+            >
+              {item.text}
+            </div>
+          ))}
+
+          {/* Flowing Particles */}
+          {[...Array(30)].map((_, i) => {
+            const colors = ['var(--rose)', 'var(--teal)', 'var(--indigo)'];
+            const color = colors[i % colors.length];
+            return (
+              <div 
+                key={`particle-${i}`}
+                className="absolute w-1 h-1 rounded-full opacity-60"
+                style={{
+                  left: '5%',
+                  top: `${10 + getPseudoRandom(i + 400) * 80}%`,
+                  backgroundColor: color,
+                  boxShadow: `0 0 10px ${color}`,
+                  animation: `flow-right ${8 + getPseudoRandom(i + 500) * 10}s linear infinite`,
+                  animationDelay: `${getPseudoRandom(i + 600) * 15}s`
+                }}
+              />
+            );
+          })}
         </div>
+
+        {/* D. AI Capture Node (Right Side) */}
+        <div className="absolute right-[5%] lg:right-[10%] top-1/2 -translate-y-1/2 flex items-center justify-center z-30">
+          <div className="relative flex items-center justify-center w-24 h-24 lg:w-32 lg:h-32">
+            {/* Outer Rings */}
+            <div className="absolute inset-0 rounded-full border border-[var(--teal)] opacity-30 border-dashed" style={{ animation: 'rotate-core 15s linear infinite' }}></div>
+            <div className="absolute inset-[-10px] rounded-full border-2 border-[var(--indigo)] opacity-20 border-dotted" style={{ animation: 'rotate-core 20s linear reverse infinite' }}></div>
+            
+            {/* Core Pulsing Brain/Node */}
+            <div 
+              className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-tr from-[var(--indigo)] to-[var(--teal)] flex items-center justify-center relative overflow-hidden" 
+              style={{ animation: 'pulse-core 3s ease-in-out infinite' }}
+            >
+              <div className="absolute inset-0 bg-black/20 mix-blend-overlay"></div>
+              <span className="font-mono text-lg lg:text-xl text-white font-bold tracking-widest z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">AI</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
 }
+
