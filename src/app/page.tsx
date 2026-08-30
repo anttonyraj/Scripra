@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main>
+      <main className="relative">
         <Hero />
         <PlatformLoop />
         <BuiltForYouSection />

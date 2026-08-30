@@ -1,212 +1,319 @@
+"use client";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function BuiltForYouSection() {
+  const [indState, setIndState] = useState(0);
+  const [teamState, setTeamState] = useState(0);
+
+  // Cycle states every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndState((prev) => (prev + 1) % 3);
+      setTeamState((prev) => (prev + 1) % 3);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="py-24 px-6 bg-canvas">
-      <div className="max-w-[1280px] mx-auto">
-        <div className="text-center mb-16">
-          <div className="text-[11px] font-bold tracking-wider text-indigo uppercase mb-4">
-            For you or your team
+    <section className="py-32 px-6 bg-[#F8F9FB] border-t border-line overflow-hidden">
+      <div className="max-w-[1200px] mx-auto">
+        <div className="text-center mb-24 flex flex-col items-center">
+          <div className="text-[11px] font-bold tracking-[0.2em] uppercase text-indigo mb-6 bg-indigo-wash border border-indigo/20 px-3 py-1 rounded-full w-max">
+            BUILT FOR
           </div>
-          <h2 className="text-[clamp(32px,4vw,46px)] font-bold tracking-[-0.03em] leading-[1.05] mb-4 text-ink">
-            One conversation platform.<br />Different ways to use it.
+          <h2 className="text-[clamp(40px,6vw,64px)] font-bold tracking-[-0.03em] leading-[1.25] mb-8 text-[#2D2482]">
+            <span className="bg-[#E5E5FC] px-3 py-1 inline-block -mx-3 mb-2">Scripra fits the</span><br />
+            <span className="bg-[#E5E5FC] px-3 py-1 inline-block -mx-3">conversation.</span>
           </h2>
-          <p className="text-[17px] text-ink-2 max-w-[600px] mx-auto">
-            Scripra works for personal memory, learning, meetings and team collaboration — without changing the core workflow.
+          <p className="text-[18px] text-[#6A63E0] max-w-[600px] mx-auto">
+            Scripra works for personal memory, learning, meetings and team collaboration — without changing your workflow.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="flex flex-col gap-16">
           
-          {/* Personal Panel */}
-          <div className="group bg-panel/80 backdrop-blur-md border border-line hover:border-indigo/40 rounded-[32px] p-8 lg:p-12 shadow-sm hover:shadow-[0_20px_50px_rgba(91,92,240,0.12)] transition-all duration-300 flex flex-col h-full relative overflow-hidden">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[10px] font-bold tracking-wider text-indigo uppercase bg-indigo-wash border border-indigo/20 px-3 py-1 rounded-full">
-                FOR INDIVIDUALS
-              </span>
-              <span className="text-[11px] font-medium text-ink-3">Private &amp; Secure</span>
-            </div>
-            <h3 className="text-[32px] font-bold tracking-tight text-ink mb-2">For individuals</h3>
-            <p className="text-[18px] font-medium text-ink-2 mb-4">Remember everything worth keeping.</p>
-            <p className="text-[15px] leading-relaxed text-ink-3 mb-10">
-              Capture meetings, lectures, interviews, ideas and voice notes. Scripra turns them into organized, searchable memory you can use later.
-            </p>
-
-            <div className="flex-1 grid grid-cols-2 gap-x-6 gap-y-8 mb-12">
-              <div>
-                <h4 className="text-[11px] font-bold tracking-wider text-ink uppercase mb-3">Capture</h4>
-                <ul className="text-[13px] text-ink-2 space-y-2">
-                  <li>one-tap recording</li>
-                  <li>voice notes</li>
-                  <li>lectures</li>
-                  <li>interviews</li>
-                  <li>brainstorming</li>
-                  <li>audio/video upload</li>
-                </ul>
+          {/* Individual Segment - Full Width Split */}
+          <div className="bg-panel border border-line rounded-[32px] overflow-hidden shadow-sm hover:shadow-[0_20px_60px_-15px_rgba(91,92,240,0.15)] transition-shadow duration-500 flex flex-col lg:flex-row">
+            
+            {/* Text Side */}
+            <div className="lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
+              <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-[0.04] border border-indigo/10 w-max">
+                <span className="w-2 h-2 rounded-full bg-indigo" />
+                <span className="text-[11px] font-bold tracking-[0.1em] uppercase text-indigo">Private & Secure</span>
               </div>
-              <div>
-                <h4 className="text-[11px] font-bold tracking-wider text-ink uppercase mb-3">Understand</h4>
-                <ul className="text-[13px] text-ink-2 space-y-2">
-                  <li>transcript</li>
-                  <li>summary</li>
-                  <li>key points</li>
-                  <li>topics</li>
-                  <li>mind maps later</li>
-                  <li>study notes later</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-[11px] font-bold tracking-wider text-ink uppercase mb-3">Act</h4>
-                <ul className="text-[13px] text-ink-2 space-y-2">
-                  <li>personal tasks</li>
-                  <li>follow-ups</li>
-                  <li>reminders</li>
-                  <li>commitments</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-[11px] font-bold tracking-wider text-ink uppercase mb-3">Recall</h4>
-                <ul className="text-[13px] text-ink-2 space-y-2">
-                  <li>search your conversations</li>
-                  <li>Ask Scripra</li>
-                  <li>find old ideas</li>
-                  <li>retrieve what someone said</li>
-                  <li>revisit lecture concepts</li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Mobile Mockup Example */}
-            <div className="bg-canvas border border-line rounded-2xl p-6 mb-12 relative overflow-hidden flex flex-col gap-4">
-              <div className="text-[10px] font-bold tracking-wider text-ink-3 mb-2 flex items-center gap-2">
-                VOICE NOTE
-                <div className="flex-1 h-px bg-line" />
-              </div>
-              <p className="text-[13px] text-ink leading-relaxed font-medium mb-2">
-                "Remember to send the proposal tomorrow and compare AWS vs Azure pricing."
+              <h3 className="text-[40px] leading-none font-bold tracking-[-0.03em] text-ink mb-6">
+                For individuals
+              </h3>
+              <p className="text-[18px] text-ink-2 leading-relaxed mb-10">
+                Remember everything worth keeping. Turn meetings, lectures, and voice notes into an organized, searchable personal memory.
               </p>
               
-              <div className="text-[10px] font-bold tracking-wider text-indigo mb-2 flex items-center gap-2 mt-2">
-                SCRIPRA
-                <div className="flex-1 h-px bg-indigo/10" />
+              <div className="flex flex-col gap-4 mb-12 text-[15px] font-medium">
+                <div className={`flex items-center gap-3 transition-opacity duration-300 ${indState === 0 ? 'text-indigo font-bold' : 'text-ink-3'}`}>
+                  <svg className={`w-5 h-5 ${indState === 0 ? 'text-indigo' : 'text-ink-4'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Capture: One-tap recording & transcripts
+                </div>
+                <div className={`flex items-center gap-3 transition-opacity duration-300 ${indState === 1 ? 'text-indigo font-bold' : 'text-ink-3'}`}>
+                  <svg className={`w-5 h-5 ${indState === 1 ? 'text-indigo' : 'text-ink-4'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Understand: Automated tasks & key points
+                </div>
+                <div className={`flex items-center gap-3 transition-opacity duration-300 ${indState === 2 ? 'text-indigo font-bold' : 'text-ink-3'}`}>
+                  <svg className={`w-5 h-5 ${indState === 2 ? 'text-indigo' : 'text-ink-4'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Recall: Ask Scripra to search your history
+                </div>
               </div>
-              
-              <div className="bg-amber-wash border border-amber/30 rounded-lg p-3">
-                <span className="text-[9px] font-bold tracking-wider text-amber uppercase mb-1 block">Action</span>
-                <p className="text-[12px] font-medium text-ink mb-1">Send proposal</p>
-                <span className="text-[10px] font-medium text-amber">Tomorrow</span>
-              </div>
-              <div className="bg-card border border-indigo/20 rounded-lg p-3">
-                <span className="text-[9px] font-bold tracking-wider text-indigo uppercase mb-1 block">Topic</span>
-                <p className="text-[12px] font-medium text-ink">Cloud pricing</p>
-              </div>
-              <div className="bg-card border border-line rounded-lg p-3">
-                <span className="text-[9px] font-bold tracking-wider text-ink uppercase mb-1 block">Memory</span>
-                <p className="text-[12px] font-medium text-ink">AWS vs Azure comparison</p>
-              </div>
+
+              <Link href="/signup" className="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-ink text-white text-[15px] font-bold hover:bg-ink-2 transition-colors w-max shadow-sm">
+                Start for free
+              </Link>
             </div>
 
-            <div className="mt-auto pt-6 border-t border-line text-center">
-              <Link href="/signup" className="inline-block px-6 py-3 rounded-xl bg-ink text-white text-[14px] font-semibold hover:bg-ink-2 transition-colors w-full mb-3 shadow-sm">
-                Try Scripra for yourself
-              </Link>
-              <p className="text-[12px] text-ink-3">Start with a meeting, lecture or voice note.</p>
+            {/* SVG Flow Side */}
+            <div className="lg:w-1/2 bg-white border-t lg:border-t-0 lg:border-l border-line p-10 flex items-center justify-center relative overflow-hidden min-h-[400px]">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(91,92,240,0.05)_0%,transparent_70%)] pointer-events-none" />
+              
+              <div className="relative z-10 w-full max-w-[440px] aspect-square flex items-center justify-center">
+                <svg className="absolute inset-0 w-full h-full overflow-visible z-0" viewBox="0 0 400 400">
+                  <defs>
+                    <linearGradient id="flow-grad-ind" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="rgba(91,92,240,0.2)" />
+                      <stop offset="100%" stopColor="rgba(91,92,240,1)" />
+                    </linearGradient>
+                  </defs>
+                  {/* Fixed Flow Lines - Shortened to stop at node edge */}
+                  <path d="M 100 200 L 200 200" fill="none" stroke="url(#flow-grad-ind)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_20s_linear_infinite]" />
+                  <path d="M 200 200 C 240 200, 240 140, 275 140" fill="none" stroke="url(#flow-grad-ind)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_20s_linear_infinite]" />
+                  <path d="M 200 200 C 240 200, 240 260, 275 260" fill="none" stroke="url(#flow-grad-ind)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_20s_linear_infinite]" />
+                </svg>
+
+                {/* Central Scripra Node (Always present) */}
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                  <div className="w-16 h-16 bg-indigo rounded-2xl shadow-[0_0_30px_rgba(91,92,240,0.3)] flex items-center justify-center relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-white/20 blur-xl scale-150 rotate-45 transition-transform duration-3000" />
+                    <svg className="w-8 h-8 text-white relative z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/></svg>
+                  </div>
+                </div>
+
+                {/* State 0: Capture */}
+                <div className={`absolute inset-0 transition-opacity duration-500 ${indState === 0 ? 'opacity-100 z-20' : 'opacity-0 z-0'}`}>
+                  {/* Input */}
+                  <div className="absolute left-[5%] top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm flex items-center gap-3">
+                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                      <span className="text-[12px] font-bold text-ink">Voice Audio</span>
+                    </div>
+                  </div>
+                  {/* Outputs */}
+                  <div className="absolute right-[5%] top-[35%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm">
+                      <span className="text-[12px] font-medium text-ink-2">"Send proposal tomorrow..."</span>
+                    </div>
+                  </div>
+                  <div className="absolute right-[5%] top-[65%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm">
+                      <span className="text-[12px] font-medium text-ink-2">"Compare AWS vs Azure..."</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* State 1: Understand */}
+                <div className={`absolute inset-0 transition-opacity duration-500 ${indState === 1 ? 'opacity-100 z-20' : 'opacity-0 z-0'}`}>
+                  {/* Input */}
+                  <div className="absolute left-[5%] top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm flex items-center gap-3">
+                      <span className="text-[12px] font-bold text-ink-2 line-clamp-1 w-[100px]">Full Transcript</span>
+                    </div>
+                  </div>
+                  {/* Outputs */}
+                  <div className="absolute right-[5%] top-[35%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-indigo/20 rounded-xl px-4 py-3 shadow-sm flex flex-col gap-1 w-36">
+                      <span className="text-[10px] font-bold text-indigo uppercase tracking-wider">Task</span>
+                      <span className="text-[12px] font-bold text-ink">Send proposal</span>
+                    </div>
+                  </div>
+                  <div className="absolute right-[5%] top-[65%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-teal-500/20 rounded-xl px-4 py-3 shadow-sm flex flex-col gap-1 w-36">
+                      <span className="text-[10px] font-bold text-teal-600 uppercase tracking-wider">Topic</span>
+                      <span className="text-[12px] font-bold text-ink">Cloud Pricing</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* State 2: Recall */}
+                <div className={`absolute inset-0 transition-opacity duration-500 ${indState === 2 ? 'opacity-100 z-20' : 'opacity-0 z-0'}`}>
+                  {/* Input */}
+                  <div className="absolute left-[5%] top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-indigo/30 rounded-full px-4 py-3 shadow-sm flex items-center gap-2">
+                      <svg className="w-4 h-4 text-indigo" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                      <span className="text-[12px] font-medium text-ink italic w-[80px]">"pricing"</span>
+                    </div>
+                  </div>
+                  {/* Outputs */}
+                  <div className="absolute right-[5%] top-[35%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-indigo text-white border border-indigo rounded-xl px-4 py-3 shadow-sm flex flex-col gap-1 w-36">
+                      <span className="text-[10px] font-bold text-white/70 uppercase tracking-wider">Found Match</span>
+                      <span className="text-[12px] font-bold text-white">Compare AWS/Azure</span>
+                    </div>
+                  </div>
+                  <div className="absolute right-[5%] top-[65%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm flex flex-col gap-1 w-36 opacity-50">
+                      <span className="text-[10px] font-bold text-ink-3 uppercase tracking-wider">Other Note</span>
+                      <span className="text-[12px] font-medium text-ink-2">UI Design Review</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
 
-          {/* Teams Panel */}
-          <div className="group bg-panel/80 backdrop-blur-md border border-line hover:border-indigo/40 rounded-[32px] p-8 lg:p-12 shadow-sm hover:shadow-[0_20px_50px_rgba(91,92,240,0.12)] transition-all duration-300 flex flex-col h-full relative overflow-hidden">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[10px] font-bold tracking-wider text-indigo uppercase bg-indigo-wash border border-indigo/20 px-3 py-1 rounded-full">
-                FOR TEAMS
-              </span>
-              <span className="text-[11px] font-medium text-ink-3">Workspace &amp; SSO</span>
-            </div>
-            <h3 className="text-[32px] font-bold tracking-tight text-ink mb-2">For teams</h3>
-            <p className="text-[18px] font-medium text-ink-2 mb-4">Multiply your team's intelligence.</p>
-            <p className="text-[15px] leading-relaxed text-ink-3 mb-10">
-              A shared knowledge base that builds itself. Everyone stays aligned with shared meeting notes, extracted tasks, and persistent project memory.
-            </p>
+          {/* Teams Segment - Full Width Split */}
+          <div className="bg-panel border border-line rounded-[32px] overflow-hidden shadow-sm hover:shadow-[0_20px_60px_-15px_rgba(45,212,191,0.15)] transition-shadow duration-500 flex flex-col lg:flex-row-reverse">
+            
+            {/* Text Side */}
+            <div className="lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
+              <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-[0.04] border border-teal/10 w-max">
+                <span className="w-2 h-2 rounded-full bg-teal-500" />
+                <span className="text-[11px] font-bold tracking-[0.1em] uppercase text-teal-600">Workspace & SSO</span>
+              </div>
+              <h3 className="text-[40px] leading-none font-bold tracking-[-0.03em] text-ink mb-6">
+                For teams
+              </h3>
+              <p className="text-[18px] text-ink-2 leading-relaxed mb-10">
+                Multiply your team's intelligence. Build a shared knowledge base where everyone stays aligned with extracted tasks and project memory.
+              </p>
 
-            <div className="flex-1 grid grid-cols-2 gap-x-6 gap-y-8 mb-12">
-              <div>
-                <h4 className="text-[11px] font-bold tracking-wider text-ink uppercase mb-3">Capture</h4>
-                <ul className="text-[13px] text-ink-2 space-y-2">
-                  <li>team meetings</li>
-                  <li>customer calls</li>
-                  <li>project reviews</li>
-                  <li>interviews</li>
-                  <li>imported recordings</li>
-                </ul>
+              <div className="flex flex-col gap-4 mb-12 text-[15px] font-medium">
+                <div className={`flex items-center gap-3 transition-opacity duration-300 ${teamState === 0 ? 'text-teal-600 font-bold' : 'text-ink-3'}`}>
+                  <svg className={`w-5 h-5 ${teamState === 0 ? 'text-teal-500' : 'text-ink-4'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Capture: Shared meeting notes & recaps
+                </div>
+                <div className={`flex items-center gap-3 transition-opacity duration-300 ${teamState === 1 ? 'text-teal-600 font-bold' : 'text-ink-3'}`}>
+                  <svg className={`w-5 h-5 ${teamState === 1 ? 'text-teal-500' : 'text-ink-4'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Understand: Track decisions globally
+                </div>
+                <div className={`flex items-center gap-3 transition-opacity duration-300 ${teamState === 2 ? 'text-teal-600 font-bold' : 'text-ink-3'}`}>
+                  <svg className={`w-5 h-5 ${teamState === 2 ? 'text-teal-500' : 'text-ink-4'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Act: Integrations with Slack & Jira
+                </div>
               </div>
-              <div>
-                <h4 className="text-[11px] font-bold tracking-wider text-ink uppercase mb-3">Understand</h4>
-                <ul className="text-[13px] text-ink-2 space-y-2">
-                  <li>speaker separation</li>
-                  <li>recap & MoM</li>
-                  <li>decisions</li>
-                  <li>risks</li>
-                  <li>open questions</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-[11px] font-bold tracking-wider text-ink uppercase mb-3">Act</h4>
-                <ul className="text-[13px] text-ink-2 space-y-2">
-                  <li>owners</li>
-                  <li>deadlines</li>
-                  <li>follow-ups</li>
-                  <li>commitments</li>
-                  <li>blockers</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-[11px] font-bold tracking-wider text-ink uppercase mb-3">Recall</h4>
-                <ul className="text-[13px] text-ink-2 space-y-2">
-                  <li>search across conversations</li>
-                  <li>shared memory</li>
-                  <li>project history</li>
-                  <li>customer context</li>
-                  <li>decision history</li>
-                </ul>
-              </div>
-            </div>
 
-            {/* Desktop Mockup Example */}
-            <div className="bg-canvas border border-line rounded-2xl p-6 mb-12 relative overflow-hidden flex flex-col gap-4">
-              <div className="text-[10px] font-bold tracking-wider text-indigo mb-2 flex items-center gap-2">
-                PRODUCT REVIEW
-                <div className="flex-1 h-px bg-indigo/10" />
-              </div>
-              
-              <div className="bg-card border border-indigo/20 rounded-lg p-3">
-                <span className="text-[9px] font-bold tracking-wider text-indigo uppercase mb-1 block">Decision</span>
-                <p className="text-[12px] font-medium text-ink">Launch Friday</p>
-              </div>
-              <div className="bg-amber-wash border border-amber/30 rounded-lg p-3">
-                <span className="text-[9px] font-bold tracking-wider text-amber uppercase mb-1 block">Action</span>
-                <p className="text-[12px] font-medium text-ink mb-1">Finish regression testing</p>
-                <span className="text-[10px] font-medium text-amber">Michael · Thursday</span>
-              </div>
-              <div className="bg-amber-wash border border-amber/30 rounded-lg p-3">
-                <span className="text-[9px] font-bold tracking-wider text-amber uppercase mb-1 block">Commitment</span>
-                <p className="text-[12px] font-medium text-ink">Update customer</p>
-                <span className="text-[10px] font-medium text-amber">Sarah</span>
-              </div>
-              <div className="bg-card border border-rose/20 rounded-lg p-3">
-                <span className="text-[9px] font-bold tracking-wider text-rose uppercase mb-1 block">Recurring Blocker</span>
-                <p className="text-[12px] font-medium text-ink">Security approval</p>
-              </div>
-            </div>
-
-            <div className="mt-auto pt-6 border-t border-line text-center">
-              <Link href="/pricing" className="inline-block px-6 py-3 rounded-xl bg-card border border-line text-ink text-[14px] font-semibold hover:border-indigo transition-colors w-full mb-3">
-                Explore Scripra for teams
+              <Link href="/pricing" className="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-white border border-line text-ink text-[15px] font-bold hover:border-teal-500 transition-colors w-max shadow-sm">
+                Explore Team plans
               </Link>
-              <p className="text-[12px] text-ink-3">Upgrade anytime as your team grows.</p>
+            </div>
+
+            {/* SVG Flow Side */}
+            <div className="lg:w-1/2 bg-white border-t lg:border-t-0 lg:border-r border-line p-10 flex items-center justify-center relative overflow-hidden min-h-[400px]">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(45,212,191,0.05)_0%,transparent_70%)] pointer-events-none" />
+              
+              <div className="relative z-10 w-full max-w-[440px] aspect-square flex items-center justify-center">
+                <svg className="absolute inset-0 w-full h-full overflow-visible z-0" viewBox="0 0 400 400">
+                  <defs>
+                    <linearGradient id="flow-grad-team" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="rgba(45,212,191,0.2)" />
+                      <stop offset="100%" stopColor="rgba(45,212,191,1)" />
+                    </linearGradient>
+                  </defs>
+                  {/* Fixed Flow Lines - Shortened */}
+                  <path d="M 100 200 L 200 200" fill="none" stroke="url(#flow-grad-team)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_20s_linear_infinite]" />
+                  <path d="M 200 200 C 240 200, 240 140, 275 140" fill="none" stroke="url(#flow-grad-team)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_20s_linear_infinite]" />
+                  <path d="M 200 200 C 240 200, 240 260, 275 260" fill="none" stroke="url(#flow-grad-team)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_20s_linear_infinite]" />
+                </svg>
+
+                {/* Central Shared Brain Node (Always present) */}
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                  <div className="w-16 h-16 bg-teal-500 rounded-2xl shadow-[0_0_30px_rgba(45,212,191,0.3)] flex flex-col items-center justify-center relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-white/20 blur-xl scale-150 rotate-45 transition-transform duration-3000" />
+                    <svg className="w-8 h-8 text-white relative z-10 mb-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/></svg>
+                    <span className="text-[8px] font-bold text-white uppercase tracking-widest relative z-10">Shared</span>
+                  </div>
+                </div>
+
+                {/* State 0: Capture */}
+                <div className={`absolute inset-0 transition-opacity duration-500 ${teamState === 0 ? 'opacity-100 z-20' : 'opacity-0 z-0'}`}>
+                  {/* Input */}
+                  <div className="absolute left-[5%] top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="flex -space-x-2 bg-white border border-line rounded-xl px-3 py-2 shadow-sm">
+                      <div className="w-6 h-6 rounded-full border-2 border-white bg-indigo-500" />
+                      <div className="w-6 h-6 rounded-full border-2 border-white bg-amber-500" />
+                      <div className="w-6 h-6 rounded-full border-2 border-white bg-teal-500" />
+                    </div>
+                  </div>
+                  {/* Outputs */}
+                  <div className="absolute right-[5%] top-[35%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm w-36">
+                      <span className="text-[12px] font-bold text-ink">Shared Recaps</span>
+                    </div>
+                  </div>
+                  <div className="absolute right-[5%] top-[65%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm w-36">
+                      <span className="text-[12px] font-bold text-ink">Speaker Analytics</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* State 1: Understand */}
+                <div className={`absolute inset-0 transition-opacity duration-500 ${teamState === 1 ? 'opacity-100 z-20' : 'opacity-0 z-0'}`}>
+                  {/* Input */}
+                  <div className="absolute left-[5%] top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm">
+                      <span className="text-[12px] font-bold text-ink-2">Meeting Transcript</span>
+                    </div>
+                  </div>
+                  {/* Outputs */}
+                  <div className="absolute right-[5%] top-[35%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-teal-500/20 rounded-xl px-4 py-3 shadow-sm flex flex-col gap-1 w-36">
+                      <span className="text-[10px] font-bold text-teal-600 uppercase tracking-wider">Decision</span>
+                      <span className="text-[12px] font-bold text-ink">Launch Product</span>
+                    </div>
+                  </div>
+                  <div className="absolute right-[5%] top-[65%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-indigo/20 rounded-xl px-4 py-3 shadow-sm flex flex-col gap-1 w-36">
+                      <span className="text-[10px] font-bold text-indigo uppercase tracking-wider">Risk</span>
+                      <span className="text-[12px] font-bold text-ink">Security Approval</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* State 2: Act */}
+                <div className={`absolute inset-0 transition-opacity duration-500 ${teamState === 2 ? 'opacity-100 z-20' : 'opacity-0 z-0'}`}>
+                  {/* Input */}
+                  <div className="absolute left-[5%] top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm flex flex-col gap-1 w-[120px]">
+                      <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Action</span>
+                      <span className="text-[12px] font-bold text-ink">Update Clients</span>
+                    </div>
+                  </div>
+                  {/* Outputs */}
+                  <div className="absolute right-[5%] top-[35%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-[#4A154B] text-white border border-[#4A154B]/20 rounded-xl px-4 py-3 shadow-sm flex items-center gap-2 w-36">
+                      <span className="w-2 h-2 rounded-full bg-white/50" />
+                      <span className="text-[12px] font-bold">Post to Slack</span>
+                    </div>
+                  </div>
+                  <div className="absolute right-[5%] top-[65%] -translate-y-1/2 flex flex-col gap-2 z-10">
+                    <div className="bg-[#0052CC] text-white border border-[#0052CC]/20 rounded-xl px-4 py-3 shadow-sm flex items-center gap-2 w-36">
+                      <span className="w-2 h-2 rounded-full bg-white/50" />
+                      <span className="text-[12px] font-bold">Create Jira Task</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
+
         </div>
       </div>
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes dash {
+          to {
+            stroke-dashoffset: -1000;
+          }
+        }
+      `}} />
     </section>
   );
 }

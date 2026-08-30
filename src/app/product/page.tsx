@@ -46,11 +46,22 @@ export default function Product() {
                   </li>
                 </ul>
               </div>
-              <div className="bg-raise rounded-2xl aspect-video border border-line flex items-center justify-center p-8">
-                <div className="w-16 h-16 rounded-full bg-indigo flex items-center justify-center shadow-lg">
-                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                  </svg>
+              <div className="relative rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm group">
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
+                <div className="absolute top-4 left-4 text-[10px] font-mono tracking-[0.2em] text-rose/50 font-bold pointer-events-none select-none z-20">RECORDING_ACTIVE</div>
+                
+                <div className="relative z-10 w-48 h-48 rounded-full bg-white shadow-[0_12px_40px_rgba(244,63,94,0.15)] flex flex-col items-center justify-center border border-rose/10 group-hover:scale-105 transition-transform duration-500">
+                  <div className="absolute inset-0 rounded-full border border-rose/20 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]" />
+                  <div className="w-16 h-16 rounded-full bg-rose shadow-[0_0_30px_rgba(244,63,94,0.4)] flex items-center justify-center relative overflow-hidden mb-4">
+                    <div className="w-full flex items-center justify-center gap-1">
+                      <div className="w-1.5 bg-white rounded-full animate-[wave_1s_ease-in-out_infinite]" style={{ height: '30%' }} />
+                      <div className="w-1.5 bg-white rounded-full animate-[wave_1s_ease-in-out_infinite_0.1s]" style={{ height: '70%' }} />
+                      <div className="w-1.5 bg-white rounded-full animate-[wave_1s_ease-in-out_infinite_0.2s]" style={{ height: '50%' }} />
+                      <div className="w-1.5 bg-white rounded-full animate-[wave_1s_ease-in-out_infinite_0.3s]" style={{ height: '90%' }} />
+                      <div className="w-1.5 bg-white rounded-full animate-[wave_1s_ease-in-out_infinite_0.4s]" style={{ height: '40%' }} />
+                    </div>
+                  </div>
+                  <div className="font-mono text-[14px] font-medium text-rose tracking-wider">04:23</div>
                 </div>
               </div>
             </section>
@@ -74,15 +85,34 @@ export default function Product() {
                   <div className="bg-canvas border border-line p-4 rounded-xl">Open questions</div>
                 </div>
               </div>
-              <div className="bg-raise rounded-2xl aspect-video border border-line flex items-center justify-center p-8 md:order-1">
-                <div className="bg-card p-6 rounded-xl border border-line shadow-sm w-full max-w-sm">
-                  <div className="w-1/2 h-2 bg-line rounded mb-4"></div>
-                  <div className="w-full h-2 bg-line rounded mb-2"></div>
-                  <div className="w-3/4 h-2 bg-line rounded mb-6"></div>
+              <div className="relative rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm md:order-1 group">
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
+                <div className="absolute top-4 left-4 text-[10px] font-mono tracking-[0.2em] text-indigo/50 font-bold pointer-events-none select-none z-20">UNDERSTANDING_ENGINE</div>
+                
+                <div className="relative z-10 w-full max-w-sm bg-white p-6 rounded-2xl border border-indigo/10 shadow-[0_12px_40px_rgb(0,0,0,0.08)] group-hover:-translate-y-1 transition-transform duration-500">
+                  <div className="text-[10px] font-bold tracking-[0.1em] uppercase text-indigo mb-3 border-b border-indigo/10 pb-2">Structured Output</div>
                   
-                  <div className="flex gap-2">
-                    <span className="px-2 py-1 bg-indigo-wash text-indigo rounded text-[10px] font-bold uppercase">Decision</span>
-                    <span className="px-2 py-1 bg-rose-wash text-rose rounded text-[10px] font-bold uppercase">Risk</span>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex gap-2">
+                      <span className="px-2 py-1 bg-indigo-wash text-indigo rounded text-[10px] font-bold uppercase shadow-sm">Decision</span>
+                      <div className="flex-1 bg-indigo-[0.02] border border-indigo/10 rounded px-3 py-1.5 flex items-center">
+                        <div className="w-full h-1.5 bg-indigo/20 rounded-full"></div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <span className="px-2 py-1 bg-rose-wash text-rose rounded text-[10px] font-bold uppercase shadow-sm">Risk</span>
+                      <div className="flex-1 bg-indigo-[0.02] border border-indigo/10 rounded px-3 py-1.5 flex items-center">
+                        <div className="w-3/4 h-1.5 bg-rose/30 rounded-full"></div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <span className="px-2 py-1 bg-amber-wash text-amber-700 rounded text-[10px] font-bold uppercase shadow-sm">Action</span>
+                      <div className="flex-1 bg-indigo-[0.02] border border-indigo/10 rounded px-3 py-1.5 flex items-center">
+                        <div className="w-5/6 h-1.5 bg-amber/30 rounded-full"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -113,18 +143,31 @@ export default function Product() {
                   </li>
                 </ul>
               </div>
-              <div className="bg-raise rounded-2xl aspect-video border border-line flex items-center justify-center p-8">
-                <div className="bg-card border border-line rounded-[13px] p-5 w-full max-w-sm shadow-sm">
-                  <h3 className="text-[10px] font-semibold tracking-[0.17em] uppercase text-ink flex items-center gap-2 mb-4">
-                    Action items
-                  </h3>
-                  <div className="flex gap-3 items-start">
-                    <div className="w-4 h-4 rounded border-2 border-line-hi mt-0.5" />
+              <div className="relative rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm group">
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
+                <div className="absolute top-4 left-4 text-[10px] font-mono tracking-[0.2em] text-amber-500/50 font-bold pointer-events-none select-none z-20">ACTION_ROUTING</div>
+                
+                <div className="relative z-10 w-full max-w-sm bg-white p-6 rounded-2xl border border-indigo/10 shadow-[0_12px_40px_rgb(0,0,0,0.08)] group-hover:scale-105 transition-transform duration-500">
+                  <div className="text-[10px] font-bold tracking-[0.1em] uppercase text-indigo mb-4 flex items-center justify-between border-b border-indigo/10 pb-2">
+                    <span>Task Pipeline</span>
+                    <span className="text-[9px] bg-indigo-wash text-indigo px-1.5 py-0.5 rounded tracking-widest border border-indigo/10">1/3 PENDING</span>
+                  </div>
+                  
+                  <div className="flex gap-4 items-start bg-indigo-[0.01] p-3 rounded-xl border border-indigo/5">
+                    <div className="w-5 h-5 rounded-md border-2 border-indigo/30 flex-shrink-0 mt-0.5 hover:bg-indigo-wash hover:border-indigo transition-colors cursor-pointer" />
                     <div className="flex-1">
-                      <div className="text-[14px] leading-[1.5] text-ink mb-2">Finish regression testing.</div>
-                      <div className="flex gap-2 items-center">
-                        <span className="px-2.5 py-1 rounded-full bg-amber-wash text-amber-deep text-[10.5px] font-semibold">Michael</span>
-                        <span className="px-2.5 py-1 rounded-full bg-amber-wash text-amber-deep text-[10.5px] font-semibold">Thursday</span>
+                      <div className="text-[13px] font-semibold text-indigo-deep leading-[1.4] mb-3">
+                        Finish regression testing before release.
+                      </div>
+                      <div className="flex flex-wrap gap-2 items-center">
+                        <div className="px-2.5 py-1 rounded-md bg-indigo-wash text-indigo text-[10px] font-bold flex items-center gap-1.5 border border-indigo/10 shadow-sm">
+                          <div className="w-3 h-3 rounded-full bg-indigo text-white flex items-center justify-center text-[7px]">M</div>
+                          Michael
+                        </div>
+                        <div className="px-2.5 py-1 rounded-md bg-amber-wash text-amber-700 text-[10px] font-bold flex items-center gap-1.5 border border-amber/20 shadow-sm">
+                          <span className="w-1.5 h-1.5 bg-amber-500 rounded-full" />
+                          Thursday
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -153,18 +196,30 @@ export default function Product() {
                   </div>
                 </div>
               </div>
-              <div className="bg-raise rounded-2xl aspect-[4/3] border border-line flex items-center justify-center p-8 md:order-1 overflow-hidden relative">
-                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-sm">
-                   <div className="bg-card border border-line rounded-lg shadow-sm p-3 flex gap-3 items-center mb-6">
-                     <svg className="w-4 h-4 text-ink-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                     <div className="text-[13px] text-ink-2">What did we decide about pricing?</div>
-                   </div>
-                   <div className="bg-card border border-line rounded-[13px] p-5 ml-4">
-                     <div className="text-[10px] font-semibold tracking-[0.17em] uppercase text-indigo mb-2">Decision Found</div>
-                     <div className="text-[14px] text-ink">Hold the pricing change until after launch.</div>
-                     <div className="text-[11px] font-mono text-ink-3 mt-3">From: Product review (13 Aug)</div>
-                   </div>
-                 </div>
+              <div className="relative rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm md:order-1 group min-h-[300px]">
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
+                <div className="absolute top-4 left-4 text-[10px] font-mono tracking-[0.2em] text-teal/50 font-bold pointer-events-none select-none z-20">QUERY_ENGINE</div>
+                
+                <div className="relative z-10 w-full max-w-sm flex flex-col gap-4">
+                  <div className="bg-white border border-indigo/10 rounded-xl shadow-[0_4px_12px_rgb(0,0,0,0.05)] p-3.5 flex gap-3 items-center group-hover:-translate-y-1 transition-transform duration-500">
+                    <svg className="w-4 h-4 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <div className="text-[13px] font-medium text-indigo-deep">What did we decide about pricing?</div>
+                  </div>
+                  
+                  <div className="bg-white border border-indigo/10 rounded-2xl shadow-[0_12px_40px_rgb(0,0,0,0.08)] p-5 ml-6 relative overflow-hidden group-hover:-translate-y-1 transition-transform duration-500 delay-75">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-teal" />
+                    <div className="text-[10px] font-bold tracking-[0.1em] uppercase text-teal mb-3 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" /> Decision Found
+                    </div>
+                    <div className="text-[14px] font-medium leading-[1.5] text-indigo-deep mb-4">
+                      Hold the pricing change until after launch to avoid <span className="text-teal font-bold border-b border-teal/30">support confusion</span>.
+                    </div>
+                    <div className="flex items-center justify-between border-t border-indigo/10 pt-3">
+                      <span className="text-[11px] font-bold text-indigo bg-indigo-wash px-2.5 py-1 rounded-md border border-indigo/10">Product Review</span>
+                      <span className="text-[11px] font-mono text-indigo/60">12:04</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
           </div>

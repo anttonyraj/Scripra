@@ -1,5 +1,7 @@
 import Link from "next/link";
 import ConversationArtifact from "./ConversationArtifact";
+import ScrollReveal from "./ScrollReveal";
+import AudioWaveformBg from "./AudioWaveformBg";
 
 export default function Hero() {
   return (
@@ -7,11 +9,15 @@ export default function Hero() {
       {/* Ambient background grid */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.04] select-none" style={{ backgroundImage: 'linear-gradient(to bottom, var(--line) 1px, transparent 1px), linear-gradient(to right, var(--line) 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
       
+      {/* Sound Bar Design (Left Edge) */}
+      <AudioWaveformBg />
+
       <div className="max-w-[1280px] w-full mx-auto grid grid-cols-1 lg:grid-cols-[48%_52%] gap-10 lg:gap-12 items-center relative z-10">
         
         {/* Left Side (48%) */}
         <div className="flex flex-col items-start text-left max-w-[560px]">
-          {/* Main Headline */}
+          <ScrollReveal direction="up" delay={0.1}>
+            {/* Main Headline */}
           <h1 className="text-[clamp(32px,3.8vw,50px)] font-bold tracking-[-0.03em] leading-[1.12] mb-4 text-ink">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal via-indigo to-indigo-deep">
               The AI memory engine
@@ -70,12 +76,13 @@ export default function Hero() {
             </div>
           </div>
 
+          </ScrollReveal>
         </div>
 
-        {/* Right Side (56%) */}
-        <div className="flex justify-center lg:justify-end w-full pl-0 lg:pl-2">
+        {/* Right Side (52%) */}
+        <ScrollReveal direction="left" delay={0.3} className="w-full flex justify-center lg:justify-end mt-12 lg:mt-0 relative">
           <ConversationArtifact />
-        </div>
+        </ScrollReveal>
         
       </div>
     </div>
