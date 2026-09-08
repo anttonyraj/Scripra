@@ -4,6 +4,7 @@ import CaptureVisualSection from "@/components/CaptureVisualSection";
 import MoMStudioSection from "@/components/MoMStudioSection";
 import MemoryGraphSection from "@/components/MemoryGraphSection";
 import FuturisticBentoShowcase from "@/components/FuturisticBentoShowcase";
+import CompetitorComparisonSection from "@/components/CompetitorComparisonSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
 import ContactSection from "@/components/ContactSection";
 import FinalCTA from "@/components/FinalCTA";
@@ -19,6 +20,7 @@ export default function Home() {
         <MoMStudioSection />
         <MemoryGraphSection />
         <FuturisticBentoShowcase />
+        <CompetitorComparisonSection />
         <IntegrationsSection />
         <ContactSection />
         <FinalCTA />

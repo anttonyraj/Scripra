@@ -15,4 +15,6 @@
     stroke-linecap="round"
     stroke-linejoin="round"
   />
+  <!-- Amber beacon dot -->
+  <circle cx="32.5" cy="9" r="4" fill="#F5A020" stroke="#FFFFFF" stroke-width="1.5" />
 </svg>
