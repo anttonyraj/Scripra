@@ -566,10 +566,10 @@ export default function LiveMeetingStudio() {
             <div className="flex items-center justify-between gap-2 pb-3 border-b border-line">
               <div className="flex items-center gap-2">
                 <span className="w-6 h-6 rounded-lg bg-indigo text-white font-black text-xs flex items-center justify-center shadow-xs">
-                  1
+                  ⚡
                 </span>
                 <h3 className="text-[13.5px] font-bold text-ink uppercase tracking-wider">
-                  Meeting Connection
+                  Meeting Connection &amp; Controls
                 </h3>
               </div>
 
@@ -704,73 +704,6 @@ export default function LiveMeetingStudio() {
               </a>
             </div>
           </div>
-
-          {/* CARD 2: Audio Spectrum & Session Telemetry */}
-          <div className="bg-card border-2 border-line rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col gap-4 relative overflow-hidden">
-            {/* Visualizer Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-line">
-              <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-teal text-white font-black text-xs flex items-center justify-center shadow-xs">
-                  2
-                </span>
-                <h3 className="text-[13.5px] font-bold text-ink uppercase tracking-wider">
-                  Audio Spectrum &amp; Status
-                </h3>
-              </div>
-
-              {/* Status Indicator Pill */}
-              <div className="flex items-center gap-1.5">
-                <span
-                  className={`w-2 h-2 rounded-full ${
-                    isRecording ? "bg-rose animate-pulse" : "bg-ink-3"
-                  }`}
-                />
-                <span className="text-[11.5px] font-mono text-ink-3 uppercase tracking-wider">
-                  {isRecording ? "Transcribing" : "Standby"}
-                </span>
-              </div>
-            </div>
-
-            {/* Live Audio Visualizer Canvas */}
-            <div className="w-full h-24 rounded-2xl bg-raise/80 border border-line flex items-center justify-center relative overflow-hidden p-2">
-              {/* Subtle Grid Backdrop */}
-              <div
-                className="absolute inset-0 opacity-15 pointer-events-none"
-                style={{
-                  backgroundImage: "radial-gradient(circle, #888 1px, transparent 1px)",
-                  backgroundSize: "16px 16px",
-                }}
-              />
-
-              {/* THEME 1: Quantum Sine Ribbon */}
-              {visualizerTheme === "quantum" && (
-                <div className="w-full h-full flex items-center justify-center">
-                  {isRecording ? (
-                    <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full opacity-90">
-                      <defs>
-                        <linearGradient id="quantum-grad-1" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#4353FF" />
-                          <stop offset="50%" stopColor="#00D2B4" />
-                          <stop offset="100%" stopColor="#4353FF" />
-                        </linearGradient>
-                        <linearGradient id="quantum-grad-2" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#00D2B4" />
-                          <stop offset="50%" stopColor="#F5A020" />
-                          <stop offset="100%" stopColor="#00D2B4" />
-                        </linearGradient>
-                      </defs>
-                      <path d="M0,50 Q25,15 50,50 T100,50" fill="none" stroke="url(#quantum-grad-1)" strokeWidth="3" className="animate-[dash_1.8s_linear_infinite]" strokeDasharray="100 100" />
-                      <path d="M0,50 Q25,85 50,50 T80,50 T100,50" fill="none" stroke="url(#quantum-grad-2)" strokeWidth="2.5" className="animate-[dash_2.4s_linear_infinite_reverse]" strokeDasharray="100 100" />
-                      <circle cx="35" cy="50" r="3" fill="#00D2B4" className="animate-ping" />
-                      <circle cx="70" cy="50" r="3" fill="#4353FF" className="animate-ping" />
-                    </svg>
-                  ) : (
-                    <span className="text-[11px] font-mono text-ink-3">Awaiting stream...</span>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
         </div>
 
         {/* RIGHT COLUMN: Live Diarized Transcript Panel (7 Columns) */}
@@ -833,6 +766,105 @@ export default function LiveMeetingStudio() {
                 >
                   Clear
                 </button>
+              </div>
+            </div>
+
+            {/* INTEGRATED: Audio Spectrum & Stream Status Bar */}
+            <div className="mb-4 rounded-2xl bg-raise/80 border border-line p-3 sm:p-3.5 flex flex-col gap-2.5 relative overflow-hidden shadow-2xs">
+              {/* Audio Bar Header */}
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <div className="flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-md bg-teal/20 text-teal text-[11px] font-bold flex items-center justify-center">
+                    ⚡
+                  </span>
+                  <h3 className="text-[12px] font-bold text-ink uppercase tracking-wider">
+                    Audio Spectrum &amp; Status
+                  </h3>
+                  <span className="text-[11px] font-mono text-ink-3">
+                    {isRecording ? "• Live Stream Diarizing" : "• Standby"}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {/* Live Duration Timer */}
+                  {isRecording && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-wash text-rose border border-rose/25 text-[11px] font-mono font-bold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-rose animate-ping" />
+                      <span>{Math.floor(durationSeconds / 60).toString().padStart(2, "0")}:{(durationSeconds % 60).toString().padStart(2, "0")}</span>
+                    </span>
+                  )}
+
+                  {/* Status Indicator Pill */}
+                  <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-card border border-line text-[11px] font-mono">
+                    <span
+                      className={`w-2 h-2 rounded-full ${
+                        isRecording ? "bg-rose animate-pulse" : "bg-ink-3"
+                      }`}
+                    />
+                    <span className="text-ink-2 font-bold uppercase tracking-wider text-[10.5px]">
+                      {isRecording ? "Transcribing" : "Standby"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Live Audio Visualizer Canvas */}
+              <div className="w-full h-16 rounded-xl bg-card border border-line flex items-center justify-center relative overflow-hidden px-3">
+                {/* Subtle Grid Backdrop */}
+                <div
+                  className="absolute inset-0 opacity-15 pointer-events-none"
+                  style={{
+                    backgroundImage: "radial-gradient(circle, #888 1px, transparent 1px)",
+                    backgroundSize: "16px 16px",
+                  }}
+                />
+
+                {/* THEME 1: Quantum Sine Ribbon */}
+                {visualizerTheme === "quantum" && (
+                  <div className="w-full h-full flex items-center justify-between gap-4">
+                    {isRecording ? (
+                      <>
+                        <div className="flex-1 h-full">
+                          <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full opacity-90">
+                            <defs>
+                              <linearGradient id="quantum-grad-1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#4353FF" />
+                                <stop offset="50%" stopColor="#00D2B4" />
+                                <stop offset="100%" stopColor="#4353FF" />
+                              </linearGradient>
+                              <linearGradient id="quantum-grad-2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor="#00D2B4" />
+                                <stop offset="50%" stopColor="#F5A020" />
+                                <stop offset="100%" stopColor="#00D2B4" />
+                              </linearGradient>
+                            </defs>
+                            <path d="M0,50 Q25,15 50,50 T100,50" fill="none" stroke="url(#quantum-grad-1)" strokeWidth="3" className="animate-[dash_1.8s_linear_infinite]" strokeDasharray="100 100" />
+                            <path d="M0,50 Q25,85 50,50 T80,50 T100,50" fill="none" stroke="url(#quantum-grad-2)" strokeWidth="2" className="animate-[dash_2.4s_linear_infinite_reverse]" strokeDasharray="100 100" />
+                            <circle cx="35" cy="50" r="3" fill="#00D2B4" className="animate-ping" />
+                            <circle cx="70" cy="50" r="3" fill="#4353FF" className="animate-ping" />
+                          </svg>
+                        </div>
+                        {/* Audio Frequency Equalizer Bars */}
+                        <div className="hidden sm:flex items-center gap-1 h-8 shrink-0">
+                          {eqLevels.slice(0, 16).map((lvl, i) => (
+                            <div
+                              key={i}
+                              className="w-1 rounded-full bg-gradient-to-t from-indigo to-teal transition-all duration-150"
+                              style={{
+                                height: `${Math.max(15, (lvl * (0.4 + (i % 5) * 0.15)))}%`,
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex items-center gap-2 text-[11.5px] font-mono text-ink-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-ink-3 opacity-40" />
+                        <span>Audio Spectrum Standby — Ready for meeting audio</span>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 
