@@ -77,6 +77,22 @@ export default function SignupPage() {
                 <span>{loading ? "Connecting to Google..." : "Sign up with Google"}</span>
               </button>
 
+              <div className="flex items-center gap-3 my-1">
+                <div className="h-px bg-line/60 flex-1" />
+                <span className="text-[11px] font-mono uppercase tracking-wider text-ink-3">
+                  or preview instantly
+                </span>
+                <div className="h-px bg-line/60 flex-1" />
+              </div>
+
+              <Link
+                href="/dashboard"
+                className="w-full py-3 px-5 rounded-2xl bg-indigo-wash/50 border border-indigo/20 hover:border-indigo/50 hover:bg-indigo-wash text-indigo font-bold text-[14px] transition-all flex items-center justify-center gap-2 shadow-xs active:scale-[0.99]"
+              >
+                <span>⚡</span>
+                <span>Explore Demo Workspace (Instant Access)</span>
+              </Link>
+
               <div className="text-[12px] text-center text-ink-3 mt-2 leading-relaxed">
                 Already have an account? Google automatically routes you to your existing workspace.
               </div>

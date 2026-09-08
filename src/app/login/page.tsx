@@ -13,6 +13,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const [loading, setLoading] = useState(false);
+  const [guestLoading, setGuestLoading] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -30,11 +31,31 @@ function LoginForm() {
     }
   };
 
+  const handleGuestSignIn = async () => {
+    try {
+      setGuestLoading(true);
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: "demo@scripra.com",
+        name: "Pilot Guest",
+        callbackUrl,
+      });
+      if (res?.ok || !res?.error) {
+        router.push(callbackUrl);
+      } else {
+        router.push(callbackUrl);
+      }
+    } catch (err) {
+      console.error("Guest sign-in error:", err);
+      router.push(callbackUrl);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <button
         onClick={handleGoogleSignIn}
-        disabled={loading}
+        disabled={loading || guestLoading}
         className="w-full py-3.5 px-5 rounded-2xl bg-card border-2 border-line hover:border-indigo/40 hover:bg-raise text-ink font-bold text-[15px] transition-all flex items-center justify-center gap-3 shadow-xs active:scale-[0.99] disabled:opacity-50"
       >
         {/* Official Google G Logo */}
@@ -62,13 +83,22 @@ function LoginForm() {
       <div className="flex items-center gap-3 my-1">
         <div className="h-px bg-line/60 flex-1" />
         <span className="text-[11px] font-mono uppercase tracking-wider text-ink-3">
-          Google Workspace &amp; Personal
+          or preview instantly
         </span>
         <div className="h-px bg-line/60 flex-1" />
       </div>
 
+      <button
+        onClick={handleGuestSignIn}
+        disabled={loading || guestLoading}
+        className="w-full py-3 px-5 rounded-2xl bg-indigo-wash/50 border border-indigo/20 hover:border-indigo/50 hover:bg-indigo-wash text-indigo font-bold text-[14px] transition-all flex items-center justify-center gap-2 shadow-xs active:scale-[0.99] disabled:opacity-50"
+      >
+        <span>⚡</span>
+        <span>{guestLoading ? "Opening Demo Workspace..." : "Explore Demo Workspace (Instant Access)"}</span>
+      </button>
+
       <div className="text-[12px] text-center text-ink-3 leading-relaxed">
-        New to Scripra? Clicking continue automatically creates your workspace with our free tier.
+        New to Scripra? Instant access creates your local workspace with sample meeting data.
       </div>
     </div>
   );
