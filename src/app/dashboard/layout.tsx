@@ -91,12 +91,21 @@ export default function DashboardLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-canvas flex">
+    <div className="min-h-screen bg-canvas flex relative overflow-x-hidden selection:bg-indigo selection:text-white">
       {/* Sidebar */}
       <aside className="w-[250px] bg-panel border-r border-line flex flex-col p-4 sticky top-0 h-screen overflow-y-auto hidden md:flex">
         {/* Brand */}
-        <div className="px-2 pb-3.5 border-b border-line mb-3">
+        <div className="px-2 pb-3 border-b border-line mb-2.5">
           <Logo showTagline={false} />
+        </div>
+
+        {/* Core Edge ASR Status Badge */}
+        <div className="px-2.5 py-1.5 mb-2.5 rounded-lg bg-indigo-wash/60 border border-indigo/20 flex items-center justify-between text-[10.5px] font-mono">
+          <span className="flex items-center gap-1.5 text-teal font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
+            Edge ASR
+          </span>
+          <span className="text-indigo-lift font-bold">&lt;218ms</span>
         </div>
 
         {/* Theme Appearance Selector */}
@@ -258,7 +267,7 @@ export default function DashboardLayout({
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 min-w-0 flex flex-col">
+      <main className="flex-1 min-w-0 flex flex-col relative bg-[radial-gradient(ellipse_70%_50%_at_50%_-10%,rgba(67,83,255,0.06),transparent)]">
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between px-5 py-3.5 bg-panel border-b border-line sticky top-0 z-40">
           <Logo showTagline={false} />

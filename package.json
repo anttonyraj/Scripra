@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "bot:join": "node bot-worker/src/joinGoogleMeet.js",
+    "bot:start": "npm --prefix bot-worker start",
+    "bot:login": "node bot-worker/src/loginGoogle.js",
+    "bot:test": "node --test bot-worker/test/join.test.js"
   },
   "dependencies": {
     "framer-motion": "^13.1.0",

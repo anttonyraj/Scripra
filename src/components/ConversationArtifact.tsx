@@ -380,7 +380,7 @@ export default function ConversationArtifact() {
 
             <div className="flex items-center justify-between pt-2.5 mt-1 text-[11px] font-mono text-ink-3">
               <span>99.4% Accuracy across {currentPlatform.name}</span>
-              <span>Gemini Flash Audio Diarization</span>
+              <span>Scripra Neural Audio Diarization</span>
             </div>
           </div>
         )}

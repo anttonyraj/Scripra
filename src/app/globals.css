@@ -4,38 +4,38 @@
 
 @layer base {
   :root {
-    /* Brand System - Electric Cobalt Primary + Luminous Aqua + Signature Amber (Light) */
-    --canvas: #FAFAFC;
+    /* Scripra Futuristic System - Ice Slate Canvas + Electric Cobalt + Holographic Cyan + Solar Amber */
+    --canvas: #F8FAFD;
     --card: #FFFFFF;
     --panel: #FFFFFF;
-    --raise: #F4F5FB;
+    --raise: #F0F4FA;
     
-    --line: rgba(67,83,255,0.11);
-    --line-hi: rgba(67,83,255,0.22);
+    --line: rgba(67, 83, 255, 0.12);
+    --line-hi: rgba(67, 83, 255, 0.28);
 
-    --ink: #111827;
-    --ink-2: #4353FF;
-    --ink-3: #6B7280;
+    --ink: #090D1A;
+    --ink-2: #334155;
+    --ink-3: #64748B;
 
     --indigo: #4353FF;
-    --indigo-deep: #2B38D1;
+    --indigo-deep: #2A36CE;
     --indigo-dim: #4353FF;
-    --indigo-lift: #707EFF;
-    --indigo-mist: #EEF0FF;
-    --indigo-wash: rgba(67,83,255,0.08);
+    --indigo-lift: #6875FF;
+    --indigo-mist: #EEF2FF;
+    --indigo-wash: rgba(67, 83, 255, 0.08);
 
     --amber: #F5A020;
     --amber-deep: #B45309;
     --amber-mist: #FFFBEB;
-    --amber-wash: rgba(245,160,32,0.15);
+    --amber-wash: rgba(245, 160, 32, 0.14);
 
     --teal: #00D2B4;
-    --teal-deep: #00A38C;
-    --teal-wash: rgba(0,210,180,0.12);
+    --teal-deep: #009E88;
+    --teal-wash: rgba(0, 210, 180, 0.12);
 
     --rose: #E14B5A;
     --rose-deep: #C93744;
-    --rose-wash: rgba(225,75,90,0.12);
+    --rose-wash: rgba(225, 75, 90, 0.12);
 
     --av-a: #4353FF;
     --av-b: #F5A020;
@@ -48,43 +48,44 @@
     --wave-c: 43, 56, 209;
   }
 
-  [data-theme="dark"] {
-    --canvas: #0A0D18;
-    --card: #121626;
-    --panel: #0E1220;
-    --raise: #181E34;
+  [data-theme="dark"],
+  .dark {
+    --canvas: #070A12;
+    --card: #0E1322;
+    --panel: #0A0F1D;
+    --raise: #141A2E;
     
-    --line: rgba(112,126,255,0.16);
-    --line-hi: rgba(112,126,255,0.30);
+    --line: rgba(99, 113, 255, 0.18);
+    --line-hi: rgba(99, 113, 255, 0.38);
 
-    --ink: #F3F4F8;
-    --ink-2: #9BA6D8;
-    --ink-3: #6470A0;
+    --ink: #F1F4FA;
+    --ink-2: #A5B4D8;
+    --ink-3: #6776A2;
 
     --indigo: #6371FF;
     --indigo-deep: #8A96FF;
     --indigo-dim: #4353FF;
-    --indigo-lift: #6371FF;
-    --indigo-mist: rgba(99,113,255,0.15);
-    --indigo-wash: rgba(99,113,255,0.15);
+    --indigo-lift: #7C88FF;
+    --indigo-mist: rgba(99, 113, 255, 0.15);
+    --indigo-wash: rgba(99, 113, 255, 0.16);
 
-    --amber: #FBBF24;
+    --amber: #F5A020;
     --amber-deep: #FBBF24;
-    --amber-mist: rgba(251,191,36,0.14);
-    --amber-wash: rgba(251,191,36,0.14);
+    --amber-mist: rgba(245, 160, 32, 0.15);
+    --amber-wash: rgba(245, 160, 32, 0.16);
 
     --teal: #00E5C4;
-    --teal-deep: #00E5C4;
-    --teal-wash: rgba(0,229,196,0.14);
+    --teal-deep: #00D2B4;
+    --teal-wash: rgba(0, 229, 196, 0.15);
 
     --rose: #FF6B7A;
     --rose-deep: #FF6B7A;
-    --rose-wash: rgba(255,107,122,0.13);
+    --rose-wash: rgba(255, 107, 122, 0.14);
 
     --av-a: #6371FF;
-    --av-b: #FBBF24;
+    --av-b: #F5A020;
     --av-c: #00E5C4;
-    --av-ink: #0A0D18;
+    --av-ink: #070A12;
 
     /* Hero wave animation — cobalt and aqua (dark) */
     --wave-a: 0, 229, 196;
@@ -96,9 +97,57 @@
 body {
   background-color: var(--canvas);
   color: var(--ink);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: var(--font-sans), Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Futuristic Cyber Keyframes & Utilities */
+@keyframes custom-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: -100; }
+}
+
+@keyframes dash-reverse {
+  to { stroke-dashoffset: 100; }
+}
+
+@keyframes neon-pulse {
+  0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 6px rgba(0, 210, 180, 0.5)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 14px rgba(0, 210, 180, 0.9)); }
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.cyber-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px -10px rgba(67, 83, 255, 0.08);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.cyber-card:hover {
+  border-color: var(--line-hi);
+  box-shadow: 0 18px 45px -12px rgba(67, 83, 255, 0.14);
+}
+
+.cyber-glow-indigo {
+  box-shadow: 0 0 35px -5px rgba(67, 83, 255, 0.25);
+}
+
+.cyber-glow-teal {
+  box-shadow: 0 0 35px -5px rgba(0, 210, 180, 0.25);
+}
+
+.cyber-glow-amber {
+  box-shadow: 0 0 35px -5px rgba(245, 160, 32, 0.28);
 }
 
 /* Reduced motion preference */

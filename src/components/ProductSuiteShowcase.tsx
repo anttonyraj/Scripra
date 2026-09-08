@@ -17,7 +17,7 @@ const products: ProductTab[] = [
     id: "global",
     name: "Scripra Global",
     tagline: "Live Multilingual Interpretation & Code-Switching",
-    badge: "Powered by Soniox + Gemini",
+    badge: "Proprietary Multilingual Core",
     color: "teal",
     icon: "🌐",
   },
@@ -25,7 +25,7 @@ const products: ProductTab[] = [
     id: "dealcloser",
     name: "Scripra DealCloser",
     tagline: "Real-Time In-Meeting Sales Whisper AI & Battlecards",
-    badge: "Sub-300ms Deepgram Streaming",
+    badge: "Sub-300ms Neural Streaming",
     color: "amber",
     icon: "⚡",
   },
@@ -91,7 +91,7 @@ export default function ProductSuiteShowcase() {
             <span className="text-indigo">Specialized AI Conversation Products.</span>
           </h2>
           <p className="text-[16px] sm:text-[18px] text-ink-3 leading-relaxed max-w-[700px] mx-auto">
-            Otter.ai and Fathom only generate delayed English summaries. Scripra harnesses Soniox, Deepgram, and Gemini 2.5 Flash to power live simultaneous translation, in-meeting sales whisper battlecards, and universal cross-platform bots.
+            Otter.ai and Fathom only generate delayed English summaries. Scripra harnesses proprietary acoustic models and edge neural engines to power live simultaneous translation, in-meeting sales whisper battlecards, and universal cross-platform bots.
           </p>
         </div>
 
@@ -129,7 +129,7 @@ export default function ProductSuiteShowcase() {
               {/* Text Description */}
               <div className="lg:col-span-6 space-y-6">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-teal-wash border border-teal/30 text-teal text-[11px] font-mono font-bold uppercase tracking-wider">
-                  <span>🌐 Soniox 60+ Language Engine</span>
+                  <span>🌐 Scripra 60+ Language Polyglot Engine</span>
                 </div>
                 <h3 className="text-[28px] sm:text-[36px] font-black text-ink tracking-tight leading-tight">
                   Scripra Global: Simultaneous Multilingual Interpretation &amp; Code-Switching
@@ -154,7 +154,7 @@ export default function ProductSuiteShowcase() {
                   </div>
                   <div className="p-4 rounded-xl bg-card border border-line">
                     <div className="text-[11px] font-mono font-bold text-rose uppercase mb-1">85% Lower Margins</div>
-                    <div className="text-[13px] text-ink-2">High-efficiency Soniox streaming at just $0.12/hr vs $2.00/hr legacy interpretation.</div>
+                    <div className="text-[13px] text-ink-2">High-efficiency neural streaming at just $0.12/hr vs $2.00/hr legacy interpretation.</div>
                   </div>
                 </div>
               </div>
@@ -204,9 +204,9 @@ export default function ProductSuiteShowcase() {
                       <rect x="48" y="0" width="4" height="24" rx="2" fill="#00D2B4" className="anim-wave-1" />
                     </g>
 
-                    {/* Soniox Engine Core Box */}
+                    {/* Scripra Engine Core Box */}
                     <rect x="120" y="150" width="300" height="60" rx="14" fill="#111827" />
-                    <text x="270" y="176" textAnchor="middle" fontSize="12" fontFamily="monospace" fontWeight="bold" fill="#00E5C4">⚡ SONIOX POLYGLOT ACOUSTIC CORE</text>
+                    <text x="270" y="176" textAnchor="middle" fontSize="12" fontFamily="monospace" fontWeight="bold" fill="#00E5C4">⚡ SCRIPRA POLYGLOT ACOUSTIC CORE</text>
                     <text x="270" y="194" textAnchor="middle" fontSize="10" fill="#9CA3AF">Simultaneous Tokenization · Zero Manual Language Toggle</text>
 
                     {/* Data Stream Paths Downward */}
@@ -247,11 +247,11 @@ export default function ProductSuiteShowcase() {
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-line">
                   <div className="text-[12px] font-mono font-bold text-teal mb-1">02. Code-Switching ASR</div>
-                  <p className="text-[12.5px] text-ink-3">Soniox identifies language switches syllable-by-syllable in real-time RAM.</p>
+                  <p className="text-[12.5px] text-ink-3">Scripra identifies language switches syllable-by-syllable in real-time RAM.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-line">
                   <div className="text-[12px] font-mono font-bold text-teal mb-1">03. Flash Polyglot Synthesis</div>
-                  <p className="text-[12.5px] text-ink-3">Gemini 2.5 Flash aligns contextual translations into target languages.</p>
+                  <p className="text-[12.5px] text-ink-3">Scripra Neural Engine aligns contextual translations into target languages.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-line">
                   <div className="text-[12px] font-mono font-bold text-teal mb-1">04. Synchronized Overlay</div>
@@ -272,7 +272,7 @@ export default function ProductSuiteShowcase() {
               {/* Text Description */}
               <div className="lg:col-span-6 space-y-6">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-amber-wash border border-amber/30 text-amber-deep text-[11px] font-mono font-bold uppercase tracking-wider">
-                  <span>⚡ Deepgram Sub-300ms Real-Time HUD</span>
+                  <span>⚡ Sub-300ms Real-Time HUD</span>
                 </div>
                 <h3 className="text-[28px] sm:text-[36px] font-black text-ink tracking-tight leading-tight">
                   Scripra DealCloser: Real-Time Sales Whisper AI &amp; In-Call Battlecards
@@ -335,7 +335,7 @@ export default function ProductSuiteShowcase() {
                     <text x="76" y="67" fontSize="12.5" fontWeight="600" fill="#111827">&quot;We like Scripra, but Gong is giving us a 20% discount on annual seats...&quot;</text>
                     <text x="76" y="85" fontSize="10" fontFamily="monospace" fill="#E14B5A">🚨 [OBJECTION DETECTED: PRICING + COMPETITOR &apos;GONG&apos;]</text>
 
-                    {/* Deepgram Lightning Fast Radar Line */}
+                    {/* Scripra Lightning Fast Radar Line */}
                     <path d="M270 98 L270 130" stroke="#F5A020" strokeWidth="2.5" strokeDasharray="4 4" className="anim-data-flow" />
 
                     {/* Radar Pulse Circle */}
@@ -382,7 +382,7 @@ export default function ProductSuiteShowcase() {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="p-4 rounded-2xl bg-card border border-line">
                   <div className="text-[12px] font-mono font-bold text-amber-deep mb-1">01. Sub-300ms Streaming</div>
-                  <p className="text-[12.5px] text-ink-3">Deepgram delivers instantaneous word tokens directly from the buyer&apos;s speech.</p>
+                  <p className="text-[12.5px] text-ink-3">Scripra delivers instantaneous word tokens directly from the buyer&apos;s speech.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-line">
                   <div className="text-[12px] font-mono font-bold text-amber-deep mb-1">02. Entity &amp; Intent Match</div>
@@ -390,7 +390,7 @@ export default function ProductSuiteShowcase() {
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-line">
                   <div className="text-[12px] font-mono font-bold text-amber-deep mb-1">03. Flash Battlecard Query</div>
-                  <p className="text-[12.5px] text-ink-3">Gemini queries your company&apos;s pricing sheet and competitive playbook in 200ms.</p>
+                  <p className="text-[12.5px] text-ink-3">Scripra queries your company&apos;s pricing sheet and competitive playbook in 200ms.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-line">
                   <div className="text-[12px] font-mono font-bold text-amber-deep mb-1">04. Private Rep HUD</div>
@@ -538,7 +538,7 @@ export default function ProductSuiteShowcase() {
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-line">
                   <div className="text-[12px] font-mono font-bold text-rose mb-1">03. Universal ASR Bus</div>
-                  <p className="text-[12.5px] text-ink-3">Routes all 6 platforms into identical Soniox/Deepgram streams for consistent quality.</p>
+                  <p className="text-[12.5px] text-ink-3">Routes all 6 platforms into identical Scripra Neural Streams for consistent quality.</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-card border border-line">
                   <div className="text-[12px] font-mono font-bold text-rose mb-1">04. Unified Memory Graph</div>
@@ -584,7 +584,7 @@ export default function ProductSuiteShowcase() {
                 </tr>
                 <tr>
                   <td className="py-4 px-4 font-semibold text-ink">Live In-Meeting Sales Whisper AI</td>
-                  <td className="py-4 px-4 font-bold text-teal bg-indigo-wash/10">✓ Yes (Sub-300ms Deepgram)</td>
+                  <td className="py-4 px-4 font-bold text-teal bg-indigo-wash/10">✓ Yes (Sub-300ms Neural HUD)</td>
                   <td className="py-4 px-4 text-rose">❌ None (Post-call only)</td>
                   <td className="py-4 px-4 text-rose">❌ None (Post-call only)</td>
                 </tr>

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "meet-test-1788836836346",
+    "title": "Quarterly Strategy Review",
+    "platform": "Google Meet",
+    "durationMinutes": 35,
+    "createdAt": "2026-09-08T03:07:16.357Z",
+    "segments": [
+      {
+        "id": "seg-1",
+        "speaker": "Antony",
+        "text": "We agreed to deploy the new security hardening by Friday.",
+        "time": "00:10",
+        "confidence": 0.95
+      },
+      {
+        "id": "seg-2",
+        "speaker": "Sarah",
+        "text": "I will review all pull requests and verify zero data retention.",
+        "time": "00:45",
+        "confidence": 0.95
+      }
+    ],
+    "decisions": [
+      "We agreed to deploy the new security hardening by Friday."
+    ],
+    "actionItems": [
+      {
+        "task": "I will review all pull requests and verify zero data retention.",
+        "owner": "Sarah",
+        "deadline": "Upcoming"
+      }
+    ],
+    "summary": "Meeting commenced with discussion on: \"We agreed to deploy the new security hardening by Friday....\""
+  },
+  {
+    "id": "meet-test-1788836825869",
+    "title": "Quarterly Strategy Review",
+    "platform": "Google Meet",
+    "durationMinutes": 35,
+    "createdAt": "2026-09-08T03:07:05.891Z",
+    "segments": [
+      {
+        "id": "seg-1",
+        "speaker": "Antony",
+        "text": "We agreed to deploy the new security hardening by Friday.",
+        "time": "00:10",
+        "confidence": 0.95
+      },
+      {
+        "id": "seg-2",
+        "speaker": "Sarah",
+        "text": "I will review all pull requests and verify zero data retention.",
+        "time": "00:45",
+        "confidence": 0.95
+      }
+    ],
+    "decisions": [
+      "We agreed to deploy the new security hardening by Friday."
+    ],
+    "actionItems": [
+      {
+        "task": "I will review all pull requests and verify zero data retention.",
+        "owner": "Sarah",
+        "deadline": "Upcoming"
+      }
+    ],
+    "summary": "Meeting commenced with discussion on: \"We agreed to deploy the new security hardening by Friday....\""
+  },
+  {
+    "id": "meet-test-1788835749151",
+    "title": "Quarterly Strategy Review",
+    "platform": "Google Meet",
+    "durationMinutes": 35,
+    "createdAt": "2026-09-08T02:49:09.167Z",
+    "segments": [
+      {
+        "id": "seg-1",
+        "speaker": "Antony",
+        "text": "We agreed to deploy the new security hardening by Friday.",
+        "time": "00:10",
+        "confidence": 0.95
+      },
+      {
+        "id": "seg-2",
+        "speaker": "Sarah",
+        "text": "I will review all pull requests and verify zero data retention.",
+        "time": "00:45",
+        "confidence": 0.95
+      }
+    ],
+    "decisions": [
+      "We agreed to deploy the new security hardening by Friday."
+    ],
+    "actionItems": [
+      {
+        "task": "I will review all pull requests and verify zero data retention.",
+        "owner": "Sarah",
+        "deadline": "Upcoming"
+      }
+    ],
+    "summary": "Meeting commenced with discussion on: \"We agreed to deploy the new security hardening by Friday....\""
+  }
+]

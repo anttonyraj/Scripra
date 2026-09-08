@@ -86,6 +86,16 @@ export default function DemoPage() {
         };
       }
     }
+
+    return () => {
+      manuallyStoppedRef.current = true;
+      if (recognitionRef.current) {
+        recognitionRef.current.onend = null;
+        try {
+          recognitionRef.current.abort();
+        } catch (e) {}
+      }
+    };
   }, []);
 
   const handleStart = () => {

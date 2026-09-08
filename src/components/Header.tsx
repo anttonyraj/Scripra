@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import Logo from "./Logo";
+import ThemeToggle from "./ThemeToggle";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -272,11 +273,13 @@ export default function Header() {
           </div>
         </nav>
 
-        {/* CTA Actions */}
-        <div className="flex items-center gap-2 pl-4 pr-1 border-l border-line/50 ml-2">
+        {/* CTA Actions & Theme Toggle */}
+        <div className="flex items-center gap-2 pl-3 pr-1 border-l border-line/50 ml-2">
+          <ThemeToggle />
+
           <Link
             href="/dashboard"
-            className="hidden md:inline-flex items-center gap-1.5 text-[12.5px] font-semibold px-3 py-1.5 rounded-full bg-indigo-wash text-indigo hover:bg-indigo hover:text-white transition-all"
+            className="hidden md:inline-flex items-center gap-1.5 text-[12.5px] font-semibold px-3 py-1.5 rounded-full bg-indigo-wash text-indigo hover:bg-indigo hover:text-white transition-all ml-1"
           >
             <span>App</span>
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -310,7 +313,7 @@ export default function Header() {
               </button>
               <button
                 onClick={() => signIn("google")}
-                className="inline-flex relative items-center justify-center text-[13.5px] font-semibold px-5 py-2 rounded-xl bg-indigo text-white hover:bg-indigo-deep transition-all shadow-sm active:scale-[0.99]"
+                className="inline-flex relative items-center justify-center text-[13.5px] font-semibold px-4 py-2 rounded-xl bg-indigo text-white hover:bg-indigo-deep transition-all shadow-sm active:scale-[0.99]"
               >
                 Sign Up
               </button>

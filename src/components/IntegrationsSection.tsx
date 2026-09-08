@@ -30,8 +30,8 @@ export default function IntegrationsSection() {
         {/* Section Header with Crisp Definition */}
         <div className="text-center max-w-[760px] mx-auto mb-16 sm:mb-20">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-wash text-indigo text-[11px] font-bold tracking-[0.15em] uppercase border border-indigo/20 mb-4">
-            <span className="w-2 h-2 rounded-full bg-indigo" />
-            Stage 05 · Bi-Directional Workflow Sync
+            <span className="w-2 h-2 rounded-full bg-indigo animate-pulse" />
+            Stage 04 · Bi-Directional Workflow Sync
           </div>
           <h2 className="text-[clamp(32px,4.5vw,52px)] font-black tracking-[-0.03em] text-ink leading-[1.1] mb-5">
             Conversations happen everywhere. <br className="hidden sm:inline" />
@@ -114,20 +114,66 @@ export default function IntegrationsSection() {
             />
           </div>
 
-          {/* Flow Lines (SVG) */}
+          {/* Futuristic Flow Lines (SVG with Animated Packets) */}
           <div className="absolute inset-0 z-0 pointer-events-none">
             <svg className="w-full h-full" viewBox="0 0 920 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* Incoming Lines from 4 Supported Platforms */}
-              <path d="M 230 60 C 340 60, 340 240, 420 240" stroke="currentColor" className="text-teal/40" strokeWidth="2" strokeDasharray="5 5" />
-              <path d="M 230 180 C 340 180, 340 240, 420 240" stroke="currentColor" className="text-teal/40" strokeWidth="2" strokeDasharray="5 5" />
-              <path d="M 230 300 C 340 300, 340 240, 420 240" stroke="currentColor" className="text-teal/40" strokeWidth="2" strokeDasharray="5 5" />
-              <path d="M 230 420 C 340 420, 340 240, 420 240" stroke="currentColor" className="text-teal/40" strokeWidth="2" strokeDasharray="5 5" />
+              <defs>
+                <linearGradient id="inFlowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#00D2B4" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#4353FF" stopOpacity="0.8" />
+                </linearGradient>
+                <linearGradient id="outFlowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#4353FF" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#F5A020" stopOpacity="0.6" />
+                </linearGradient>
+                <filter id="glowPacket" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="2.5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
 
-              {/* Outgoing Lines to Future & Work Hubs */}
-              <path d="M 500 240 C 580 240, 580 60, 690 60" stroke="currentColor" className="text-amber/40" strokeWidth="2" strokeDasharray="5 5" />
-              <path d="M 500 240 C 580 240, 580 180, 690 180" stroke="currentColor" className="text-amber/40" strokeWidth="2" strokeDasharray="5 5" />
-              <path d="M 500 240 C 580 240, 580 300, 690 300" stroke="currentColor" className="text-amber/40" strokeWidth="2" strokeDasharray="5 5" />
-              <path d="M 500 240 C 580 240, 580 420, 690 420" stroke="currentColor" className="text-amber/40" strokeWidth="2" strokeDasharray="5 5" />
+              {/* Incoming Conduits from 4 Supported Platforms */}
+              <path id="path-in-1" d="M 230 60 C 340 60, 340 240, 420 240" stroke="url(#inFlowGrad)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_2.5s_linear_infinite]" />
+              <path id="path-in-2" d="M 230 180 C 340 180, 340 240, 420 240" stroke="url(#inFlowGrad)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_2.5s_linear_infinite]" />
+              <path id="path-in-3" d="M 230 300 C 340 300, 340 240, 420 240" stroke="url(#inFlowGrad)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_2.5s_linear_infinite]" />
+              <path id="path-in-4" d="M 230 420 C 340 420, 340 240, 420 240" stroke="url(#inFlowGrad)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_2.5s_linear_infinite]" />
+
+              {/* Outgoing Conduits to Work Hubs */}
+              <path id="path-out-1" d="M 500 240 C 580 240, 580 60, 690 60" stroke="url(#outFlowGrad)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_2.5s_linear_infinite]" />
+              <path id="path-out-2" d="M 500 240 C 580 240, 580 180, 690 180" stroke="url(#outFlowGrad)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_2.5s_linear_infinite]" />
+              <path id="path-out-3" d="M 500 240 C 580 240, 580 300, 690 300" stroke="url(#outFlowGrad)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_2.5s_linear_infinite]" />
+              <path id="path-out-4" d="M 500 240 C 580 240, 580 420, 690 420" stroke="url(#outFlowGrad)" strokeWidth="2" strokeDasharray="6 6" className="animate-[dash_2.5s_linear_infinite]" />
+
+              {/* Flying Data Packet Particles (Incoming) */}
+              <circle r="3.5" fill="#00D2B4" filter="url(#glowPacket)">
+                <animateMotion dur="2.2s" repeatCount="indefinite" path="M 230 60 C 340 60, 340 240, 420 240" />
+              </circle>
+              <circle r="3.5" fill="#00BC70" filter="url(#glowPacket)">
+                <animateMotion dur="2.6s" repeatCount="indefinite" path="M 230 180 C 340 180, 340 240, 420 240" />
+              </circle>
+              <circle r="3.5" fill="#0B5CFF" filter="url(#glowPacket)">
+                <animateMotion dur="2.4s" repeatCount="indefinite" path="M 230 300 C 340 300, 340 240, 420 240" />
+              </circle>
+              <circle r="3.5" fill="#00AC47" filter="url(#glowPacket)">
+                <animateMotion dur="2.8s" repeatCount="indefinite" path="M 230 420 C 340 420, 340 240, 420 240" />
+              </circle>
+
+              {/* Flying Data Packet Particles (Outgoing) */}
+              <circle r="3.5" fill="#E01E5A" filter="url(#glowPacket)">
+                <animateMotion dur="2.5s" repeatCount="indefinite" path="M 500 240 C 580 240, 580 60, 690 60" />
+              </circle>
+              <circle r="3.5" fill="#5865F2" filter="url(#glowPacket)">
+                <animateMotion dur="2.7s" repeatCount="indefinite" path="M 500 240 C 580 240, 580 180, 690 180" />
+              </circle>
+              <circle r="3.5" fill="#F59E0B" filter="url(#glowPacket)">
+                <animateMotion dur="2.3s" repeatCount="indefinite" path="M 500 240 C 580 240, 580 300, 690 300" />
+              </circle>
+              <circle r="3.5" fill="#00A1E0" filter="url(#glowPacket)">
+                <animateMotion dur="2.9s" repeatCount="indefinite" path="M 500 240 C 580 240, 580 420, 690 420" />
+              </circle>
             </svg>
           </div>
 

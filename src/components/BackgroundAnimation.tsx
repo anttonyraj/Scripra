@@ -37,14 +37,14 @@ export default function BackgroundAnimation() {
   }, []);
 
   const streamItems = [
-    { text: "AI_INTELLIGENCE", top: "22%", delay: "3s", duration: "24s", color: "var(--teal)" },
-    { text: "VOICE_RECOGNITION", top: "42%", delay: "9s", duration: "27s", color: "var(--indigo)" },
-    { text: "DATA_PARSING", top: "62%", delay: "15s", duration: "31s", color: "var(--indigo)" },
-    { text: "CONTEXT_MEMORY", top: "32%", delay: "6s", duration: "29s", color: "var(--indigo)" },
-    { text: "ACTION_ITEMS", top: "74%", delay: "20s", duration: "25s", color: "var(--amber)" },
-    { text: "SEMANTIC_SEARCH", top: "14%", delay: "12s", duration: "28s", color: "var(--teal)" },
-    { text: "DECISION_GRAPH", top: "52%", delay: "18s", duration: "30s", color: "var(--indigo)" },
-    { text: "CROSS_MEETING_MEMORY", top: "84%", delay: "23s", duration: "26s", color: "var(--indigo)" },
+    { text: "AI_INTELLIGENCE", top: "18%", delay: "0.5s", duration: "18s", color: "var(--teal)" },
+    { text: "VOICE_RECOGNITION", top: "36%", delay: "2.5s", duration: "20s", color: "var(--indigo)" },
+    { text: "DATA_PARSING", top: "56%", delay: "5s", duration: "22s", color: "var(--indigo)" },
+    { text: "CONTEXT_MEMORY", top: "28%", delay: "1.5s", duration: "19s", color: "var(--indigo)" },
+    { text: "ACTION_ITEMS", top: "72%", delay: "3.5s", duration: "18s", color: "var(--amber)" },
+    { text: "SEMANTIC_SEARCH", top: "12%", delay: "1s", duration: "21s", color: "var(--teal)" },
+    { text: "DECISION_GRAPH", top: "46%", delay: "4s", duration: "20s", color: "var(--indigo)" },
+    { text: "CROSS_MEETING_MEMORY", top: "82%", delay: "6s", duration: "19s", color: "var(--indigo)" },
   ];
 
   return (
@@ -64,9 +64,9 @@ export default function BackgroundAnimation() {
         }
         @keyframes flow-stream {
           0% { transform: translateX(0); opacity: 0; }
-          8% { opacity: 0.85; }
+          6% { opacity: 0.85; }
           90% { opacity: 0.85; }
-          100% { transform: translateX(88vw); opacity: 0; }
+          100% { transform: translateX(92vw); opacity: 0; }
         }
       `,
         }}
@@ -147,8 +147,43 @@ export default function BackgroundAnimation() {
             </defs>
           </svg>
 
-          {/* 5. Minimal Ambient Drifting Particles */}
+          {/* 5. Flowing Semantic Text Streams (Left to Right) */}
           <div className="absolute inset-0 z-20 pointer-events-none">
+            {streamItems.map((item, i) => (
+              <div
+                key={`stream-text-${i}`}
+                className="absolute left-[2%] flex items-center gap-2.5 whitespace-nowrap opacity-0"
+                style={{
+                  top: item.top,
+                  animation: `flow-stream ${item.duration} linear infinite both`,
+                  animationDelay: item.delay,
+                }}
+              >
+                {/* Glowing Leading Dot Particle */}
+                <span
+                  className="relative flex h-2 w-2 shrink-0 rounded-full"
+                  style={{
+                    backgroundColor: item.color,
+                    boxShadow: `0 0 10px ${item.color}`,
+                  }}
+                >
+                  <span
+                    className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
+                    style={{ backgroundColor: item.color }}
+                  />
+                </span>
+
+                {/* Integrated Semantic Text Label */}
+                <span
+                  className="font-mono text-[11px] lg:text-[12.5px] tracking-[0.2em] font-semibold drop-shadow-sm select-none"
+                  style={{ color: item.color }}
+                >
+                  {item.text}
+                </span>
+              </div>
+            ))}
+
+            {/* Ambient Drifting Particles */}
             {[...Array(12)].map((_, i) => {
               const colors = ["var(--indigo)", "var(--teal)", "var(--amber)"];
               const color = colors[i % colors.length];

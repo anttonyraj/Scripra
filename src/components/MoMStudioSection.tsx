@@ -15,6 +15,7 @@ interface MeetingTemplate {
 export default function MoMStudioSection() {
   const [activeTab, setActiveTab] = useState(0);
   const [synced, setSynced] = useState<Record<number, boolean>>({});
+  const [viewMode, setViewMode] = useState<"studio" | "visual">("studio");
 
   const templates: MeetingTemplate[] = [
     {
@@ -25,7 +26,7 @@ export default function MoMStudioSection() {
       summary:
         "The team agreed to ship the core Webex and Teams live audio diarization pipelines this Friday. Antony will lead production verification on Thursday, while Sarah coordinates user feedback loops.",
       decisions: [
-        "Deploy Gemini 2.0 Flash audio processing directly to edge runtimes for <300ms transcription latency.",
+        "Deploy Scripra Neural audio processing directly to edge runtimes for <300ms transcription latency.",
         "Delay secondary billing tier rollout until security audit closes on the 24th.",
       ],
       tasks: [
@@ -133,11 +134,204 @@ export default function MoMStudioSection() {
               </h3>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="text-[12px] font-mono text-teal bg-teal-wash px-3 py-1.5 rounded-lg border border-teal/25 font-bold flex items-center gap-1.5">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1 p-1 bg-raise border border-line rounded-lg">
+                <button
+                  onClick={() => setViewMode("studio")}
+                  className={`px-2.5 py-1 rounded text-[11px] font-bold font-mono transition-all ${
+                    viewMode === "studio"
+                      ? "bg-card text-ink shadow-xs"
+                      : "text-ink-3 hover:text-ink"
+                  }`}
+                >
+                  📑 Studio View
+                </button>
+                <button
+                  onClick={() => setViewMode("visual")}
+                  className={`px-2.5 py-1 rounded text-[11px] font-bold font-mono transition-all ${
+                    viewMode === "visual"
+                      ? "bg-indigo text-white shadow-xs"
+                      : "text-ink-3 hover:text-ink"
+                  }`}
+                >
+                  ✨ 3D Executive Console
+                </button>
+              </div>
+
+              <span className="hidden sm:flex text-[12px] font-mono text-teal bg-teal-wash px-3 py-1.5 rounded-lg border border-teal/25 font-bold items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-teal animate-pulse" />
-                Gemini Flash Synthesized
+                Scripra Synthesized
               </span>
+            </div>
+          </div>
+
+          {/* 3D Visual View Mode */}
+          {viewMode === "visual" ? (
+            <div className="mb-8 relative rounded-2xl overflow-hidden border-2 border-indigo/40 shadow-xl group">
+              <img
+                src="/images/concept-mom-studio.jpg"
+                alt="Scripra Executive MoM Studio & Decision Engine"
+                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.01]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#070A12]/80 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between p-3 rounded-xl bg-[#090D1A]/90 border border-indigo/30 backdrop-blur-md text-white text-[11px] font-mono">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-amber animate-ping" />
+                  <span className="text-amber font-bold">Executive Decision Log &amp; Multi-Tool Dispatch Active</span>
+                </div>
+                <span className="text-teal font-semibold">Slack · Jira · Linear · Notion</span>
+              </div>
+            </div>
+          ) : null}
+
+          {/* Futuristic SVG Neural Synthesis Engine Graphic */}
+          <div className="mb-8 p-4 rounded-2xl bg-[#090D1A] border border-indigo/30 relative overflow-hidden shadow-inner">
+            <div
+              className="absolute inset-0 opacity-15 pointer-events-none"
+              style={{
+                backgroundImage: "linear-gradient(to right, #4353FF 1px, transparent 1px), linear-gradient(to bottom, #4353FF 1px, transparent 1px)",
+                backgroundSize: "16px 16px",
+              }}
+            />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between text-[11px] font-mono text-white/70 mb-2 pb-2 border-b border-white/10">
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-teal animate-pulse" />
+                  <strong className="text-teal font-bold uppercase tracking-wider">Neural Synthesis Pipeline</strong>
+                </span>
+                <span className="text-indigo-lift">Voice Audio → Structured MoM Tokens &amp; Actions</span>
+              </div>
+
+              <div className="w-full h-24 sm:h-28 flex items-center justify-center">
+                <svg viewBox="0 0 800 100" className="w-full h-full overflow-visible">
+                  <defs>
+                    <linearGradient id="synthGradLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#00D2B4" stopOpacity="0.3" />
+                      <stop offset="100%" stopColor="#4353FF" stopOpacity="1" />
+                    </linearGradient>
+                    <linearGradient id="synthGradRight1" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#4353FF" stopOpacity="1" />
+                      <stop offset="100%" stopColor="#707EFF" stopOpacity="0.9" />
+                    </linearGradient>
+                    <linearGradient id="synthGradRight2" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#4353FF" stopOpacity="1" />
+                      <stop offset="100%" stopColor="#00D2B4" stopOpacity="0.9" />
+                    </linearGradient>
+                    <linearGradient id="synthGradRight3" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#4353FF" stopOpacity="1" />
+                      <stop offset="100%" stopColor="#F5A020" stopOpacity="0.9" />
+                    </linearGradient>
+                    <filter id="synthGlow" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="2.5" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Incoming Raw Voice Waves */}
+                  <path
+                    d="M 20 50 Q 80 15, 140 50 T 260 50 T 380 50"
+                    fill="none"
+                    stroke="url(#synthGradLeft)"
+                    strokeWidth="2.2"
+                    strokeDasharray="6 4"
+                    className="animate-[dash_2s_linear_infinite]"
+                  />
+                  <path
+                    d="M 20 50 Q 80 85, 140 50 T 260 50 T 380 50"
+                    fill="none"
+                    stroke="#00D2B4"
+                    strokeWidth="1.2"
+                    opacity="0.4"
+                    strokeDasharray="4 4"
+                    className="animate-[dash_3s_linear_infinite_reverse]"
+                  />
+
+                  {/* Left Label */}
+                  <text x="60" y="80" fill="#00D2B4" fontSize="10" fontFamily="monospace" fontWeight="bold">
+                    RAW VOICE STREAM
+                  </text>
+
+                  {/* Central Neural Synthesis Node */}
+                  <g transform="translate(400, 50)">
+                    {/* Pulsing Aura */}
+                    <circle r="26" fill="none" stroke="#4353FF" strokeWidth="1.5" opacity="0.4" className="animate-ping" />
+                    <circle r="22" fill="#0F172A" stroke="#707EFF" strokeWidth="2" filter="url(#synthGlow)" />
+                    <circle r="12" fill="#4353FF" opacity="0.8" />
+                    <circle r="5" fill="#FFFFFF" />
+                    <text x="0" y="-28" fill="#FFFFFF" fontSize="9" textAnchor="middle" fontFamily="monospace" fontWeight="bold">
+                      SCRIPRA SLM CORE
+                    </text>
+                    <text x="0" y="38" fill="#00D2B4" fontSize="8.5" textAnchor="middle" fontFamily="monospace">
+                      &lt;280ms
+                    </text>
+                  </g>
+
+                  {/* Outgoing Conduits */}
+                  <path
+                    id="mom-out-1"
+                    d="M 425 45 C 500 45, 540 25, 620 25"
+                    fill="none"
+                    stroke="url(#synthGradRight1)"
+                    strokeWidth="2"
+                    strokeDasharray="5 5"
+                    className="animate-[dash_2s_linear_infinite]"
+                  />
+                  <path
+                    id="mom-out-2"
+                    d="M 425 50 C 500 50, 540 50, 620 50"
+                    fill="none"
+                    stroke="url(#synthGradRight2)"
+                    strokeWidth="2"
+                    strokeDasharray="5 5"
+                    className="animate-[dash_2s_linear_infinite]"
+                  />
+                  <path
+                    id="mom-out-3"
+                    d="M 425 55 C 500 55, 540 75, 620 75"
+                    fill="none"
+                    stroke="url(#synthGradRight3)"
+                    strokeWidth="2"
+                    strokeDasharray="5 5"
+                    className="animate-[dash_2s_linear_infinite]"
+                  />
+
+                  {/* Gliding Structured Tokens / Packets */}
+                  <circle r="3.5" fill="#707EFF" filter="url(#synthGlow)">
+                    <animateMotion dur="1.8s" repeatCount="indefinite" path="M 425 45 C 500 45, 540 25, 620 25" />
+                  </circle>
+                  <circle r="3.5" fill="#00D2B4" filter="url(#synthGlow)">
+                    <animateMotion dur="2.1s" repeatCount="indefinite" path="M 425 50 C 500 50, 540 50, 620 50" />
+                  </circle>
+                  <circle r="3.5" fill="#F5A020" filter="url(#synthGlow)">
+                    <animateMotion dur="2.4s" repeatCount="indefinite" path="M 425 55 C 500 55, 540 75, 620 75" />
+                  </circle>
+
+                  {/* Output Node Tokens */}
+                  <g transform="translate(620, 25)">
+                    <rect x="0" y="-11" width="150" height="22" rx="6" fill="#1E1B4B" stroke="#707EFF" strokeWidth="1.2" />
+                    <text x="12" y="4" fill="#C7D2FE" fontSize="9.5" fontFamily="sans-serif" fontWeight="bold">
+                      📑 Executive Summary
+                    </text>
+                  </g>
+
+                  <g transform="translate(620, 50)">
+                    <rect x="0" y="-11" width="150" height="22" rx="6" fill="#064E3B" stroke="#00D2B4" strokeWidth="1.2" />
+                    <text x="12" y="4" fill="#A7F3D0" fontSize="9.5" fontFamily="sans-serif" fontWeight="bold">
+                      ✓ Key Decisions Agreed
+                    </text>
+                  </g>
+
+                  <g transform="translate(620, 75)">
+                    <rect x="0" y="-11" width="150" height="22" rx="6" fill="#451A03" stroke="#F5A020" strokeWidth="1.2" />
+                    <text x="12" y="4" fill="#FDE68A" fontSize="9.5" fontFamily="sans-serif" fontWeight="bold">
+                      ⚡ Action Commitments
+                    </text>
+                  </g>
+                </svg>
+              </div>
             </div>
           </div>
 

@@ -84,7 +84,7 @@ export default function InvestorsSection() {
     {
       name: "AI Engine & Diarization Latency",
       category: "AI Engine",
-      scripra: "Gemini 2.0 Flash (<300ms)",
+      scripra: "Proprietary Edge Diarization (<300ms)",
       fathom: "GPT-4o mini",
       otter: "Proprietary STT",
       fireflies: "GPT-4o",
@@ -141,7 +141,7 @@ export default function InvestorsSection() {
       category: "Unit Economics",
       question: "What are the gross margins and unit economics on real-time audio intelligence?",
       answer:
-        "By leveraging client-side diarization, selective audio tokenization, and sub-300ms multimodal inference (Gemini 2.0 Flash), Scripra achieves an industry-leading compute cost profile of under $0.015 per meeting hour. Compared to legacy tools paying $0.20+ to legacy speech-to-text engines, Scripra operates at 85%+ software gross margins while offering a superior viral free tier.",
+        "By leveraging client-side diarization, selective audio tokenization, and sub-300ms multimodal inference (Scripra Edge Neural Model), Scripra achieves an industry-leading compute cost profile of under $0.015 per meeting hour. Compared to legacy tools paying $0.20+ to legacy speech-to-text engines, Scripra operates at 85%+ software gross margins while offering a superior viral free tier.",
     },
     {
       category: "Go-To-Market & PLG",
@@ -157,13 +157,38 @@ export default function InvestorsSection() {
     },
   ];
 
-  const handleDeckSubmit = (e: React.FormEvent) => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleDeckSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!investorEmail) return;
+    if (!investorEmail || !investorEmail.includes("@")) return;
     setRequestStatus("submitting");
-    setTimeout(() => {
-      setRequestStatus("success");
-    }, 800);
+    setErrorMessage(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: investorFund.trim() ? `Investor (${investorFund.trim()})` : "Prospective Investor",
+          email: investorEmail.trim(),
+          topic: "Investor Diligence Memo & Deck Request",
+          message: `Confidential investor materials requested by ${investorEmail.trim()} (Fund/Entity: ${investorFund.trim() || "Independent/Angel"}). Requesting Seed/Series A confidential memo, cap table, and unit economics review.`,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setRequestStatus("success");
+      } else {
+        setRequestStatus("idle");
+        setErrorMessage(data.error || "Failed to transmit request.");
+      }
+    } catch (err: any) {
+      console.error("[Investor Request Error]", err);
+      setRequestStatus("idle");
+      setErrorMessage("Network error connecting to server. Please try again.");
+    }
   };
 
   return (
@@ -237,7 +262,7 @@ export default function InvestorsSection() {
               <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-indigo mb-1">Unit Economics</div>
               <h3 className="text-[17px] font-bold text-ink mb-2">85%+ Software Gross Margins</h3>
               <p className="text-[13.5px] text-ink-3 leading-relaxed">
-                By bypassing expensive legacy STT pipelines in favor of client-side diarization and ultra-efficient Gemini 2.0 Flash inference, compute cost is dropped to under $0.015/hour.
+                By bypassing expensive legacy STT pipelines in favor of client-side diarization and ultra-efficient edge neural inference, compute cost is dropped to under $0.015/hour.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-line/60 flex items-center justify-between text-[11.5px] font-mono text-ink-3">
@@ -557,6 +582,12 @@ export default function InvestorsSection() {
                         className="w-full px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-[14px] placeholder-white/40 focus:outline-none focus:border-indigo"
                       />
                     </div>
+
+                    {errorMessage && (
+                      <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-[12.5px] leading-snug">
+                        {errorMessage}
+                      </div>
+                    )}
 
                     <button
                       type="submit"

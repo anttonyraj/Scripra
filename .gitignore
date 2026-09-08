@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/bot-worker/node_modules/
+**/.test-bot-profile/
 /.pnp
 .pnp.*
 .yarn/*
@@ -22,6 +24,7 @@
 
 # misc
 .DS_Store
+.vscode/
 *.pem
 
 # debug

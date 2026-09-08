@@ -70,7 +70,7 @@ export default function CompetitorComparisonSection() {
     {
       name: "AI Engine & Diarization Latency",
       category: "AI Engine",
-      scripra: "Gemini 2.0 Flash (<300ms)",
+      scripra: "Proprietary Edge Diarization (<300ms)",
       fathom: "GPT-4o mini",
       otter: "Proprietary STT",
       fireflies: "GPT-4o",
@@ -110,8 +110,8 @@ export default function CompetitorComparisonSection() {
         {/* Section Header */}
         <div className="text-center max-w-[760px] mx-auto mb-16 sm:mb-20">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-wash text-teal text-[11px] font-bold tracking-[0.15em] uppercase border border-teal/25 mb-4">
-            <span className="w-2 h-2 rounded-full bg-teal" />
-            Competitive Benchmark · 2026
+            <span className="w-2 h-2 rounded-full bg-teal animate-pulse" />
+            Stage 04 · Competitive Edge &amp; Benchmark
           </div>
           <h2 className="text-[clamp(32px,4.5vw,52px)] font-black tracking-[-0.03em] text-ink leading-[1.1] mb-5">
             How Scripra compares <br className="hidden sm:inline" />
@@ -240,9 +240,17 @@ export default function CompetitorComparisonSection() {
 
           {/* Table Footer Banner */}
           <div className="p-6 bg-raise/60 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2 text-[13px] text-ink-2">
+            <div className="flex flex-col sm:flex-row items-center gap-3 text-[13px] text-ink-2">
               <span className="text-teal font-bold">★</span>
               <span>Ready to upgrade your conversation intelligence workflow?</span>
+              <span className="hidden sm:inline text-line-hi">|</span>
+              <Link
+                href="/investors"
+                className="text-[12px] font-mono text-indigo hover:underline flex items-center gap-1"
+              >
+                <span>Institutional Thesis &amp; Cap Table</span>
+                <span>↗</span>
+              </Link>
             </div>
             <div className="flex items-center gap-3">
               <Link

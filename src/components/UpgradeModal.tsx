@@ -30,16 +30,16 @@ export default function UpgradeModal() {
 
   const handleCheckout = () => {
     setIsProcessing(true);
-    // Simulating Paddle.Checkout.open() workflow
+    // Simulating sandbox upgrade workflow
     setTimeout(() => {
       setPlan(selectedTier);
       setIsProcessing(false);
-      setSuccessMsg(`Welcome to Scripra ${selectedTier.toUpperCase()}! Your subscription is active.`);
+      setSuccessMsg(`Sandbox ${selectedTier.toUpperCase()} tier activated (Prototype Mode).`);
       setTimeout(() => {
         setSuccessMsg(null);
         closeUpgradeModal();
       }, 1500);
-    }, 1000);
+    }, 800);
   };
 
   return (
@@ -150,11 +150,11 @@ export default function UpgradeModal() {
               {isProcessing ? (
                 <>
                   <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Connecting to Paddle Secure Checkout...
+                  Activating Sandbox Tier...
                 </>
               ) : (
                 <>
-                  Subscribe with Paddle — {pricing[selectedTier][billingCycle]}
+                  <span>⚡ Activate {selectedTier.toUpperCase()} Sandbox Mode — {pricing[selectedTier][billingCycle]}</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
@@ -163,12 +163,17 @@ export default function UpgradeModal() {
             </button>
           )}
 
-          {/* Paddle reassurance */}
-          <div className="flex items-center justify-center gap-2 mt-4 text-[11px] text-ink-3">
-            <svg className="w-3.5 h-3.5 text-indigo" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-            <span>Secured by Paddle (Handles global VAT/GST &amp; 190+ currencies)</span>
+          {/* Sandbox reassurance */}
+          <div className="flex flex-col items-center justify-center gap-1 mt-4 text-[11px] text-ink-3 text-center">
+            <div className="flex items-center gap-1.5 font-medium text-ink-2">
+              <svg className="w-3.5 h-3.5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Prototype Sandbox Mode — No credit card required</span>
+            </div>
+            <p className="text-[10px] text-ink-3">
+              Production billing connects to verified webhook handlers via Stripe / Merchant gateways.
+            </p>
           </div>
         </div>
       </div>

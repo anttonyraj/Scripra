@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({
     isInstalled: true,
     installedAt: Date.now(),
-    autoRecordMeet: true
+    autoRecordMeet: true,
   });
 });
 
@@ -21,8 +21,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (request.type === "OPEN_DASHBOARD") {
-    chrome.tabs.create({ url: "http://localhost:3000/dashboard" });
-    sendResponse({ success: true });
+    chrome.storage.sync.get(["scripraAppUrl"], (res) => {
+      const baseUrl = res?.scripraAppUrl ? res.scripraAppUrl.replace(/\/$/, "") : "http://localhost:3000";
+      chrome.tabs.create({ url: `${baseUrl}/dashboard` });
+      sendResponse({ success: true });
+    });
     return true;
   }
 });

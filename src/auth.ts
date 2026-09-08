@@ -40,12 +40,26 @@ providers.push(
   })
 );
 
+const getAuthSecret = () => {
+  const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+  if (secret && secret.trim() !== "") {
+    return secret;
+  }
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "FATAL SECURITY CONFIGURATION: AUTH_SECRET or NEXTAUTH_SECRET environment variable is missing. NextAuth cannot start in production without a verified private secret."
+    );
+  }
+  // Development only fallback warning
+  console.warn(
+    "[Scripra Security Notice] Running in development without AUTH_SECRET. Please configure AUTH_SECRET in .env.local."
+  );
+  return "dev_only_scripra_auth_secret_local_development_environment_key";
+};
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers,
-  secret:
-    process.env.AUTH_SECRET ||
-    process.env.NEXTAUTH_SECRET ||
-    "scripra_production_jwt_secret_key_random_64_characters_fallback_enterprise_2026",
+  secret: getAuthSecret(),
   trustHost: true,
   pages: {
     signIn: "/login",

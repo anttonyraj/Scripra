@@ -82,7 +82,7 @@ export default function SecurityPage() {
     {
       step: "04",
       title: "Isolated Intelligence Synthesis",
-      desc: "Gemini Flash extracts executive MoM, action items, and translations inside isolated enterprise prompts with zero model training.",
+      desc: "Scripra's Neural Engine extracts executive MoM, action items, and translations inside isolated enterprise prompts with zero model training.",
       security: "Zero Training Commitment · Private Endpoints",
     },
     {

@@ -7,11 +7,27 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 
+function getSafeCallbackUrl(raw: string | null): string {
+  if (!raw) return "/dashboard";
+  const trimmed = raw.trim();
+  // Must be an internal path starting with a single '/' and not protocol-relative ('//') or javascript:
+  if (
+    trimmed.startsWith("/") &&
+    !trimmed.startsWith("//") &&
+    !trimmed.startsWith("/\\") &&
+    !trimmed.includes(":") &&
+    !trimmed.includes("\\")
+  ) {
+    return trimmed;
+  }
+  return "/dashboard";
+}
+
 function LoginForm() {
   const { status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = getSafeCallbackUrl(searchParams.get("callbackUrl"));
   const [loading, setLoading] = useState(false);
   const [guestLoading, setGuestLoading] = useState(false);
 

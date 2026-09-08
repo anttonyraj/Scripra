@@ -3,9 +3,9 @@ import Hero from "@/components/Hero";
 import CaptureVisualSection from "@/components/CaptureVisualSection";
 import MoMStudioSection from "@/components/MoMStudioSection";
 import MemoryGraphSection from "@/components/MemoryGraphSection";
-import InvestorsSection from "@/components/InvestorsSection";
+import FuturisticBentoShowcase from "@/components/FuturisticBentoShowcase";
 import IntegrationsSection from "@/components/IntegrationsSection";
-import EnterpriseSection from "@/components/EnterpriseSection";
+import ContactSection from "@/components/ContactSection";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 
@@ -18,9 +18,9 @@ export default function Home() {
         <CaptureVisualSection />
         <MoMStudioSection />
         <MemoryGraphSection />
-        <InvestorsSection />
+        <FuturisticBentoShowcase />
         <IntegrationsSection />
-        <EnterpriseSection />
+        <ContactSection />
         <FinalCTA />
       </main>
       <Footer />
