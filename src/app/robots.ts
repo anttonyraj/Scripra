@@ -18,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://scripra.com/sitemap.xml',
-    host: 'https://scripra.com',
+    sitemap: 'https://www.scripra.com/sitemap.xml',
+    host: 'https://www.scripra.com',
   };
 }
