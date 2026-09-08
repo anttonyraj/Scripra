@@ -28,7 +28,7 @@ export default function PlatformLoop() {
         </div>
 
         {/* Pipeline Mockup UI */}
-        <div className="relative w-full max-w-[900px] mx-auto rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-8 md:p-12 overflow-hidden shadow-sm group mb-20">
+        <div className="relative w-full max-w-[900px] mx-auto rounded-[32px] bg-indigo/[0.03] border border-indigo/10 p-8 md:p-12 overflow-hidden shadow-sm group mb-20">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
           <div className="absolute top-5 left-5 text-[11px] font-mono tracking-[0.2em] text-indigo/50 font-bold pointer-events-none">NEURAL_PIPELINE</div>
           
@@ -47,8 +47,8 @@ export default function PlatformLoop() {
                 </div>
               </div>
               <div className="flex gap-1.5 items-center h-8 overflow-hidden">
-                {[...Array(16)].map((_, i) => (
-                  <div key={i} className="w-1.5 bg-indigo/30 rounded-full animate-pulse" style={{ height: `${Math.max(20, Math.random() * 100)}%`, animationDelay: `${i * 0.15}s` }} />
+                {[35, 65, 80, 45, 90, 70, 40, 85, 95, 60, 30, 75, 50, 85, 40, 60].map((height, i) => (
+                  <div key={i} className="w-1.5 bg-indigo/30 rounded-full animate-pulse" style={{ height: `${height}%`, animationDelay: `${i * 0.15}s` }} />
                 ))}
               </div>
             </div>

@@ -38,7 +38,7 @@ export default function BuiltForYouSection() {
             
             {/* Text Side */}
             <div className="lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
-              <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-[0.04] border border-indigo/10 w-max">
+              <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo/[0.04] border border-indigo/10 w-max">
                 <span className="w-2 h-2 rounded-full bg-indigo" />
                 <span className="text-[11px] font-bold tracking-[0.1em] uppercase text-indigo">Private & Secure</span>
               </div>
@@ -107,12 +107,12 @@ export default function BuiltForYouSection() {
                   {/* Outputs */}
                   <div className="absolute right-[5%] top-[35%] -translate-y-1/2 flex flex-col gap-2 z-10">
                     <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm">
-                      <span className="text-[12px] font-medium text-ink-2">"Send proposal tomorrow..."</span>
+                      <span className="text-[12px] font-medium text-ink-2">&quot;Send proposal tomorrow...&quot;</span>
                     </div>
                   </div>
                   <div className="absolute right-[5%] top-[65%] -translate-y-1/2 flex flex-col gap-2 z-10">
                     <div className="bg-white border border-line rounded-xl px-4 py-3 shadow-sm">
-                      <span className="text-[12px] font-medium text-ink-2">"Compare AWS vs Azure..."</span>
+                      <span className="text-[12px] font-medium text-ink-2">&quot;Compare AWS vs Azure...&quot;</span>
                     </div>
                   </div>
                 </div>
@@ -146,7 +146,7 @@ export default function BuiltForYouSection() {
                   <div className="absolute left-[5%] top-1/2 -translate-y-1/2 flex flex-col gap-2 z-10">
                     <div className="bg-white border border-indigo/30 rounded-full px-4 py-3 shadow-sm flex items-center gap-2">
                       <svg className="w-4 h-4 text-indigo" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                      <span className="text-[12px] font-medium text-ink italic w-[80px]">"pricing"</span>
+                      <span className="text-[12px] font-medium text-ink italic w-[80px]">&quot;pricing&quot;</span>
                     </div>
                   </div>
                   {/* Outputs */}
@@ -173,7 +173,7 @@ export default function BuiltForYouSection() {
             
             {/* Text Side */}
             <div className="lg:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
-              <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-[0.04] border border-teal/10 w-max">
+              <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal/[0.04] border border-teal/10 w-max">
                 <span className="w-2 h-2 rounded-full bg-teal-500" />
                 <span className="text-[11px] font-bold tracking-[0.1em] uppercase text-teal-600">Workspace & SSO</span>
               </div>
@@ -181,7 +181,7 @@ export default function BuiltForYouSection() {
                 For teams
               </h3>
               <p className="text-[18px] text-ink-2 leading-relaxed mb-10">
-                Multiply your team's intelligence. Build a shared knowledge base where everyone stays aligned with extracted tasks and project memory.
+                Multiply your team&apos;s intelligence. Build a shared knowledge base where everyone stays aligned with extracted tasks and project memory.
               </p>
 
               <div className="flex flex-col gap-4 mb-12 text-[15px] font-medium">

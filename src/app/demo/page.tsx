@@ -15,6 +15,7 @@ export default function DemoPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [segments, setSegments] = useState<Segment[]>([]);
   const [interimText, setInterimText] = useState("");
+  const [interimTimestamp, setInterimTimestamp] = useState("");
   const [sourceLang, setSourceLang] = useState("en-US");
   const [targetLang, setTargetLang] = useState("off");
 
@@ -66,6 +67,8 @@ export default function DemoPage() {
               setSegments(prev => [...prev, newSegment]);
             } else {
               currentInterim += transcriptLine;
+              const seconds = Math.floor((Date.now() - (sessionStartRef.current || Date.now())) / 1000);
+              setInterimTimestamp(new Date(seconds * 1000).toISOString().substring(11, 19));
             }
           }
           setInterimText(currentInterim);
@@ -104,11 +107,13 @@ export default function DemoPage() {
     if (recognitionRef.current) recognitionRef.current.stop();
     setIsRecording(false);
     setInterimText("");
+    setInterimTimestamp("");
   };
 
   const handleClear = () => {
     setSegments([]);
     setInterimText("");
+    setInterimTimestamp("");
     sessionStartRef.current = null;
   };
 
@@ -161,7 +166,7 @@ export default function DemoPage() {
               <div className="flex items-start gap-3">
                 <input type="checkbox" defaultChecked className="mt-1 shrink-0 accent-indigo" />
                 <p className="text-[13px] text-ink-2 leading-relaxed">
-                  <strong className="text-ink">Everyone in this meeting knows it's being transcribed.</strong> Recording laws differ by country and state — in many places all parties must agree before you start.
+                  <strong className="text-ink">Everyone in this meeting knows it&apos;s being transcribed.</strong> Recording laws differ by country and state — in many places all parties must agree before you start.
                 </p>
               </div>
             </div>
@@ -250,7 +255,7 @@ export default function DemoPage() {
                     ))}
                     {interimText && (
                       <div className="flex gap-4 pb-4">
-                        <span className="text-indigo/50 font-bold text-[13px] font-mono shrink-0 pt-0.5">[{new Date(Math.floor((Date.now() - (sessionStartRef.current || Date.now())) / 1000) * 1000).toISOString().substring(11, 19)}]</span>
+                        <span className="text-indigo/50 font-bold text-[13px] font-mono shrink-0 pt-0.5">[{interimTimestamp || "00:00:00"}]</span>
                         <span className="text-[15px] text-ink-3 italic leading-relaxed">{interimText}</span>
                       </div>
                     )}

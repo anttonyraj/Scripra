@@ -1,23 +1,28 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ProductSuiteShowcase from "@/components/ProductSuiteShowcase";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Product — Scripra",
-  description: "Learn how Scripra captures, understands, acts, and recalls your conversations.",
+  title: "Products & Intelligence Suite — Scripra",
+  description: "Explore the Scripra product suite: Scripra Global live multilingual translation, DealCloser sales whisper co-pilot, and Omnichannel cross-platform voice bot.",
 };
 
 export default function Product() {
   return (
     <>
       <Header />
-      <main className="pt-32 pb-24">
-        <div className="max-w-[1080px] mx-auto px-6">
+      <main className="pt-28 pb-24 bg-canvas text-ink">
+        {/* The 4 Advanced Speech Intelligence Products */}
+        <ProductSuiteShowcase />
+
+        <div className="max-w-[1080px] mx-auto px-6 mt-16 pt-16 border-t border-line">
           <div className="text-center max-w-[800px] mx-auto mb-20">
-            <h1 className="text-[clamp(36px,5vw,54px)] font-bold tracking-[-0.03em] mb-6">
+            <div className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-indigo mb-3">Underlying Engine</div>
+            <h2 className="text-[clamp(32px,4vw,44px)] font-bold tracking-[-0.03em] mb-4">
               From spoken word to structural intelligence.
-            </h1>
-            <p className="text-[19px] leading-[1.65] text-ink-2">
+            </h2>
+            <p className="text-[17px] leading-[1.65] text-ink-3">
               Scripra is designed to process conversations the way an intelligent observer would—capturing the nuance, extracting the commitments, and organising the history.
             </p>
           </div>
@@ -46,7 +51,7 @@ export default function Product() {
                   </li>
                 </ul>
               </div>
-              <div className="relative rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm group">
+              <div className="relative rounded-[32px] bg-indigo/[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm group">
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
                 <div className="absolute top-4 left-4 text-[10px] font-mono tracking-[0.2em] text-rose/50 font-bold pointer-events-none select-none z-20">RECORDING_ACTIVE</div>
                 
@@ -85,7 +90,7 @@ export default function Product() {
                   <div className="bg-canvas border border-line p-4 rounded-xl">Open questions</div>
                 </div>
               </div>
-              <div className="relative rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm md:order-1 group">
+              <div className="relative rounded-[32px] bg-indigo/[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm md:order-1 group">
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
                 <div className="absolute top-4 left-4 text-[10px] font-mono tracking-[0.2em] text-indigo/50 font-bold pointer-events-none select-none z-20">UNDERSTANDING_ENGINE</div>
                 
@@ -95,21 +100,21 @@ export default function Product() {
                   <div className="flex flex-col gap-3">
                     <div className="flex gap-2">
                       <span className="px-2 py-1 bg-indigo-wash text-indigo rounded text-[10px] font-bold uppercase shadow-sm">Decision</span>
-                      <div className="flex-1 bg-indigo-[0.02] border border-indigo/10 rounded px-3 py-1.5 flex items-center">
+                      <div className="flex-1 bg-indigo/[0.02] border border-indigo/10 rounded px-3 py-1.5 flex items-center">
                         <div className="w-full h-1.5 bg-indigo/20 rounded-full"></div>
                       </div>
                     </div>
                     
                     <div className="flex gap-2">
                       <span className="px-2 py-1 bg-rose-wash text-rose rounded text-[10px] font-bold uppercase shadow-sm">Risk</span>
-                      <div className="flex-1 bg-indigo-[0.02] border border-indigo/10 rounded px-3 py-1.5 flex items-center">
+                      <div className="flex-1 bg-indigo/[0.02] border border-indigo/10 rounded px-3 py-1.5 flex items-center">
                         <div className="w-3/4 h-1.5 bg-rose/30 rounded-full"></div>
                       </div>
                     </div>
                     
                     <div className="flex gap-2">
                       <span className="px-2 py-1 bg-amber-wash text-amber-700 rounded text-[10px] font-bold uppercase shadow-sm">Action</span>
-                      <div className="flex-1 bg-indigo-[0.02] border border-indigo/10 rounded px-3 py-1.5 flex items-center">
+                      <div className="flex-1 bg-indigo/[0.02] border border-indigo/10 rounded px-3 py-1.5 flex items-center">
                         <div className="w-5/6 h-1.5 bg-amber/30 rounded-full"></div>
                       </div>
                     </div>
@@ -143,7 +148,7 @@ export default function Product() {
                   </li>
                 </ul>
               </div>
-              <div className="relative rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm group">
+              <div className="relative rounded-[32px] bg-indigo/[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm group">
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
                 <div className="absolute top-4 left-4 text-[10px] font-mono tracking-[0.2em] text-amber-500/50 font-bold pointer-events-none select-none z-20">ACTION_ROUTING</div>
                 
@@ -153,7 +158,7 @@ export default function Product() {
                     <span className="text-[9px] bg-indigo-wash text-indigo px-1.5 py-0.5 rounded tracking-widest border border-indigo/10">1/3 PENDING</span>
                   </div>
                   
-                  <div className="flex gap-4 items-start bg-indigo-[0.01] p-3 rounded-xl border border-indigo/5">
+                  <div className="flex gap-4 items-start bg-indigo/[0.01] p-3 rounded-xl border border-indigo/5">
                     <div className="w-5 h-5 rounded-md border-2 border-indigo/30 flex-shrink-0 mt-0.5 hover:bg-indigo-wash hover:border-indigo transition-colors cursor-pointer" />
                     <div className="flex-1">
                       <div className="text-[13px] font-semibold text-indigo-deep leading-[1.4] mb-3">
@@ -196,7 +201,7 @@ export default function Product() {
                   </div>
                 </div>
               </div>
-              <div className="relative rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm md:order-1 group min-h-[300px]">
+              <div className="relative rounded-[32px] bg-indigo/[0.03] border border-indigo/10 p-8 flex items-center justify-center overflow-hidden shadow-sm md:order-1 group min-h-[300px]">
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
                 <div className="absolute top-4 left-4 text-[10px] font-mono tracking-[0.2em] text-teal/50 font-bold pointer-events-none select-none z-20">QUERY_ENGINE</div>
                 

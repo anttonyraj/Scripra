@@ -23,10 +23,10 @@ export default function BackgroundAnimation() {
       targetY = e.clientY;
 
       if (spotlightRef1.current) {
-        spotlightRef1.current.style.background = `radial-gradient(800px circle at ${targetX}px ${targetY}px, rgba(91, 92, 240, 0.22), transparent 45%)`;
+        spotlightRef1.current.style.background = `radial-gradient(800px circle at ${targetX}px ${targetY}px, rgba(67, 83, 255, 0.15), transparent 45%)`;
       }
       if (spotlightRef2.current) {
-        spotlightRef2.current.style.background = `radial-gradient(400px circle at ${targetX}px ${targetY}px, rgba(18, 164, 124, 0.12), transparent 45%)`;
+        spotlightRef2.current.style.background = `radial-gradient(400px circle at ${targetX}px ${targetY}px, rgba(0, 210, 180, 0.10), transparent 45%)`;
       }
     };
 
@@ -64,8 +64,8 @@ export default function BackgroundAnimation() {
         }
         @keyframes flow-stream {
           0% { transform: translateX(0); opacity: 0; }
-          8% { opacity: 0.75; }
-          90% { opacity: 0.75; }
+          8% { opacity: 0.85; }
+          90% { opacity: 0.85; }
           100% { transform: translateX(88vw); opacity: 0; }
         }
       `,
@@ -87,10 +87,10 @@ export default function BackgroundAnimation() {
       />
 
       {/* 2. Soft Ambient Color Glows */}
-      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-[var(--indigo)] blur-[140px] rounded-full opacity-[0.12] z-0" />
+      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-[var(--indigo)] blur-[140px] rounded-full opacity-[0.10] z-0" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-[var(--teal)] blur-[140px] rounded-full opacity-[0.08] z-0" />
 
-      {/* Render dynamic elements only after mount to eliminate React SSR hydration mismatches */}
+      {/* Render dynamic elements only after mount */}
       {isMounted && (
         <>
           {/* 3. Left-Side Soundbars (Audio Input Stream) */}
@@ -105,7 +105,7 @@ export default function BackgroundAnimation() {
                 }}
               >
                 <div
-                  className="absolute left-0 top-0 bottom-0 rounded-r-full bg-[var(--indigo)] shadow-[0_0_10px_rgba(91,92,240,0.8)]"
+                  className="absolute left-0 top-0 bottom-0 rounded-r-full bg-[var(--indigo)] shadow-[0_0_10px_rgba(67,83,255,0.7)]"
                   style={{
                     width: "100%",
                     animation: `sound-bar-horizontal ${(3 + getPseudoRandom(i + 10) * 3).toFixed(2)}s ease-in-out infinite alternate`,
@@ -117,8 +117,7 @@ export default function BackgroundAnimation() {
             ))}
           </div>
 
-
-          {/* 4. Converging Flow Lines */}
+          {/* 4. Converging Flow Lines (The wave) */}
           <svg className="absolute inset-0 w-full h-full opacity-40 z-10">
             {[...Array(10)].map((_, i) => {
               const startY = (12 + i * 8.5).toFixed(1);
@@ -148,44 +147,9 @@ export default function BackgroundAnimation() {
             </defs>
           </svg>
 
-          {/* 5. Combined Flowing Streams: Glowing Dot Particle + Connected Text Tag */}
+          {/* 5. Minimal Ambient Drifting Particles */}
           <div className="absolute inset-0 z-20 pointer-events-none">
-            {streamItems.map((item, i) => (
-              <div
-                key={i}
-                className="absolute left-[6%] flex items-center gap-3 whitespace-nowrap opacity-0"
-                style={{
-                  top: item.top,
-                  animation: `flow-stream ${item.duration} linear infinite both`,
-                  animationDelay: item.delay,
-                }}
-              >
-                {/* Glowing Leading Dot Particle */}
-                <span
-                  className="relative flex h-2 w-2 shrink-0 rounded-full"
-                  style={{
-                    backgroundColor: item.color,
-                    boxShadow: `0 0 8px ${item.color}`,
-                  }}
-                >
-                  <span
-                    className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
-                    style={{ backgroundColor: item.color }}
-                  />
-                </span>
-
-                {/* Integrated Semantic Text Label */}
-                <span
-                  className="font-mono text-[11px] lg:text-[13px] tracking-[0.2em] font-light drop-shadow-sm"
-                  style={{ color: item.color }}
-                >
-                  {item.text}
-                </span>
-              </div>
-            ))}
-
-            {/* Supplementary Ambient Drifting Dots attached to the flow */}
-            {[...Array(16)].map((_, i) => {
+            {[...Array(12)].map((_, i) => {
               const colors = ["var(--indigo)", "var(--teal)", "var(--amber)"];
               const color = colors[i % colors.length];
               return (
@@ -194,11 +158,11 @@ export default function BackgroundAnimation() {
                   className="absolute left-[6%] rounded-full opacity-0"
                   style={{
                     top: `${(10 + getPseudoRandom(i + 700) * 80).toFixed(2)}%`,
-                    width: "4px",
-                    height: "4px",
+                    width: "3px",
+                    height: "3px",
                     backgroundColor: color,
-                    boxShadow: `0 0 8px ${color}`,
-                    animation: `flow-stream ${(16 + getPseudoRandom(i + 800) * 16).toFixed(2)}s linear infinite both`,
+                    boxShadow: `0 0 6px ${color}`,
+                    animation: `flow-stream ${(18 + getPseudoRandom(i + 800) * 16).toFixed(2)}s linear infinite both`,
                     animationDelay: `${(getPseudoRandom(i + 900) * 20).toFixed(2)}s`,
                   }}
                 />

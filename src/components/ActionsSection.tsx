@@ -58,7 +58,7 @@ export default function ActionsSection() {
           <div className="order-1 lg:order-2 flex flex-col gap-6">
             
             {/* Actions UI Mockup */}
-            <div className="relative w-full rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-6 md:p-8 overflow-hidden shadow-sm group min-h-[450px]">
+            <div className="relative w-full rounded-[32px] bg-indigo/[0.03] border border-indigo/10 p-6 md:p-8 overflow-hidden shadow-sm group min-h-[450px]">
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
               <div className="absolute top-5 left-5 text-[11px] font-mono tracking-[0.2em] text-amber/50 font-bold pointer-events-none select-none">ACTION_ROUTING</div>
               
@@ -69,11 +69,11 @@ export default function ActionsSection() {
                     <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" /> Extracted Tasks
                   </span>
                   <div className="flex items-center gap-3 transition-opacity duration-300" key={`title-${loopIndex}`}>
-                    <span className="bg-indigo-[0.02] text-indigo px-3 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase border border-indigo/10">{current.title}</span>
+                    <span className="bg-indigo/[0.02] text-indigo px-3 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase border border-indigo/10">{current.title}</span>
                   </div>
                 </div>
                 
-                <div className="p-6 bg-white flex flex-col gap-5 bg-indigo-[0.01]">
+                <div className="p-6 bg-white flex flex-col gap-5 bg-indigo/[0.01]">
                   {current.actions.map((action, idx) => (
                     <div key={`${loopIndex}-${idx}`} className="border border-amber/20 rounded-xl p-5 bg-white shadow-sm hover:border-amber/40 transition-colors relative overflow-hidden animate-[fade-in-up_0.5s_ease-out_forwards]" style={{ animationDelay: `${idx * 200}ms`, opacity: 0 }}>
                       <div className="absolute top-0 left-0 w-1 h-full bg-amber-500" />

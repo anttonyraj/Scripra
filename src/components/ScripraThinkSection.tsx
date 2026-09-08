@@ -53,7 +53,7 @@ export default function ScripraThinkSection() {
         </div>
 
         {/* Right Side: High-Fidelity UI Mockup */}
-        <div className="relative w-full rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-6 lg:p-8 overflow-hidden shadow-sm group">
+        <div className="relative w-full rounded-[32px] bg-indigo/[0.03] border border-indigo/10 p-6 lg:p-8 overflow-hidden shadow-sm group">
           {/* Faint Background Grid */}
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none opacity-50" />
           
@@ -69,7 +69,7 @@ export default function ScripraThinkSection() {
             <div className="flex items-center justify-between px-5 py-4 border-b border-line bg-white backdrop-blur-md relative z-30">
               <div className="flex items-center gap-3">
                 <span className="bg-[#E5E5FC] text-[#4F46E5] px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase border border-indigo/20">Voice Note</span>
-                <span className="text-[#4F46E5]/80 font-medium text-[13px]">Idea Memo · 1m</span>
+                <span className="text-[#4F46E5]/80 font-medium text-[13px]">Idea Memo Â· 1m</span>
               </div>
               <div className={`px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wider uppercase flex items-center gap-2 transition-colors duration-500 ${step === 2 ? 'bg-teal-50 text-teal-700 border border-teal-200' : 'bg-line/50 text-ink-3 border border-transparent'}`}>
                 <span className={`w-2 h-2 rounded-full ${step === 2 ? 'bg-teal-500 animate-pulse' : 'bg-ink-3/50'}`} />
@@ -164,7 +164,7 @@ export default function ScripraThinkSection() {
                 </div>
 
                 {/* Response Area */}
-                <div className="bg-[#FAFAFF] rounded-xl p-5 border border-line">
+                <div className="bg-[#FAFFFE] rounded-xl p-5 border border-line">
                   <p className="text-[#2D2482] text-[13.5px] leading-relaxed font-medium mb-5">
                     Battery life was the main concern when comparing the two laptop options.
                   </p>

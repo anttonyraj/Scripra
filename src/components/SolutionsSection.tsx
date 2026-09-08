@@ -79,7 +79,7 @@ export default function SolutionsSection() {
       setActiveTab((prev) => (prev + 1) % solutions.length);
     }, 4500); // cycle every 4.5 seconds
     return () => clearInterval(timer);
-  }, []);
+  }, [solutions.length]);
 
   const getColors = (colorName: string) => {
     switch (colorName) {

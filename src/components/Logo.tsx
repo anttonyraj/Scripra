@@ -1,167 +1,158 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React from "react";
 import Link from "next/link";
 
 interface LogoProps {
   variant?: "primary" | "inverse";
   className?: string;
-  disableAnimation?: boolean;
+  showTagline?: boolean;
 }
 
-export default function Logo({ variant = "primary", className = "", disableAnimation = false }: LogoProps) {
-  const containerRef = useRef<HTMLAnchorElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const scrambleIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const [tagline, setTagline] = useState("AI CONVERSATION INTELLIGENCE");
-
-  useEffect(() => {
-    if (disableAnimation) return;
-
-    const root = containerRef.current;
-    if (!root) return;
-
-    const playLogo = () => {
-      // Respect prefers-reduced-motion
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-      const lines = root.querySelectorAll<SVGPathElement>(".ln");
-      const s = root.querySelector<SVGPathElement>(".sc");
-      const node = root.querySelector<SVGCircleElement>(".nd");
-
-      if (!s || !node) return;
-
-      lines.forEach((p, i) => {
-        const len = p.getTotalLength();
-        p.style.strokeDasharray = len.toString();
-        p.style.strokeDashoffset = len.toString();
-        p.style.opacity = "1";
-        p.animate(
-          [{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
-          { duration: 420, delay: i * 110, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" }
-        );
-      });
-
-      const hold = lines.length * 110 + 420;
-
-      lines.forEach((p) => {
-        p.animate(
-          [{ opacity: 1 }, { opacity: 0 }],
-          { duration: 340, delay: hold + 180, easing: "ease", fill: "forwards" }
-        );
-      });
-
-      const sLen = s.getTotalLength();
-      s.style.strokeDasharray = sLen.toString();
-      s.style.strokeDashoffset = sLen.toString();
-      s.animate(
-        [{ opacity: 1, strokeDashoffset: sLen }, { opacity: 1, strokeDashoffset: 0 }],
-        { duration: 700, delay: hold + 240, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" }
-      );
-
-      node.animate(
-        [
-          { opacity: 0, transform: "scale(.2)", transformOrigin: "31.5px 31px" },
-          { opacity: 1, transform: "scale(1.5)", offset: 0.6, transformOrigin: "31.5px 31px" },
-          { opacity: 1, transform: "scale(1)", transformOrigin: "31.5px 31px" },
-        ],
-        { duration: 620, delay: hold + 900, easing: "cubic-bezier(.34,1.5,.5,1)", fill: "forwards" }
-      );
-
-      timeoutRef.current = setTimeout(playLogo, 4000);
-    };
-
-    // Play on mount
-    playLogo();
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [disableAnimation]);
-
-  useEffect(() => {
-    if (disableAnimation) return;
-
-    const target = "AI CONVERSATION INTELLIGENCE";
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
-
-    const scramble = () => {
-      let iteration = 0;
-      if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
-
-      scrambleIntervalRef.current = setInterval(() => {
-        setTagline(
-          target
-            .split("")
-            .map((letter, index) => {
-              if (letter === " ") return " ";
-              if (index < iteration) return target[index];
-              return chars[Math.floor(Math.random() * chars.length)];
-            })
-            .join("")
-        );
-
-        if (iteration >= target.length) {
-          if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
-        }
-
-        iteration += 1 / 2;
-      }, 30);
-    };
-
-    // Run on initial render
-    scramble();
-    
-    // Repeat every 6 seconds to show it changing
-    const cycle = setInterval(scramble, 6000);
-
-    return () => {
-      clearInterval(cycle);
-      if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
-    };
-  }, [disableAnimation]);
-
+export default function Logo({
+  variant = "primary",
+  className = "",
+}: LogoProps) {
   const isPrimary = variant === "primary";
 
   return (
     <Link
       href="/"
-      ref={containerRef}
-      className={`inline-flex items-center gap-1.5 cursor-pointer ${className}`}
+      className={`inline-flex items-center gap-2.5 cursor-pointer select-none group ${className}`}
       aria-label="Scripra Home"
     >
-      <svg className="w-[72px] h-[72px] flex-shrink-0" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <g strokeLinecap="round" fill="none">
-          <path className="ln opacity-0" d="M9 9 H31" stroke={isPrimary ? "var(--indigo-lift)" : "#6E6FF5"} strokeWidth="3" />
-          <path className="ln opacity-0" d="M9 16.5 H26" stroke={isPrimary ? "var(--indigo)" : "var(--indigo-lift)"} strokeWidth="3" />
-          <path className="ln opacity-0" d="M14 23.5 H31" stroke={isPrimary ? "var(--indigo)" : "var(--indigo-lift)"} strokeWidth="3" />
-          <path className="ln opacity-0" d="M9 31 H31" stroke={isPrimary ? "var(--indigo-deep)" : "#FFFFFF"} strokeWidth="3" />
-          
-          {/* Fallback state (opacity 1) for when JS is disabled or animation hasn't run */}
-          <path
-            className="sc"
-            d="M30 10.5 C30 6.5 10 6.5 10 14 C10 20.5 30 19.5 30 26 C30 33.5 10 33.5 10 29.5"
-            stroke={isPrimary ? "var(--indigo)" : "#FFFFFF"}
-            strokeWidth="3.4"
-            opacity={disableAnimation ? 1 : 0}
+      <style jsx>{`
+        /* Smooth, living levitation & breathing glow */
+        @keyframes sLevitatePulse {
+          0%, 100% {
+            transform: translateY(0px) scale(1);
+            filter: drop-shadow(0 2px 4px rgba(59, 74, 240, 0.25));
+          }
+          50% {
+            transform: translateY(-2px) scale(1.03);
+            filter: drop-shadow(0 4px 16px rgba(59, 74, 240, 0.6));
+          }
+        }
+
+        /* Continuous voice wave sonar ring expanding from behind the logo */
+        @keyframes soundWavePing {
+          0% {
+            transform: scale(0.65);
+            opacity: 0.7;
+          }
+          50% {
+            opacity: 0.35;
+          }
+          100% {
+            transform: scale(1.65);
+            opacity: 0;
+          }
+        }
+
+        /* Luminous reflective data sheen sweeping across the curvy S */
+        @keyframes sGlossSheen {
+          0% {
+            transform: translateX(-140%) skewX(-25deg);
+            opacity: 0;
+          }
+          15% {
+            opacity: 0.8;
+          }
+          50% {
+            opacity: 0.8;
+          }
+          70% {
+            transform: translateX(180%) skewX(-25deg);
+            opacity: 0;
+          }
+          100% {
+            transform: translateX(180%) skewX(-25deg);
+            opacity: 0;
+          }
+        }
+
+        /* Amber beacon radar ripple pulse */
+        @keyframes amberBeacon {
+          0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(245, 160, 32, 0.75);
+          }
+          60% {
+            transform: scale(1.15);
+            box-shadow: 0 0 0 8px rgba(245, 160, 32, 0);
+          }
+          100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(245, 160, 32, 0);
+          }
+        }
+
+        .s-mark-container {
+          animation: sLevitatePulse 3.8s ease-in-out infinite;
+        }
+
+        .sonar-ring {
+          animation: soundWavePing 3.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        .sonar-ring-2 {
+          animation: soundWavePing 3.2s cubic-bezier(0, 0, 0.2, 1) 1.6s infinite;
+        }
+
+        .gloss-sheen {
+          animation: sGlossSheen 3.6s ease-in-out infinite;
+        }
+
+        .beacon-dot {
+          animation: amberBeacon 2.4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+      `}</style>
+
+      {/* The EXACT Curvy S Logo Icon with Dynamic Soundwave & Sheen Animations */}
+      <div className="s-mark-container relative w-[30px] h-[36px] flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-115">
+        
+        {/* Concentric Voice Audio Waves Radiating Behind Logo */}
+        <div className="sonar-ring absolute inset-0 -m-1 rounded-full border border-indigo/40 pointer-events-none" />
+        <div className="sonar-ring-2 absolute inset-0 -m-1 rounded-full border border-teal/40 pointer-events-none" />
+
+        {/* The Exact Curvy S Image */}
+        <div className="relative w-full h-full overflow-hidden rounded-[8px]">
+          <img
+            src="/scripra-curvy-s-hd.png"
+            alt="Scripra Logo"
+            width={30}
+            height={36}
+            className={`w-full h-full object-contain select-none pointer-events-none ${
+              !isPrimary ? "brightness-125 saturate-110" : ""
+            }`}
           />
-        </g>
-        <circle
-          className="nd"
-          cx="31.5"
-          cy="31"
-          r="3.4"
-          fill="var(--amber)"
-          opacity={disableAnimation ? 1 : 0}
-        />
-      </svg>
+
+          {/* Luminous Traveling Light Sheen Across the S */}
+          <div className="gloss-sheen absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+        </div>
+      </div>
+
+      {/* Wordmark + Amber Beacon Dot */}
       <div className="flex flex-col justify-center">
-        <div className={`text-[28px] font-bold tracking-[-0.03em] leading-none whitespace-nowrap ${isPrimary ? "text-ink" : "text-white"}`}>
-          Scripra
+        <div className="flex items-baseline leading-none">
+          <span
+            className={`text-[23px] font-extrabold tracking-[-0.035em] transition-all duration-300 ${
+              isPrimary ? "text-ink group-hover:text-indigo" : "text-white"
+            }`}
+          >
+            Scripra
+          </span>
+
+          {/* Warm Amber Beacon Dot */}
+          <span
+            className="beacon-dot w-2.5 h-2.5 rounded-full bg-amber inline-block ml-1 flex-shrink-0 transition-transform duration-300 group-hover:scale-135"
+            style={{
+              boxShadow: "0 0 10px rgba(245, 160, 32, 0.7)",
+            }}
+          />
         </div>
-        <div className={`text-[10px] font-mono tracking-[0.08em] mt-1 ${isPrimary ? "text-indigo" : "text-white/80"}`}>
-          {tagline}
-        </div>
+
+
       </div>
     </Link>
   );

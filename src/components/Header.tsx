@@ -3,8 +3,10 @@ import Link from "next/link";
 import Logo from "./Logo";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Header() {
+  const { data: session } = useSession();
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
 
   return (
@@ -30,7 +32,7 @@ export default function Header() {
       <div className="flex items-center p-1.5 bg-canvas/80 backdrop-blur-2xl border border-line rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
         
         {/* Logo */}
-        <div className="pl-4 pr-2 scale-90 origin-left flex items-center">
+        <div className="pl-3.5 pr-2 flex items-center">
           <Logo />
         </div>
         
@@ -52,22 +54,51 @@ export default function Header() {
             </button>
             {/* Dropdown */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all z-50">
-              <div className="w-[500px] bg-panel border border-line rounded-xl shadow-2xl p-6 grid grid-cols-2 gap-8">
-                <div className="col-span-2 text-[11px] font-bold uppercase tracking-wider text-ink-3 pb-2 border-b border-line">One platform. Multiple capabilities.</div>
-                <div className="flex flex-col gap-6">
-                  <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-indigo">Core</div>
-                  <div className="flex flex-col gap-5">
-                    <div className="group/item"><div className="text-[14px] font-semibold text-ink group-hover/item:text-indigo transition-colors mb-1">Capture</div><div className="text-[12px] text-ink-3">Record or import any conversation.</div></div>
-                    <div className="group/item"><div className="text-[14px] font-semibold text-ink group-hover/item:text-indigo transition-colors mb-1">Recap</div><div className="text-[12px] text-ink-3">Summaries, MoM, key points and decisions.</div></div>
-                    <div className="group/item"><div className="text-[14px] font-semibold text-ink group-hover/item:text-indigo transition-colors mb-1">Actions</div><div className="text-[12px] text-ink-3">Owners, due dates, commitments and follow-ups.</div></div>
-                    <div className="group/item"><div className="text-[14px] font-semibold text-ink group-hover/item:text-indigo transition-colors mb-1">Recall</div><div className="text-[12px] text-ink-3">Search and ask across conversations.</div></div>
+              <div className="w-[520px] bg-panel border border-line rounded-2xl shadow-2xl p-6 grid grid-cols-2 gap-6">
+                <div className="flex flex-col gap-4">
+                  <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-indigo">Specialized Products</div>
+                  <div className="flex flex-col gap-3">
+                    <Link href="/product" className="group/item block">
+                      <div className="text-[13.5px] font-semibold text-ink group-hover/item:text-teal transition-colors flex items-center gap-1.5">
+                        <span>🌐</span> Scripra Global
+                      </div>
+                      <div className="text-[11px] text-ink-3">Live translation &amp; code-switching.</div>
+                    </Link>
+                    <Link href="/product" className="group/item block">
+                      <div className="text-[13.5px] font-semibold text-ink group-hover/item:text-amber-deep transition-colors flex items-center gap-1.5">
+                        <span>⚡</span> Scripra DealCloser
+                      </div>
+                      <div className="text-[11px] text-ink-3">Sub-300ms live sales whisper AI.</div>
+                    </Link>
+                    <Link href="/product" className="group/item block">
+                      <div className="text-[13.5px] font-semibold text-ink group-hover/item:text-rose transition-colors flex items-center gap-1.5">
+                        <span>🔄</span> Omnichannel Mesh
+                      </div>
+                      <div className="text-[11px] text-ink-3">Teams, Zoom, Meet, Slack, Discord.</div>
+                    </Link>
                   </div>
                 </div>
-                <div className="flex flex-col gap-6">
-                  <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-indigo">Intelligence</div>
-                  <div className="flex flex-col gap-5">
-                    <div className="group/item"><div className="text-[14px] font-semibold text-ink group-hover/item:text-indigo transition-colors mb-1">Memory</div><div className="text-[12px] text-ink-3">Context that grows across conversations.</div></div>
-                    <div className="group/item"><div className="text-[14px] font-semibold text-ink group-hover/item:text-indigo transition-colors mb-1">Graph</div><div className="text-[12px] text-ink-3">Connect people, projects, topics and decisions.</div></div>
+                <div className="flex flex-col gap-4 border-l border-line/60 pl-6">
+                  <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-indigo">Platform Engine</div>
+                  <div className="flex flex-col gap-3">
+                    <Link href="/#mom" className="group/item block">
+                      <div className="text-[13.5px] font-semibold text-ink group-hover/item:text-indigo transition-colors flex items-center gap-1.5">
+                        <span>📑</span> Minutes of Meeting
+                      </div>
+                      <div className="text-[11px] text-ink-3">Executive MoM &amp; action extraction.</div>
+                    </Link>
+                    <Link href="/product" className="group/item block">
+                      <div className="text-[13.5px] font-semibold text-ink group-hover/item:text-indigo transition-colors flex items-center gap-1.5">
+                        <span>🧠</span> Memory Graph
+                      </div>
+                      <div className="text-[11px] text-ink-3">Cross-meeting semantic intelligence.</div>
+                    </Link>
+                    <Link href="/security" className="group/item block">
+                      <div className="text-[13.5px] font-semibold text-ink group-hover/item:text-teal transition-colors flex items-center gap-1.5">
+                        <span>🔒</span> Security &amp; Compliance
+                      </div>
+                      <div className="text-[11px] text-ink-3">Zero data retention in RAM.</div>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -103,16 +134,18 @@ export default function Header() {
             </button>
             {/* Dropdown */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all z-50">
-              <div className="w-[400px] bg-panel border border-line rounded-xl shadow-2xl p-6 grid grid-cols-2 gap-8">
-                <div className="flex flex-col gap-5">
-                  <Link href="#solutions" className="text-[14px] font-semibold text-ink hover:text-indigo transition-colors">Individuals</Link>
-                  <Link href="#solutions" className="text-[14px] font-semibold text-ink hover:text-indigo transition-colors">Meetings</Link>
-                  <Link href="#solutions" className="text-[14px] font-semibold text-ink hover:text-indigo transition-colors">Students</Link>
+              <div className="w-[420px] bg-panel border border-line rounded-xl shadow-2xl p-6 grid grid-cols-2 gap-8">
+                <div className="flex flex-col gap-4">
+                  <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-indigo">Use Cases</div>
+                  <Link href="#mom" className="text-[13.5px] font-semibold text-ink hover:text-indigo transition-colors">Engineering Sprints</Link>
+                  <Link href="#mom" className="text-[13.5px] font-semibold text-ink hover:text-indigo transition-colors">Executive Leadership</Link>
+                  <Link href="#mom" className="text-[13.5px] font-semibold text-ink hover:text-indigo transition-colors">Customer &amp; Sales</Link>
                 </div>
-                <div className="flex flex-col gap-5">
-                  <Link href="#solutions" className="text-[14px] font-semibold text-ink hover:text-indigo transition-colors">Teams</Link>
-                  <Link href="#solutions" className="text-[14px] font-semibold text-ink hover:text-indigo transition-colors">Sales & Customer</Link>
-                  <Link href="#solutions" className="text-[14px] font-semibold text-ink hover:text-indigo transition-colors">Engineering & Product</Link>
+                <div className="flex flex-col gap-4">
+                  <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-indigo">Workflows</div>
+                  <Link href="#capture" className="text-[13.5px] font-semibold text-ink hover:text-indigo transition-colors">Bot-Free Capture</Link>
+                  <Link href="#memory" className="text-[13.5px] font-semibold text-ink hover:text-indigo transition-colors">Long-Term Memory</Link>
+                  <Link href="#security" className="text-[13.5px] font-semibold text-ink hover:text-indigo transition-colors">Enterprise Security</Link>
                 </div>
               </div>
             </div>
@@ -133,20 +166,49 @@ export default function Header() {
             </button>
             {/* Dropdown */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all z-50">
-              <div className="w-[400px] bg-panel border border-line rounded-xl shadow-2xl p-6 grid grid-cols-2 gap-8">
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-col gap-3">
-                    <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-indigo">Meeting</div>
-                    <div className="text-[13px] text-ink flex justify-between">Zoom <span className="text-[10px] bg-raise px-1.5 py-0.5 rounded text-ink-3">Soon</span></div>
-                    <div className="text-[13px] text-ink flex justify-between">Google Meet <span className="text-[10px] bg-raise px-1.5 py-0.5 rounded text-ink-3">Soon</span></div>
-                    <div className="text-[13px] text-ink flex justify-between">Teams <span className="text-[10px] bg-raise px-1.5 py-0.5 rounded text-ink-3">Soon</span></div>
+              <div className="w-[440px] bg-panel border border-line rounded-xl shadow-2xl p-6 grid grid-cols-2 gap-6">
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-2.5">
+                    <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-teal flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-teal" />
+                      Supported Live
+                    </div>
+                    <div className="text-[13px] text-ink font-medium flex justify-between items-center">
+                      <span>MS Teams</span>
+                      <span className="text-[10px] bg-teal-wash text-teal font-bold px-1.5 py-0.5 rounded border border-teal/20">Live</span>
+                    </div>
+                    <div className="text-[13px] text-ink font-medium flex justify-between items-center">
+                      <span>Cisco Webex</span>
+                      <span className="text-[10px] bg-teal-wash text-teal font-bold px-1.5 py-0.5 rounded border border-teal/20">Live</span>
+                    </div>
+                    <div className="text-[13px] text-ink font-medium flex justify-between items-center">
+                      <span>Zoom</span>
+                      <span className="text-[10px] bg-teal-wash text-teal font-bold px-1.5 py-0.5 rounded border border-teal/20">Live</span>
+                    </div>
+                    <div className="text-[13px] text-ink font-medium flex justify-between items-center">
+                      <span>Google Meet</span>
+                      <span className="text-[10px] bg-teal-wash text-teal font-bold px-1.5 py-0.5 rounded border border-teal/20">Live</span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-col gap-3">
-                    <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-indigo">Work</div>
-                    <div className="text-[13px] text-ink flex justify-between">Slack <span className="text-[10px] bg-raise px-1.5 py-0.5 rounded text-ink-3">Soon</span></div>
-                    <div className="text-[13px] text-ink flex justify-between">Jira <span className="text-[10px] bg-raise px-1.5 py-0.5 rounded text-ink-3">Soon</span></div>
+                <div className="flex flex-col gap-4 border-l border-line/60 pl-6">
+                  <div className="flex flex-col gap-2.5">
+                    <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-amber flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber animate-pulse" />
+                      In-Progress
+                    </div>
+                    <div className="text-[13px] text-ink font-medium flex justify-between items-center">
+                      <span>Slack</span>
+                      <span className="text-[10px] bg-amber-wash text-amber-deep font-bold px-1.5 py-0.5 rounded border border-amber/25">Building</span>
+                    </div>
+                    <div className="text-[13px] text-ink font-medium flex justify-between items-center">
+                      <span>Discord</span>
+                      <span className="text-[10px] bg-amber-wash text-amber-deep font-bold px-1.5 py-0.5 rounded border border-amber/25">Building</span>
+                    </div>
+                    <div className="text-[13px] text-ink font-medium flex justify-between items-center">
+                      <span>Jira &amp; Linear</span>
+                      <span className="text-[10px] bg-raise px-1.5 py-0.5 rounded text-ink-3">Next</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -180,23 +242,80 @@ export default function Header() {
               Pricing
             </Link>
           </div>
+
+          {/* Investors */}
+          <div 
+            className="relative group"
+            onMouseEnter={() => setHoveredTab("Investors")}
+            onMouseLeave={() => setHoveredTab(null)}
+          >
+            {hoveredTab === "Investors" && (
+              <motion.div layoutId="nav-pill" className="absolute inset-0 bg-indigo/10 rounded-full z-0" transition={{ type: "spring", stiffness: 400, damping: 30 }} />
+            )}
+            <Link href="/investors" className="relative z-10 px-4 py-2 text-[13.5px] font-medium text-ink-2 group-hover:text-indigo transition-colors block">
+              Investors
+            </Link>
+          </div>
+
+          {/* Dashboard */}
+          <div 
+            className="relative group"
+            onMouseEnter={() => setHoveredTab("Dashboard")}
+            onMouseLeave={() => setHoveredTab(null)}
+          >
+            {hoveredTab === "Dashboard" && (
+              <motion.div layoutId="nav-pill" className="absolute inset-0 bg-indigo/10 rounded-full z-0" transition={{ type: "spring", stiffness: 400, damping: 30 }} />
+            )}
+            <Link href="/dashboard" className="relative z-10 px-4 py-2 text-[13.5px] font-medium text-indigo font-semibold hover:opacity-90 transition-colors block">
+              Dashboard
+            </Link>
+          </div>
         </nav>
 
         {/* CTA Actions */}
-        <div className="flex items-center gap-1 pl-4 pr-1 border-l border-line/50 ml-2">
-          <Link href="/login" className="hidden md:block text-[13.5px] font-semibold text-ink hover:text-indigo transition-colors px-3 py-2">
-            Sign in
-          </Link>
+        <div className="flex items-center gap-2 pl-4 pr-1 border-l border-line/50 ml-2">
           <Link
-            href="/signup"
-            className="hidden md:inline-flex relative items-center justify-center text-[13px] font-semibold px-5 py-2 rounded-full bg-indigo text-white transition-all shadow-sm group overflow-hidden"
+            href="/dashboard"
+            className="hidden md:inline-flex items-center gap-1.5 text-[12.5px] font-semibold px-3 py-1.5 rounded-full bg-indigo-wash text-indigo hover:bg-indigo hover:text-white transition-all"
           >
-            <span className="relative z-10">Try it free</span>
-            {/* Continuous glossy sheen animation */}
-            <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/30 to-transparent animate-custom-shimmer" />
-            {/* Continuous glowing shadow */}
-            <div className="absolute inset-0 rounded-full animate-custom-glow pointer-events-none" />
+            <span>App</span>
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
           </Link>
+          {session ? (
+            <div className="flex items-center gap-3">
+              <div className="hidden md:flex items-center gap-2 mr-2">
+                <span className="text-[13px] font-medium text-ink-2">
+                  {session.user?.name}
+                </span>
+                {session.user?.image && (
+                  <img src={session.user.image} alt="Profile" className="w-8 h-8 rounded-full border border-line shadow-sm" />
+                )}
+              </div>
+              <button 
+                onClick={() => signOut()}
+                className="hidden md:inline-flex relative items-center justify-center text-[13px] font-semibold px-4 py-1.5 rounded-full border border-line bg-panel text-ink hover:text-indigo transition-colors shadow-sm"
+              >
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <>
+              <button
+                onClick={() => signIn("google")}
+                className="text-[13.5px] font-semibold text-ink hover:text-indigo transition-colors px-3 py-2"
+              >
+                Log in
+              </button>
+              <button
+                onClick={() => signIn("google")}
+                className="inline-flex relative items-center justify-center text-[13.5px] font-semibold px-5 py-2 rounded-xl bg-indigo text-white hover:bg-indigo-deep transition-all shadow-sm active:scale-[0.99]"
+              >
+                Sign Up
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>

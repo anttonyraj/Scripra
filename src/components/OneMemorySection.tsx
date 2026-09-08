@@ -10,7 +10,7 @@ export default function OneMemorySection() {
         </p>
 
         {/* Visual Graph Area */}
-        <div className="relative w-full max-w-[800px] mx-auto rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-10 h-[400px] flex items-center justify-center overflow-hidden shadow-sm group">
+        <div className="relative w-full max-w-[800px] mx-auto rounded-[32px] bg-indigo/[0.03] border border-indigo/10 p-10 h-[400px] flex items-center justify-center overflow-hidden shadow-sm group">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)] pointer-events-none" />
           <div className="absolute top-5 left-5 text-[11px] font-mono tracking-[0.2em] text-indigo/50 font-bold pointer-events-none select-none">SINGLE_MEMORY_STORE</div>
           

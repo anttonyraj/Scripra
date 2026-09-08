@@ -1,0 +1,166 @@
+/* Scripra Google Meet In-Call Widget Overlay */
+#scripra-meet-pill {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(17, 24, 39, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(67, 83, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(67, 83, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #FFFFFF;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+#scripra-meet-pill:hover {
+  border-color: rgba(67, 83, 255, 0.7);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 25px rgba(67, 83, 255, 0.3);
+}
+
+.scripra-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+}
+
+.scripra-brand-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00D2B4;
+  box-shadow: 0 0 8px #00D2B4;
+  animation: scripra-pulse 2s infinite;
+}
+
+@keyframes scripra-pulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.scripra-divider {
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.scripra-status {
+  font-size: 12px;
+  color: #D1D5DB;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.scripra-badge-botfree {
+  background: rgba(0, 210, 180, 0.15);
+  color: #00D2B4;
+  border: 1px solid rgba(0, 210, 180, 0.3);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.scripra-counter {
+  font-family: monospace;
+  font-size: 11px;
+  color: #9CA3AF;
+}
+
+.scripra-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scripra-btn-ghost {
+  background: rgba(255, 255, 255, 0.08);
+  color: #E5E7EB;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4.5px 10px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scripra-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.scripra-btn-ghost:active {
+  transform: translateY(0);
+}
+
+.scripra-btn-save {
+  background: #4353FF;
+  color: #FFFFFF;
+  border: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scripra-btn-save:hover {
+  background: #2B38D1;
+  transform: translateY(-1px);
+}
+
+.scripra-btn-save:active {
+  transform: translateY(0);
+}
+
+/* Toast notification */
+#scripra-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  background: #111827;
+  border: 1px solid rgba(0, 210, 180, 0.4);
+  color: #FFFFFF;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-size: 13px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  animation: scripra-slide-up 0.3s ease-out;
+}
+
+@keyframes scripra-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

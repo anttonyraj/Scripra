@@ -29,8 +29,19 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# env files (can opt-in for commiting if needed)
+# env files
 .env*
+!.env.example
+
+# bot browser profiles & user session directories (prevent credential leaks)
+.bot-profile/
+.webex-edge-profile/
+*.bot-profile/
+google-session.json
+*.session.json
+SingletonLock
+SingletonCookie
+SingletonSocket
 
 # vercel
 .vercel

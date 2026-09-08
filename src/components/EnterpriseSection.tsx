@@ -1,84 +1,189 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+
 export default function EnterpriseSection() {
-  const controls = [
-    { title: "Access Control", desc: "Manage who can view and share specific conversations." },
-    { title: "Data Retention", desc: "Set automatic deletion policies for transcripts and audio." },
-    { title: "Audit Logs", desc: "Track organizational usage and data access." },
-    { title: "Administration", desc: "Centralized workspace and billing management." }
+  const [ssoActive, setSsoActive] = useState(true);
+  const [retentionDays, setRetentionDays] = useState(90);
+
+  const pillars = [
+    {
+      title: "Zero Model Training",
+      badge: "Strict Privacy",
+      desc: "Your audio, transcripts, and metadata are never used to train third-party or foundation AI models. Ever.",
+      icon: "🛡️",
+    },
+    {
+      title: "Enterprise SSO & SAML",
+      badge: "Access Control",
+      desc: "Enforce Okta, Azure AD, or Google Workspace authentication with automated SCIM user de-provisioning.",
+      icon: "🔑",
+    },
+    {
+      title: "Custom Data Retention",
+      badge: "Governance",
+      desc: "Set automatic expiration schedules (30, 60, 90, or 365 days) for raw audio files, diarized text, and summaries.",
+      icon: "⏳",
+    },
+    {
+      title: "Tamper-Evident Audit Logs",
+      badge: "Compliance",
+      desc: "Detailed audit trails recording who accessed, exported, or shared any conversation artifact.",
+      icon: "📋",
+    },
   ];
 
   return (
-    <section className="py-32 bg-canvas">
-      <div className="max-w-[1080px] mx-auto px-6">
+    <section id="security" className="py-24 sm:py-32 bg-raise/50 border-t border-line/60 relative overflow-hidden">
+      <div className="max-w-[1320px] mx-auto px-6">
         
-        <div className="flex flex-col lg:flex-row gap-16 items-start">
-          <div className="lg:w-1/2">
-            <h2 className="text-[clamp(36px,5vw,52px)] font-bold tracking-[-0.03em] text-ink leading-[1.05] mb-6">
-              Conversation intelligence for your organization.
-            </h2>
-            <p className="text-[18px] text-ink-2 leading-[1.6]">
-              Scripra is designed to support enterprise-grade administration, security and data controls as the platform matures.
-            </p>
+        {/* Section Header */}
+        <div className="text-center max-w-[760px] mx-auto mb-16 sm:mb-20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-wash text-indigo text-[11px] font-bold tracking-[0.15em] uppercase border border-indigo/20 mb-4">
+            <span className="w-2 h-2 rounded-full bg-indigo" />
+            Enterprise Security &amp; Compliance
+          </div>
+          <h2 className="text-[clamp(32px,4.5vw,52px)] font-black tracking-[-0.03em] text-ink leading-[1.1] mb-5">
+            Enterprise trust built in. <br className="hidden sm:inline" />
+            <span className="text-indigo">From day one.</span>
+          </h2>
+          <p className="text-[16px] sm:text-[18px] text-ink-3 leading-relaxed">
+            Engineered for organizations with strict compliance, security, and data sovereignty requirements.
+          </p>
+        </div>
 
-            {/* Enterprise Mockup UI */}
-            <div className="relative w-full rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-6 md:p-8 overflow-hidden shadow-sm group mt-12">
-              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
-              <div className="absolute top-5 right-5 text-[11px] font-mono tracking-[0.2em] text-teal/50 font-bold pointer-events-none">SECURITY_CONTROLS</div>
-              
-              <div className="relative z-10 bg-white rounded-2xl shadow-[0_12px_40px_rgb(0,0,0,0.08)] border border-line flex flex-col overflow-hidden transition-transform duration-500 group-hover:-translate-y-1">
-                <div className="px-5 py-3.5 border-b border-line bg-white backdrop-blur-md flex justify-between items-center">
-                  <div className="flex items-center gap-3">
-                    <span className="bg-indigo-wash text-indigo px-3 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase border border-indigo/20">Workspace Admin</span>
-                  </div>
-                </div>
-                
-                <div className="p-5 bg-white flex flex-col gap-4">
-                  <div className="border border-indigo/10 rounded-xl p-4 bg-white shadow-sm flex items-center justify-between hover:border-indigo/40 transition-colors">
-                    <div>
-                      <p className="text-indigo-deep text-[14px] font-bold mb-1">Require SSO / SAML</p>
-                      <p className="text-ink-3 text-[13px]">Enforce Okta or Google login for all members</p>
-                    </div>
-                    <div className="w-12 h-7 rounded-full bg-teal flex items-center p-1 shadow-inner">
-                      <div className="w-5 h-5 bg-white rounded-full shadow-sm ml-auto" />
-                    </div>
-                  </div>
-                  
-                  <div className="border border-indigo/10 rounded-xl p-4 bg-white shadow-sm flex items-center justify-between hover:border-indigo/40 transition-colors">
-                    <div>
-                      <p className="text-indigo-deep text-[14px] font-bold mb-1">Data Retention Policy</p>
-                      <p className="text-ink-3 text-[13px]">Auto-delete audio and transcripts</p>
-                    </div>
-                    <div className="bg-indigo-wash text-indigo px-3.5 py-1.5 rounded-md text-[13px] font-bold border border-indigo/20">
-                      90 Days
-                    </div>
-                  </div>
+        {/* 2-Column Split: Security Vault Mockup & Enterprise Pillars */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          
+          {/* Left: Interactive Security Vault UI Artifact */}
+          <div className="bg-card border border-line rounded-3xl p-6 sm:p-8 shadow-[0_25px_60px_rgba(67,83,255,0.08)]">
+            <div className="flex items-center justify-between pb-4 mb-6 border-b border-line/70">
+              <div className="flex items-center gap-2.5">
+                <div className="w-3 h-3 rounded-full bg-teal" />
+                <span className="text-[13px] font-mono font-bold text-ink uppercase tracking-wider">
+                  Organization Security Console
+                </span>
+              </div>
+              <span className="text-[10.5px] font-mono text-teal bg-teal-wash px-2.5 py-0.5 rounded-full border border-teal/20 font-bold">
+                SOC 2 Ready
+              </span>
+            </div>
 
-                  <div className="border border-indigo/10 rounded-xl p-4 bg-white shadow-sm flex items-center justify-between hover:border-indigo/40 transition-colors">
-                    <div>
-                      <p className="text-indigo-deep text-[14px] font-bold mb-1">Export Audit Logs</p>
-                      <p className="text-ink-3 text-[13px]">Download activity history (CSV)</p>
-                    </div>
-                    <div className="w-9 h-9 rounded-lg border border-indigo/20 flex items-center justify-center text-indigo hover:bg-indigo-wash transition-colors cursor-pointer shadow-sm">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                    </div>
-                  </div>
+            {/* Interactive Setting 1: SSO Toggle */}
+            <div className="p-4 rounded-2xl bg-raise border border-line mb-4 flex items-center justify-between gap-4">
+              <div>
+                <p className="text-[14px] font-bold text-ink mb-0.5">Enforce Single Sign-On (SAML / SSO)</p>
+                <p className="text-[12px] text-ink-3">Mandatory Okta, Azure AD, or Google Workspace login</p>
+              </div>
+              <button
+                onClick={() => setSsoActive(!ssoActive)}
+                className={`w-12 h-6 rounded-full transition-colors relative flex items-center px-1 ${
+                  ssoActive ? "bg-teal" : "bg-ink-3/30"
+                }`}
+              >
+                <div
+                  className={`w-4 h-4 rounded-full bg-white shadow-xs transition-transform ${
+                    ssoActive ? "translate-x-6" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {/* Interactive Setting 2: Retention Slider */}
+            <div className="p-4 rounded-2xl bg-raise border border-line mb-4">
+              <div className="flex items-center justify-between mb-2.5">
+                <div>
+                  <p className="text-[14px] font-bold text-ink mb-0.5">Automated Data Retention</p>
+                  <p className="text-[12px] text-ink-3">Permanently purge raw audio and transcripts</p>
                 </div>
+                <span className="text-[12px] font-mono font-bold text-indigo bg-indigo-wash px-2.5 py-1 rounded-lg border border-indigo/25">
+                  {retentionDays} Days
+                </span>
+              </div>
+              <div className="grid grid-cols-4 gap-2">
+                {[30, 60, 90, 365].map((d) => (
+                  <button
+                    key={d}
+                    onClick={() => setRetentionDays(d)}
+                    className={`py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all ${
+                      retentionDays === d
+                        ? "bg-indigo text-white shadow-xs"
+                        : "bg-card text-ink-3 border border-line/70 hover:text-ink"
+                    }`}
+                  >
+                    {d}d
+                  </button>
+                ))}
               </div>
             </div>
-          </div>
-          
-          <div className="lg:w-1/2 w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {controls.map((control, i) => (
-              <div key={i} className="bg-panel border border-line rounded-xl p-6 shadow-sm">
-                <div className="w-8 h-8 rounded bg-raise border border-line flex items-center justify-center text-indigo mb-4">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                  </svg>
+
+            {/* Setting 3: Zero Model Training Guarantee */}
+            <div className="p-4 rounded-2xl bg-teal-wash/40 border border-teal/25 mb-4 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <span className="text-[18px]">🔒</span>
+                <div>
+                  <p className="text-[13.5px] font-bold text-ink">Zero Model Training Contract</p>
+                  <p className="text-[11.5px] text-ink-3">Zero data retention on foundation LLMs</p>
                 </div>
-                <h3 className="text-[16px] font-bold text-ink mb-2">{control.title}</h3>
-                <p className="text-[14px] text-ink-2 leading-[1.5]">{control.desc}</p>
+              </div>
+              <span className="text-[11px] font-mono text-teal font-bold px-2 py-0.5 rounded bg-card border border-teal/20">
+                Active
+              </span>
+            </div>
+
+            {/* Bottom Download Audit Logs Button */}
+            <div className="pt-2 flex items-center justify-between text-[12px] text-ink-3">
+              <span>Audit Log Streaming: <strong>Active (Syslog / S3)</strong></span>
+              <button className="text-indigo font-bold hover:underline font-mono text-[11px]">
+                Export Logs (CSV) ↗
+              </button>
+            </div>
+
+          </div>
+
+          {/* Right: Security Pillars Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {pillars.map((p, i) => (
+              <div
+                key={i}
+                className="p-6 rounded-2xl bg-card border border-line shadow-xs hover:border-indigo/40 transition-all"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[22px]">{p.icon}</span>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-indigo font-bold bg-indigo-wash px-2 py-0.5 rounded border border-indigo/20">
+                    {p.badge}
+                  </span>
+                </div>
+                <h3 className="text-[16px] font-bold text-ink mb-1.5">{p.title}</h3>
+                <p className="text-[13px] text-ink-3 leading-relaxed">{p.desc}</p>
               </div>
             ))}
+          </div>
+
+        </div>
+
+        {/* Security Badges Trust Strip */}
+        <div className="mt-16 pt-8 border-t border-line/70 flex flex-wrap items-center justify-center gap-8 text-[12px] font-mono text-ink-3 font-semibold">
+          <div className="flex items-center gap-2">
+            <span className="text-teal font-bold">✓</span>
+            <span>SOC 2 Type II Ready</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-teal font-bold">✓</span>
+            <span>HIPAA Compliant Controls</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-teal font-bold">✓</span>
+            <span>AES-256 &amp; TLS 1.3 Encryption</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-teal font-bold">✓</span>
+            <span>GDPR &amp; CCPA Data Rights</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-teal font-bold">✓</span>
+            <span>Zero Customer Data Training</span>
           </div>
         </div>
 

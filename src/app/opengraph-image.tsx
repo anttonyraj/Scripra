@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
  
-export const runtime = 'edge';
+export const runtime = 'nodejs';
  
 export const alt = 'Scripra — AI Conversation Intelligence';
 export const size = {
@@ -16,7 +16,7 @@ export default async function Image() {
         style={{
           fontSize: 84,
           background: '#0B1020',
-          color: '#EDEFFA',
+          color: '#ECFDF5',
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -27,11 +27,11 @@ export default async function Image() {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }}>
           <svg width="100" height="100" viewBox="0 0 40 40" fill="none">
-            <path d="M9 9 H31" stroke="#5B5CF0" strokeWidth="3" />
-            <path d="M9 16.5 H26" stroke="#5B5CF0" strokeWidth="3" />
-            <path d="M14 23.5 H31" stroke="#5B5CF0" strokeWidth="3" />
-            <path d="M9 31 H31" stroke="#3D34C4" strokeWidth="3" />
-            <path d="M30 10.5 C30 6.5 10 6.5 10 14 C10 20.5 30 19.5 30 26 C30 33.5 10 33.5 10 29.5" stroke="#5B5CF0" strokeWidth="3.4" />
+            <path d="M9 9 H31" stroke="#0D9488" strokeWidth="3" />
+            <path d="M9 16.5 H26" stroke="#0D9488" strokeWidth="3" />
+            <path d="M14 23.5 H31" stroke="#0D9488" strokeWidth="3" />
+            <path d="M9 31 H31" stroke="#0F766E" strokeWidth="3" />
+            <path d="M30 10.5 C30 6.5 10 6.5 10 14 C10 20.5 30 19.5 30 26 C30 33.5 10 33.5 10 29.5" stroke="#0D9488" strokeWidth="3.4" />
             <circle cx="31.5" cy="31" r="3.4" fill="#F0A02A" />
           </svg>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

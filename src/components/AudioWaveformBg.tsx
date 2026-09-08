@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function AudioWaveformBg() {
-  // Use a fixed pseudo-random array for SSR consistency
   const baseWidths = [
     32, 54, 21, 67, 89, 43, 12, 55, 78, 34,
     22, 90, 65, 43, 15, 76, 88, 54, 32, 19,
@@ -21,20 +20,22 @@ export default function AudioWaveformBg() {
   }, []);
 
   return (
-    <div className="absolute top-0 left-0 w-[80px] md:w-[140px] h-full overflow-hidden pointer-events-none z-0 flex flex-col gap-[6px] md:gap-[8px] py-20 opacity-50">
+    <div className="absolute top-0 left-0 w-[90px] md:w-[150px] h-full overflow-hidden pointer-events-none z-0 flex flex-col justify-between py-10 opacity-70">
       {baseWidths.map((width, i) => (
         <motion.div
           key={i}
-          className="h-[4px] md:h-[6px] bg-indigo/40 rounded-r-full"
+          className="h-[3.5px] md:h-[5px] bg-gradient-to-r from-indigo/55 via-indigo/35 to-transparent rounded-r-full"
           initial={{ width: "0%" }}
           animate={{ 
-            width: mounted ? `${width}%` : "0%",
-            opacity: mounted ? 1 : 0
+            width: mounted ? [`${width * 0.75}%`, `${width}%`, `${width * 0.8}%`] : "0%",
+            opacity: mounted ? [0.4, 0.8, 0.4] : 0
           }}
           transition={{
-            duration: 1.5,
-            delay: i * 0.02,
-            ease: "easeOut"
+            duration: 2.2 + (i % 4) * 0.5,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
+            delay: (i % 8) * 0.12,
           }}
         />
       ))}

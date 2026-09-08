@@ -16,7 +16,7 @@ export default function GraphSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           
           {/* Personal Graph */}
-          <div className="relative h-[400px] w-full bg-indigo-[0.03] border border-indigo/10 rounded-[32px] shadow-sm flex flex-col p-8 overflow-hidden group">
+          <div className="relative h-[400px] w-full bg-indigo/[0.03] border border-indigo/10 rounded-[32px] shadow-sm flex flex-col p-8 overflow-hidden group">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
             <div className="absolute top-5 left-5 text-[11px] font-mono tracking-[0.2em] text-indigo/50 font-bold pointer-events-none select-none z-20">INDIVIDUAL_GRAPH</div>
             
@@ -61,7 +61,7 @@ export default function GraphSection() {
           </div>
 
           {/* Team Graph */}
-          <div className="relative h-[400px] w-full bg-indigo-[0.03] border border-indigo/10 rounded-[32px] shadow-sm flex flex-col p-8 overflow-hidden group">
+          <div className="relative h-[400px] w-full bg-indigo/[0.03] border border-indigo/10 rounded-[32px] shadow-sm flex flex-col p-8 overflow-hidden group">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
             <div className="absolute top-5 left-5 text-[11px] font-mono tracking-[0.2em] text-teal/50 font-bold pointer-events-none select-none z-20">TEAM_GRAPH</div>
 

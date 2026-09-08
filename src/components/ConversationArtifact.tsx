@@ -1,26 +1,105 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
-type AnimationState = "idle" | "capture" | "transcript" | "understand" | "act" | "recall" | "memory" | "complete";
+type Stage = "capture" | "transcribe" | "extract" | "recall";
+
+interface PlatformInfo {
+  name: string;
+  fullName: string;
+  badgeColor: string;
+  dotColor: string;
+  meetingName: string;
+  icon: (className?: string) => React.ReactNode;
+}
+
+const TeamsIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.5 7.5a2 2 0 00-2-2h-3a1 1 0 00-1 1v11a1 1 0 001 1h3a2 2 0 002-2v-9zM6.5 6.5A2.5 2.5 0 019 4h6a2.5 2.5 0 012.5 2.5v11A2.5 2.5 0 0115 20H9a2.5 2.5 0 01-2.5-2.5v-11z" opacity="0.4" />
+    <path d="M12 2a3 3 0 100 6 3 3 0 000-6zM3.5 8.5a2 2 0 012-2h1v9.5h-1a2 2 0 01-2-2v-5.5z" />
+  </svg>
+);
+
+const WebexIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="8" cy="12" r="4" />
+    <circle cx="16" cy="12" r="4" />
+    <circle cx="12" cy="7" r="3" />
+    <circle cx="12" cy="17" r="3" />
+  </svg>
+);
+
+const ZoomIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M4 6.5A2.5 2.5 0 016.5 4h8A2.5 2.5 0 0117 6.5v11a2.5 2.5 0 01-2.5 2.5h-8A2.5 2.5 0 014 17.5v-11z" />
+    <path d="M18 9.5l3.5-2.5v10L18 14.5v-5z" opacity="0.85" />
+  </svg>
+);
+
+const MeetIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <rect x="3" y="6" width="12" height="12" rx="2.5" />
+    <polygon points="16,10 21,6.5 21,17.5 16,14" opacity="0.85" />
+  </svg>
+);
+
+const SlackIcon = ({ className = "w-3 h-3" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M5.5 10.5a2 2 0 110-4 2 2 0 010 4zm0 2h4a2 2 0 11-4 0zM13.5 5.5a2 2 0 114 0 2 2 0 01-4 0zm-2 0v4a2 2 0 110-4zM18.5 13.5a2 2 0 110 4 2 2 0 010-4zm0-2h-4a2 2 0 114 0zM10.5 18.5a2 2 0 11-4 0 2 2 0 014 0zm2 0v-4a2 2 0 110 4z" />
+  </svg>
+);
+
+const DiscordIcon = ({ className = "w-3 h-3" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.3 5.4A15.3 15.3 0 0015.4 4c-.2.3-.4.8-.5 1.1-1.6-.2-3.2-.2-4.8 0-.1-.3-.3-.8-.5-1.1-1.4.5-2.7 1-3.9 1.4C3.2 9.2 2.6 14.4 3 19.5c1.8 1.3 3.5 2.1 5.2 2.6.4-.6.8-1.2 1.1-1.9-1.2-.5-1.7-1.1-1.7-1.1s.1 0 .3.1c3.4 1.6 7.1 1.6 10.4 0 .2-.1.3-.1.3-.1s-.5.6-1.7 1.1c.3.7.7 1.3 1.1 1.9 1.7-.5 3.4-1.3 5.2-2.6.5-5.9-.9-11-2.9-14.1zM8.5 15.5c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm7 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z" />
+  </svg>
+);
+
+const platforms: PlatformInfo[] = [
+  {
+    name: "Teams",
+    fullName: "Microsoft Teams",
+    badgeColor: "bg-[#5059C9]/15 text-[#5059C9] border-[#5059C9]/40",
+    dotColor: "bg-[#5059C9]",
+    meetingName: "MS Teams · Sprint Planning & Architecture",
+    icon: (cls) => <TeamsIcon className={cls} />,
+  },
+  {
+    name: "Webex",
+    fullName: "Cisco Webex",
+    badgeColor: "bg-teal-wash text-teal border-teal/40",
+    dotColor: "bg-teal",
+    meetingName: "Webex · Global Engineering Review",
+    icon: (cls) => <WebexIcon className={cls} />,
+  },
+  {
+    name: "Zoom",
+    fullName: "Zoom Meetings",
+    badgeColor: "bg-blue-50 text-blue-600 border-blue-300",
+    dotColor: "bg-blue-500",
+    meetingName: "Zoom · Executive Decision Sync",
+    icon: (cls) => <ZoomIcon className={cls} />,
+  },
+  {
+    name: "Google Meet",
+    fullName: "Google Meet",
+    badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-300",
+    dotColor: "bg-emerald-500",
+    meetingName: "Google Meet · Product Launch Sync",
+    icon: (cls) => <MeetIcon className={cls} />,
+  },
+];
 
 export default function ConversationArtifact() {
-  const [animState, setAnimState] = useState<AnimationState>("idle");
+  const [stage, setStage] = useState<Stage>("capture");
   const [typingProgress, setTypingProgress] = useState(0);
-  const [visibleRows, setVisibleRows] = useState(0);
-  const [recallStage, setRecallStage] = useState(0); // 0: hidden, 1: bar, 2: answer
-  const [evidenceActive, setEvidenceActive] = useState(false);
-  const [loopIndex, setLoopIndex] = useState(0); // 0: Meeting, 1: Voice Note
-  
+  const [platformIdx, setPlatformIdx] = useState(0);
+  const [manualOverride, setManualOverride] = useState(false);
   const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
 
-  const textMeeting1 = "Okay — let's ship the August release Friday.\nMichael, can you finish regression testing by Thursday?\nI'll send the customer update.";
-  const textMeeting2 = "One more thing, security approval is still outstanding.";
-  
-  const textVoiceNote1 = "I need to follow up with John tomorrow,\ncompare the two laptop options,\nand remember that the main issue is battery life.";
-  const textVoiceNote2 = "";
+  const fullSpeech = "Let's ship the release Friday the 12th. Michael, please finish regression testing Thursday.";
 
-  const clearAllTimeouts = () => {
+  const clearTimeouts = () => {
     timeoutsRef.current.forEach(clearTimeout);
     timeoutsRef.current = [];
   };
@@ -30,387 +109,397 @@ export default function ConversationArtifact() {
     timeoutsRef.current.push(id);
   };
 
-  const playLoop = (index: number) => {
-    clearAllTimeouts();
-    
-    // Reset state
-    setLoopIndex(index);
-    setAnimState("idle");
+  const runWorkflow = () => {
+    clearTimeouts();
+    setStage("capture");
     setTypingProgress(0);
-    setVisibleRows(0);
-    setRecallStage(0);
-    setEvidenceActive(false);
 
-    // 0-2s: Capture
-    schedule(200, () => setAnimState("capture"));
-    
-    // 2-4s: Transcript (Waveform fades, transcribing starts)
-    schedule(2000, () => setAnimState("transcript"));
-    
-    const typingDuration = 1800;
-    const steps = 20;
-    for (let i = 1; i <= steps; i++) {
-      schedule(2200 + (typingDuration / steps) * i, () => {
-        setTypingProgress((i / steps) * 100);
-      });
-    }
-
-    // 4-6s: Understand
-    schedule(4000, () => setAnimState("understand"));
-    schedule(4300, () => setVisibleRows(1));
-    schedule(4600, () => setVisibleRows(2));
-    schedule(4900, () => setVisibleRows(3));
-    
-    // 6-8s: Act
-    schedule(6000, () => setAnimState("act"));
-    schedule(6200, () => setVisibleRows(4));
-    schedule(6500, () => setVisibleRows(5));
-
-    // 8-11s: Recall
-    schedule(8000, () => {
-      setAnimState("recall");
-      setRecallStage(1); // Show search bar
-    });
-    schedule(9500, () => {
-      setRecallStage(2); // Show answer & highlight
-      setEvidenceActive(true);
+    // 0.0s - 2.4s: Step 1: Capture (Audio Wave)
+    schedule(2400, () => {
+      setStage("transcribe");
+      const steps = 24;
+      const stepDuration = 1600 / steps;
+      for (let i = 1; i <= steps; i++) {
+        schedule(i * stepDuration, () => {
+          setTypingProgress((i / steps) * 100);
+        });
+      }
     });
 
-    // 11-13s: Memory
-    if (index === 0) {
-      schedule(11500, () => setAnimState("memory"));
-    }
+    // 4.5s: Step 2: Extract (Decisions & Action Items appear)
+    schedule(4500, () => {
+      setStage("extract");
+    });
 
-    // 13s+: Complete & Loop continuously
-    schedule(13500, () => {
-      setAnimState("complete");
-      // Seamless continuous loop:
-      schedule(2500, () => {
-        playLoop(index === 0 ? 1 : 0);
-      });
+    // 7.2s: Step 3: Recall (Instant Semantic Search & Evidence)
+    schedule(7200, () => {
+      setStage("recall");
+    });
+
+    // Loop back and cycle through platforms (Teams -> Webex -> Zoom -> Google Meet)
+    schedule(11200, () => {
+      setPlatformIdx((prev) => (prev + 1) % platforms.length);
+      runWorkflow();
     });
   };
 
   useEffect(() => {
-    playLoop(0);
-    return clearAllTimeouts;
-  }, []);
+    if (!manualOverride) {
+      runWorkflow();
+    }
+    return clearTimeouts;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [manualOverride]);
 
-  const currentText1 = loopIndex === 0 ? textMeeting1 : textVoiceNote1;
-  const currentText2 = loopIndex === 0 ? textMeeting2 : textVoiceNote2;
-  const charsToShow1 = Math.floor((typingProgress / 100) * currentText1.length);
-  const charsToShow2 = currentText2 ? Math.floor(Math.max(0, (typingProgress - 70) / 30) * currentText2.length) : 0;
+  const charsToShow = Math.floor((typingProgress / 100) * fullSpeech.length);
+  const typedText = fullSpeech.substring(0, charsToShow);
+
+  const selectStage = (s: Stage) => {
+    clearTimeouts();
+    setManualOverride(true);
+    setStage(s);
+    if (s === "transcribe" || s === "extract" || s === "recall") {
+      setTypingProgress(100);
+    }
+    schedule(8000, () => {
+      setManualOverride(false);
+    });
+  };
+
+  const currentPlatform = platforms[platformIdx];
 
   return (
-    <div className="w-full max-w-[650px] p-[1px] rounded-[20px] bg-gradient-to-b from-indigo/40 via-line/80 to-teal/40 shadow-[0_20px_60px_rgba(91,92,240,0.18)] relative text-left mx-auto">
-      <div className="w-full bg-panel rounded-[19px] overflow-hidden flex flex-col relative h-[480px]">
-        
-        {/* Source Selector Label (Animated) */}
-        <div className={`absolute top-[-30px] left-1/2 -translate-x-1/2 bg-ink text-white px-4 py-1.5 rounded-t-lg text-[10px] font-mono font-bold tracking-widest uppercase transition-all duration-700 z-0 ${animState !== "idle" ? "opacity-100 translate-y-10" : "opacity-0"}`}>
-          INPUT_SRC: {loopIndex === 0 ? "STREAM // MEETING" : "STREAM // VOICE_NOTE"}
-        </div>
+    <div className="w-full max-w-[600px] xl:max-w-[620px] bg-card border border-line/80 rounded-3xl p-5 sm:p-6 shadow-[0_25px_60px_rgba(67,83,255,0.12)] transition-all relative overflow-hidden select-none">
+      
+      <style jsx>{`
+        @keyframes soundWave {
+          0%, 100% { height: 4px; }
+          50% { height: 26px; }
+        }
 
-        {/* Top Bar */}
-        <div className="h-12 border-b border-line bg-canvas flex items-center justify-between px-4 z-10 relative shrink-0">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-1.5 mr-3">
-              <div className="w-2.5 h-2.5 rounded-full bg-rose/50" />
-              <div className="w-2.5 h-2.5 rounded-full bg-amber/50" />
-              <div className="w-2.5 h-2.5 rounded-full bg-teal/50" />
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold bg-indigo-wash text-indigo border border-indigo/20 px-2 py-0.5 rounded uppercase tracking-wider">
-                {loopIndex === 0 ? "Meeting Recording" : "Voice Note"}
-              </span>
-              <span className="text-[12px] font-medium text-ink-3">
-                {loopIndex === 0 ? "Product Sync · 42m" : "Idea Memo · 1m"}
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            {animState === "capture" && (
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rose-wash text-rose border border-rose/20 text-[10px] font-bold uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-rose animate-ping" />
-                Recording
-              </div>
-            )}
-            {animState === "transcript" && (
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-indigo-wash text-indigo border border-indigo/20 text-[10px] font-bold uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo animate-pulse" />
-                Transcribing
-              </div>
-            )}
-            {(animState === "understand" || animState === "act") && (
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-wash text-amber border border-amber/20 text-[10px] font-bold uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber animate-pulse" />
-                Extracting Items
-              </div>
-            )}
-            {animState === "recall" && (
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-teal-wash text-teal border border-teal/20 text-[10px] font-bold uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal" />
-                Search &amp; Recall
-              </div>
-            )}
-            {animState === "memory" && (
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-indigo-wash text-indigo border border-indigo/20 text-[10px] font-bold uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo" />
-                Connected Memory
-              </div>
-            )}
-          </div>
-        </div>
+        @keyframes cardPop {
+          0% { opacity: 0; transform: translateY(8px) scale(0.97); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
 
-      <div className="flex flex-col flex-1 relative overflow-hidden">
-        
-        {/* Stage 1: Waveform (Capture) */}
-        <div className={`absolute inset-0 bg-panel z-40 flex flex-col items-center justify-center transition-opacity duration-700 p-8 ${(animState === "capture" || animState === "idle") ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
-          <div className="flex items-center justify-center h-32 w-full max-w-[300px] gap-1.5">
-            {[...Array(24)].map((_, i) => (
-              <div 
-                key={i} 
-                className="w-2 bg-indigo rounded-full transition-all duration-150 ease-out"
-                style={{ 
-                  height: animState === "capture" ? `${Math.max(10, Math.random() * 100)}%` : "4px",
-                  opacity: animState === "capture" ? (0.4 + Math.random() * 0.6) : 0.2
-                }}
-              />
-            ))}
-          </div>
-          <p className="text-[14px] text-indigo mt-8 font-medium animate-pulse">Capturing conversation...</p>
-        </div>
+        .bar-1 { animation: soundWave 0.9s ease-in-out infinite 0.1s; }
+        .bar-2 { animation: soundWave 1.2s ease-in-out infinite 0.25s; }
+        .bar-3 { animation: soundWave 0.7s ease-in-out infinite 0.05s; }
+        .bar-4 { animation: soundWave 1.4s ease-in-out infinite 0.3s; }
+        .bar-5 { animation: soundWave 0.8s ease-in-out infinite 0.15s; }
+        .bar-6 { animation: soundWave 1.3s ease-in-out infinite 0.35s; }
+        .bar-7 { animation: soundWave 1.0s ease-in-out infinite 0.2s; }
+        .bar-8 { animation: soundWave 0.6s ease-in-out infinite 0.4s; }
 
-        {/* Base Layer: Transcript & Understand/Act */}
-        <div className="absolute inset-0 flex flex-col md:flex-row bg-panel z-10">
+        .card-enter {
+          animation: cardPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+      `}</style>
+
+      {/* ================= PLATFORMS SUPPORT BAR ================= */}
+      <div className="pb-3 mb-3 border-b border-line/70">
+        <div className="flex items-center justify-between gap-2 flex-wrap">
           
-          {/* Left: Transcript */}
-          <div className={`flex-1 p-6 border-r border-line bg-canvas overflow-y-auto flex flex-col gap-6 relative md:w-1/2 transition-opacity duration-500 ${(animState === "memory") ? "opacity-10" : "opacity-100"}`}>
-            
-            {loopIndex === 0 && (
-              <div className="flex gap-4 opacity-50">
-                <div className="w-10 text-[11px] text-ink-3 font-mono mt-1 shrink-0">11:58</div>
+          {/* Supported Platforms (Clickable) */}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-ink font-bold mr-0.5">
+              Live:
+            </span>
+
+            {platforms.map((p, idx) => {
+              const isSelected = idx === platformIdx;
+              return (
+                <button
+                  key={p.name}
+                  onClick={() => setPlatformIdx(idx)}
+                  className={`flex items-center gap-1 px-2 py-0.5 rounded-md text-[10.5px] font-bold transition-all ${
+                    isSelected
+                      ? `${p.badgeColor} border shadow-xs ring-1 ring-black/5 scale-[1.02]`
+                      : "bg-canvas border border-line/60 text-ink-2 hover:border-indigo/40 opacity-75 hover:opacity-100"
+                  }`}
+                >
+                  {p.icon("w-3 h-3")}
+                  <span>{p.name}</span>
+                  {isSelected && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Future / In-Progress Platforms */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-mono text-amber font-semibold uppercase tracking-wider">
+              In-Progress:
+            </span>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-amber-wash/70 border border-amber/30 text-amber-deep font-bold flex items-center gap-1">
+              <SlackIcon className="w-2.5 h-2.5" />
+              Slack
+            </span>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-amber-wash/70 border border-amber/30 text-amber-deep font-bold flex items-center gap-1">
+              <DiscordIcon className="w-2.5 h-2.5" />
+              Discord
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* TOP HEADER: Active Meeting & 4-Step Stepper */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 border-b border-line/60">
+        <div className="flex items-center gap-2">
+          <span className="flex h-2.5 w-2.5 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500" />
+          </span>
+          <div className="flex items-center gap-1.5">
+            {currentPlatform.icon("w-3.5 h-3.5 text-ink")}
+            <span className="text-[12px] font-bold text-ink transition-colors">
+              {currentPlatform.meetingName}
+            </span>
+          </div>
+          <span className="text-[10px] font-mono text-ink-3">12:04</span>
+        </div>
+
+        {/* 4-Step Interactive Pipeline Pills */}
+        <div className="flex items-center gap-1 bg-canvas p-1 rounded-xl border border-line/60">
+          <button
+            onClick={() => selectStage("capture")}
+            className={`px-2 py-0.5 rounded-lg text-[9.5px] font-bold tracking-wider uppercase transition-all ${
+              stage === "capture"
+                ? "bg-teal text-white shadow-xs"
+                : "text-ink-3 hover:text-ink"
+            }`}
+          >
+            1. Capture
+          </button>
+          <button
+            onClick={() => selectStage("transcribe")}
+            className={`px-2 py-0.5 rounded-lg text-[9.5px] font-bold tracking-wider uppercase transition-all ${
+              stage === "transcribe"
+                ? "bg-indigo text-white shadow-xs"
+                : "text-ink-3 hover:text-ink"
+            }`}
+          >
+            2. Transcribe
+          </button>
+          <button
+            onClick={() => selectStage("extract")}
+            className={`px-2 py-0.5 rounded-lg text-[9.5px] font-bold tracking-wider uppercase transition-all ${
+              stage === "extract"
+                ? "bg-amber text-white shadow-xs"
+                : "text-ink-3 hover:text-ink"
+            }`}
+          >
+            3. Extract
+          </button>
+          <button
+            onClick={() => selectStage("recall")}
+            className={`px-2 py-0.5 rounded-lg text-[9.5px] font-bold tracking-wider uppercase transition-all ${
+              stage === "recall"
+                ? "bg-indigo text-white shadow-xs"
+                : "text-ink-3 hover:text-ink"
+            }`}
+          >
+            4. Recall
+          </button>
+        </div>
+      </div>
+
+      {/* MAIN WORKFLOW STAGE DISPLAY */}
+      <div className="min-h-[275px] flex flex-col justify-between relative">
+
+        {/* ---------------- STAGE 1: CAPTURE (AUDIO WAVE) ---------------- */}
+        {stage === "capture" && (
+          <div className="flex-1 flex flex-col items-center justify-center p-5 bg-indigo-wash/30 border border-indigo/20 rounded-2xl text-center card-enter">
+            {/* Live Visual Hub of Supported Video Platforms */}
+            <div className="flex items-center justify-center gap-2 mb-3">
+              {platforms.map((p, idx) => {
+                const isActive = idx === platformIdx;
+                return (
+                  <div
+                    key={p.name}
+                    className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold transition-all ${
+                      isActive
+                        ? "bg-white text-ink shadow-sm border border-indigo/40 ring-2 ring-indigo/10 scale-105"
+                        : "bg-canvas/80 text-ink-3 border border-line/50 opacity-60"
+                    }`}
+                  >
+                    {p.icon("w-3 h-3")}
+                    <span>{p.name}</span>
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-teal animate-ping" />}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center justify-center gap-2 h-12 mb-3">
+              <span className="w-2 bg-teal rounded-full bar-1" />
+              <span className="w-2 bg-indigo rounded-full bar-2" />
+              <span className="w-2 bg-teal rounded-full bar-3" />
+              <span className="w-2 bg-indigo rounded-full bar-4" />
+              <span className="w-2 bg-amber rounded-full bar-5" />
+              <span className="w-2 bg-indigo rounded-full bar-6" />
+              <span className="w-2 bg-teal rounded-full bar-7" />
+              <span className="w-2 bg-indigo rounded-full bar-8" />
+            </div>
+
+            <div className="text-[13.5px] font-bold text-ink mb-1 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-teal animate-pulse" />
+              Scripra Bot actively listening to {currentPlatform.fullName}
+            </div>
+            <p className="text-[12px] text-ink-3 max-w-[420px] leading-relaxed">
+              Auto-joins <strong>Teams, Webex, Zoom &amp; Google Meet</strong>. Low latency audio ingestion, noise removal &amp; instant speaker diarization.
+            </p>
+          </div>
+        )}
+
+        {/* ---------------- STAGE 2: TRANSCRIBE ---------------- */}
+        {stage === "transcribe" && (
+          <div className="flex-1 flex flex-col justify-center p-5 bg-canvas border border-line rounded-2xl card-enter">
+            <div className="flex items-center justify-between pb-2 mb-3 border-b border-line/60">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full bg-indigo text-white text-[11px] font-bold flex items-center justify-center">
+                  A
+                </div>
+                <span className="text-[12.5px] font-bold text-ink">Antony (Engineering Lead)</span>
+              </div>
+              <span className="text-[10px] font-mono text-teal bg-teal-wash px-2 py-0.5 rounded border border-teal/25 font-semibold">
+                ● Live Speech-to-Text
+              </span>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-card border border-indigo/20 shadow-xs">
+              <p className="text-[13.5px] font-medium text-ink leading-relaxed">
+                &ldquo;{typedText}&rdquo;
+                {typingProgress < 100 && (
+                  <span className="inline-block w-2 h-4 bg-indigo ml-1 animate-pulse align-middle" />
+                )}
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between pt-2.5 mt-1 text-[11px] font-mono text-ink-3">
+              <span>99.4% Accuracy across {currentPlatform.name}</span>
+              <span>Gemini Flash Audio Diarization</span>
+            </div>
+          </div>
+        )}
+
+        {/* ---------------- STAGE 3: EXTRACT (TASKS & DECISIONS) ---------------- */}
+        {stage === "extract" && (
+          <div className="flex-1 flex flex-col justify-between space-y-2 card-enter">
+            <div className="flex items-center justify-between pb-1">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-amber font-bold flex items-center gap-1.5">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+                Instant AI Extraction (From Spoken Words)
+              </span>
+              <span className="text-[9.5px] font-mono text-amber bg-amber-wash px-2 py-0.5 rounded-full font-bold border border-amber/25">
+                ⚡ 0 Manual Notes
+              </span>
+            </div>
+
+            {/* Extracted Decision Card */}
+            <div className="p-2.5 rounded-xl bg-teal-wash/60 border border-teal/30 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-5 h-5 rounded bg-teal text-white flex items-center justify-center text-[11px] font-bold shadow-xs">
+                  📌
+                </div>
                 <div>
-                  <div className="text-[12px] font-bold text-indigo mb-1">Sarah</div>
-                  <div className="text-[13px] text-ink-2 leading-relaxed">Let's review the status of the August release before we wrap up.</div>
+                  <span className="text-[9.5px] font-bold uppercase tracking-wider text-teal block">Key Decision</span>
+                  <span className="text-[12px] font-bold text-ink">Ship release on Friday the 12th</span>
                 </div>
               </div>
-            )}
+              <span className="text-[9.5px] font-mono text-teal font-bold px-2 py-0.5 rounded bg-card border border-teal/20">
+                Consensus Reached
+              </span>
+            </div>
 
-            <div className="flex gap-4 relative">
-              <div className="w-10 text-[11px] text-ink-3 font-mono mt-1 shrink-0">
-                <span className={`px-1 -mx-1 rounded transition-colors duration-500 ${evidenceActive ? "bg-indigo-wash text-indigo font-bold" : ""}`}>
-                  {loopIndex === 0 ? "12:04" : "00:00"}
+            {/* Extracted Action Item Card */}
+            <div className="p-2.5 rounded-xl bg-amber-wash/60 border border-amber/35 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-5 h-5 rounded bg-amber text-white flex items-center justify-center text-[11px] font-bold shadow-xs">
+                  ✓
+                </div>
+                <div>
+                  <span className="text-[9.5px] font-bold uppercase tracking-wider text-amber block">Auto-Assigned Task</span>
+                  <span className="text-[12px] font-bold text-ink">
+                    <span className="text-indigo font-extrabold mr-1">Michael:</span>
+                    Finish regression testing
+                  </span>
+                </div>
+              </div>
+              <span className="text-[9.5px] font-mono text-amber font-bold px-2 py-0.5 rounded bg-card border border-amber/25">
+                Due Thursday
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between pt-1 text-[10.5px] font-mono text-ink-3">
+              <span className="text-teal font-semibold">✓ Synced to Jira &amp; Slack</span>
+              <span>Traceable to Audio 12:04</span>
+            </div>
+          </div>
+        )}
+
+        {/* ---------------- STAGE 4: RECALL (THE MEMORY / ASK ANYTHING FEATURE) ---------------- */}
+        {stage === "recall" && (
+          <div className="flex-1 flex flex-col justify-between space-y-2 card-enter">
+            {/* Search Prompt */}
+            <div className="p-2.5 rounded-xl bg-canvas border border-line flex items-center justify-between gap-2 shadow-xs">
+              <div className="flex items-center gap-2 flex-1">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-indigo">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <span className="text-[12px] font-bold text-ink">
+                  &ldquo;When is the release and who is blocking it?&rdquo;
                 </span>
               </div>
-              <div className="relative">
-                <div className="text-[12px] font-bold text-indigo mb-1">{loopIndex === 0 ? "Antony" : "Me"}</div>
-                <div className="text-[13px] text-ink leading-relaxed whitespace-pre-wrap">
-                  <span className={`transition-colors duration-500 rounded px-1 -mx-1 ${evidenceActive ? "bg-indigo-wash/50" : ""}`}>
-                    {currentText1.substring(0, charsToShow1)}
-                  </span>
-                  {animState === "transcript" && typingProgress < 70 && <span className="inline-block w-2 h-4 bg-indigo ml-1 animate-pulse align-middle" />}
-                </div>
-              </div>
+              <span className="text-[9px] font-mono bg-indigo text-white px-2 py-0.5 rounded font-bold">
+                ASK SCRIPRA
+              </span>
             </div>
 
-            {loopIndex === 0 && typingProgress > 70 && (
-              <div className="flex gap-4">
-                <div className="w-10 text-[11px] text-ink-3 font-mono mt-1 shrink-0">31:02</div>
-                <div>
-                  <div className="text-[12px] font-bold text-indigo mb-1">Michael</div>
-                  <div className="text-[13px] text-ink leading-relaxed whitespace-pre-wrap">
-                    {currentText2.substring(0, charsToShow2)}
-                    {animState === "transcript" && typingProgress >= 70 && typingProgress < 100 && <span className="inline-block w-2 h-4 bg-indigo ml-1 animate-pulse align-middle" />}
-                  </div>
-                </div>
+            {/* Instant Verified Answer */}
+            <div className="p-3 rounded-xl bg-indigo-wash/80 border border-indigo/35 shadow-xs">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[9.5px] font-bold uppercase tracking-wider text-indigo flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo animate-pulse" />
+                  Instant AI Answer
+                </span>
+                <span className="text-[9.5px] font-mono text-indigo font-bold bg-card px-2 py-0.5 rounded border border-indigo/25">
+                  Source: {currentPlatform.name} 12:04 ↗
+                </span>
               </div>
-            )}
-            
-            <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-canvas to-transparent pointer-events-none" />
-          </div>
 
-          {/* Right: Extraction Panel */}
-          <div className={`flex-[1.2] p-5 bg-panel flex flex-col gap-4 overflow-y-auto relative md:w-1/2 transition-opacity duration-500 ${(animState === "memory") ? "opacity-10" : "opacity-100"}`}>
-            <div className={`transition-opacity duration-500 ${(animState !== "idle" && animState !== "capture" && animState !== "transcript") ? "opacity-100" : "opacity-0"}`}>
-              <div className="text-[10px] font-bold tracking-wider text-ink-3 mb-3 flex items-center gap-2">
-                SCRIPRA EXTRACTED
-                <div className="flex-1 h-px bg-line" />
-              </div>
+              <p className="text-[12px] font-medium text-ink leading-relaxed">
+                The release is committed for <strong>Friday the 12th</strong>. Michael owns regression testing and expects to finish <strong>Thursday</strong>.
+              </p>
             </div>
 
-            {loopIndex === 0 ? (
-              <>
-                {/* MEETING EXTRACTION */}
-                <div className={`bg-card border border-line rounded-lg p-3 transition-all duration-500 transform ${visibleRows >= 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 hidden"}`}>
-                  <span className="text-[9px] font-bold tracking-wider text-ink uppercase mb-1 block">Recap</span>
-                  <p className="text-[12px] text-ink-2 leading-snug">Team agreed to ship the August release Friday, pending Michael's regression tests by Thursday. Security approval is the main blocker.</p>
-                </div>
-
-                <div className={`bg-card border border-indigo/20 rounded-lg p-3 transition-all duration-500 transform ${visibleRows >= 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 hidden"}`}>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-indigo" />
-                    <span className="text-[9px] font-bold tracking-wider text-indigo uppercase">Decision</span>
-                  </div>
-                  <p className="text-[12px] font-medium text-ink mb-2 leading-snug">Ship the August release Friday.</p>
-                </div>
-
-                <div className={`bg-card border border-rose/30 rounded-lg p-3 transition-all duration-500 transform ${visibleRows >= 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 hidden"}`}>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-rose" />
-                    <span className="text-[9px] font-bold tracking-wider text-rose uppercase">Risk</span>
-                  </div>
-                  <p className="text-[12px] font-medium text-ink mb-2 leading-snug">Security approval still outstanding.</p>
-                </div>
-
-                <div className={`bg-amber-wash border border-amber/30 rounded-lg p-3 transition-all duration-500 transform ${visibleRows >= 4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 hidden"}`}>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber" />
-                    <span className="text-[9px] font-bold tracking-wider text-amber uppercase">Action Item</span>
-                  </div>
-                  <p className="text-[12px] font-medium text-ink mb-2 leading-snug">Finish regression testing.</p>
-                  <div className="flex justify-between items-center mt-2 pt-2 border-t border-amber/20">
-                    <span className="text-[10px] font-medium text-amber">Michael · Due Thu</span>
-                  </div>
-                </div>
-
-                <div className={`bg-amber-wash border border-amber/30 rounded-lg p-3 transition-all duration-500 transform ${visibleRows >= 5 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 hidden"}`}>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber" />
-                    <span className="text-[9px] font-bold tracking-wider text-amber uppercase">Commitment</span>
-                  </div>
-                  <p className="text-[12px] font-medium text-ink leading-snug">Send the customer update.</p>
-                </div>
-              </>
-            ) : (
-              <>
-                {/* VOICE NOTE EXTRACTION */}
-                <div className={`bg-amber-wash border border-amber/30 rounded-lg p-3 transition-all duration-500 transform ${visibleRows >= 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 hidden"}`}>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber" />
-                    <span className="text-[9px] font-bold tracking-wider text-amber uppercase">Action Item</span>
-                  </div>
-                  <p className="text-[12px] font-medium text-ink mb-2 leading-snug">Follow up with John.</p>
-                  <div className="flex justify-between items-center mt-2 pt-2 border-t border-amber/20">
-                    <span className="text-[10px] font-medium text-amber">Tomorrow</span>
-                  </div>
-                </div>
-
-                <div className={`bg-card border border-indigo/20 rounded-lg p-3 transition-all duration-500 transform ${visibleRows >= 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 hidden"}`}>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-indigo" />
-                    <span className="text-[9px] font-bold tracking-wider text-indigo uppercase">Topic</span>
-                  </div>
-                  <p className="text-[12px] font-medium text-ink leading-snug">Laptop comparison.</p>
-                </div>
-
-                <div className={`bg-card border border-line rounded-lg p-3 transition-all duration-500 transform ${visibleRows >= 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 hidden"}`}>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-ink" />
-                    <span className="text-[9px] font-bold tracking-wider text-ink uppercase">Key Point</span>
-                  </div>
-                  <p className="text-[12px] font-medium text-ink leading-snug">Battery life is the main concern.</p>
-                </div>
-              </>
-            )}
-
-          </div>
-        </div>
-
-        {/* Stage 5: Recall Overlay */}
-        <div className={`absolute bottom-0 left-0 right-0 p-6 z-20 flex justify-center transition-all duration-700 ${(animState === "recall" || animState === "complete" && recallStage > 0) ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-10 pointer-events-none"}`}>
-          <div className="bg-canvas border border-line rounded-xl shadow-2xl p-4 w-full max-w-[400px]">
-            {/* Search Bar */}
-            <div className="relative mb-4">
-              <div className="w-full bg-panel border border-line rounded-full py-2.5 pl-4 pr-10 text-[13px] text-ink flex items-center">
-                {loopIndex === 0 ? "What did we decide about the release?" : "What did I want to compare about laptops?"}
-              </div>
-              <div className="absolute right-2 top-2 w-6 h-6 bg-indigo rounded-full text-white flex items-center justify-center">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"/>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
-              </div>
-            </div>
-            
-            {/* Answer */}
-            <div className={`transition-all duration-500 transform ${recallStage >= 2 ? "opacity-100 translate-y-0 h-auto" : "opacity-0 -translate-y-4 h-0 overflow-hidden"}`}>
-              <div className="bg-panel border border-line p-4 rounded-xl">
-                <p className="text-[12px] leading-[1.6] text-ink mb-3">
-                  {loopIndex === 0 
-                    ? "The team agreed to ship the August release on Friday, assuming Michael finishes regression testing by Thursday."
-                    : "Battery life was the main concern when comparing the two laptop options."}
-                </p>
-                <div className="bg-indigo-wash/50 border border-indigo/20 p-2 rounded flex justify-between items-center cursor-pointer hover:border-indigo/40 transition-colors">
-                  <span className="text-[11px] font-medium text-indigo">Source Evidence</span>
-                  <span className="font-mono text-[10px] text-indigo bg-indigo/10 px-1.5 py-0.5 rounded">
-                    {loopIndex === 0 ? "12:04 ↗" : "00:00 ↗"}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Stage 6: Memory Overlay (Only on meeting for now) */}
-        {loopIndex === 0 && (
-          <div className={`absolute inset-0 bg-[#0B1020] z-30 transition-all duration-1000 flex items-center justify-center p-6 ${animState === "memory" ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
-            <div className="w-full max-w-[400px] bg-[#141C38] border border-[#1A2445] rounded-xl p-6 shadow-2xl">
-              <div className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#7B7CFF] mb-4">
-                Cross-Meeting Memory
-              </div>
-              
-              <div className="flex flex-col gap-4 relative">
-                <div className="absolute left-[5px] top-2 bottom-2 w-px bg-[#1A2445]" />
-                
-                <div className="relative pl-6">
-                  <div className="absolute left-0 top-1 w-2.5 h-2.5 rounded-full bg-[#141C38] border-2 border-[#646E93]" />
-                  <div className="text-[11px] font-semibold text-[#9AA3C4] mb-0.5">Aug 2</div>
-                  <div className="text-[13px] text-[#EDEFFA]">Security review requested</div>
-                </div>
-
-                <div className="relative pl-6">
-                  <div className="absolute left-0 top-1 w-2.5 h-2.5 rounded-full bg-[#141C38] border-2 border-[#FF6B7A]" />
-                  <div className="text-[11px] font-semibold text-[#FF6B7A] mb-0.5">Aug 9</div>
-                  <div className="text-[13px] text-[#EDEFFA]">Security blocker raised</div>
-                </div>
-
-                <div className="relative pl-6">
-                  <div className="absolute left-0 top-1 w-2.5 h-2.5 rounded-full bg-[#7B7CFF]" />
-                  <div className="text-[11px] font-semibold text-[#7B7CFF] mb-0.5">Aug 13 (This meeting)</div>
-                  <div className="text-[13px] text-[#EDEFFA] font-medium">Security approval still outstanding</div>
-                </div>
-              </div>
+            {/* Cross-Meeting Memory Indicator */}
+            <div className="p-2 rounded-lg bg-card border border-line flex items-center justify-between text-[10.5px]">
+              <span className="text-ink-2 font-medium">Cross-Meeting Context:</span>
+              <span className="text-indigo font-bold">Synced across Teams, Webex, Zoom &amp; Google Meet</span>
             </div>
           </div>
         )}
 
       </div>
 
-
-
-      {/* Replay Buttons overlay when complete */}
-      <div className={`absolute bottom-6 right-6 flex flex-col gap-2 transition-opacity duration-500 z-50 ${animState === "complete" ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-        <button 
-          onClick={() => playLoop(0)}
-          className={`flex items-center justify-end gap-2 px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors shadow-sm ${loopIndex === 0 ? "bg-indigo text-white" : "bg-card border border-line text-ink-2 hover:text-ink"}`}
-        >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-          Replay Meeting
-        </button>
-        <button 
-          onClick={() => playLoop(1)}
-          className={`flex items-center justify-end gap-2 px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors shadow-sm ${loopIndex === 1 ? "bg-indigo text-white" : "bg-card border border-line text-ink-2 hover:text-ink"}`}
-        >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-          Replay Voice Note
-        </button>
+      {/* BOTTOM CONTROL FOOTER */}
+      <div className="flex flex-wrap items-center justify-between gap-2 pt-3 mt-3 border-t border-line/70 text-[10.5px] font-medium text-ink-3">
+        <div className="flex items-center gap-1.5">
+          <span className="text-teal font-bold">✓</span>
+          <span className="text-ink font-semibold">Teams, Webex, Zoom &amp; Meet live</span>
+        </div>
+        <div className="flex items-center gap-1.5 font-mono text-[9.5px] text-amber-deep font-semibold">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber animate-pulse" />
+          <span>Slack &amp; Discord in progress</span>
+        </div>
       </div>
 
-      </div>
     </div>
   );
 }

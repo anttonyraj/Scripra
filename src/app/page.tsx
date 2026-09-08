@@ -1,12 +1,11 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import PlatformLoop from "@/components/PlatformLoop";
-import BuiltForYouSection from "@/components/BuiltForYouSection";
-import ScripraThinkSection from "@/components/ScripraThinkSection";
-import SolutionsSection from "@/components/SolutionsSection";
+import CaptureVisualSection from "@/components/CaptureVisualSection";
+import MoMStudioSection from "@/components/MoMStudioSection";
+import MemoryGraphSection from "@/components/MemoryGraphSection";
+import InvestorsSection from "@/components/InvestorsSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
 import EnterpriseSection from "@/components/EnterpriseSection";
-import EvidenceDemo from "@/components/EvidenceDemo";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 
@@ -16,13 +15,12 @@ export default function Home() {
       <Header />
       <main className="relative">
         <Hero />
-        <PlatformLoop />
-        <BuiltForYouSection />
-        <ScripraThinkSection />
-        <SolutionsSection />
+        <CaptureVisualSection />
+        <MoMStudioSection />
+        <MemoryGraphSection />
+        <InvestorsSection />
         <IntegrationsSection />
         <EnterpriseSection />
-        <EvidenceDemo />
         <FinalCTA />
       </main>
       <Footer />

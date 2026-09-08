@@ -60,13 +60,13 @@ export default function CaptureSection() {
                   )}
 
                   {/* Waveform Visualization */}
-                  <div className={`flex gap-1.5 items-end justify-center h-20 border border-teal/10 rounded-xl p-4 transition-colors duration-500 ${recordingStage === 1 ? 'bg-teal-[0.02]' : 'bg-canvas'}`}>
-                    {[...Array(32)].map((_, i) => (
+                  <div className={`flex gap-1.5 items-end justify-center h-20 border border-teal/10 rounded-xl p-4 transition-colors duration-500 ${recordingStage === 1 ? 'bg-teal/[0.02]' : 'bg-canvas'}`}>
+                    {[25, 40, 60, 85, 70, 95, 50, 65, 80, 45, 90, 75, 40, 60, 85, 100, 90, 70, 50, 85, 65, 95, 80, 55, 40, 75, 90, 60, 45, 70, 50, 30].map((height, i) => (
                       <div 
                         key={i} 
                         className={`w-1.5 rounded-full transition-all duration-300 ${recordingStage === 1 ? 'bg-teal animate-pulse' : 'bg-line-hi'}`} 
                         style={{ 
-                          height: recordingStage === 1 ? `${Math.max(20, Math.random() * 100)}%` : '20%', 
+                          height: recordingStage === 1 ? `${height}%` : '20%', 
                           animationDelay: `${i * 0.05}s` 
                         }} 
                       />
@@ -76,7 +76,7 @@ export default function CaptureSection() {
                   {/* Live Transcript Snippet */}
                   <div className="h-12 flex items-center justify-center text-center">
                     {recordingStage === 0 && <span className="text-ink-3 text-sm italic">Ready to capture...</span>}
-                    {recordingStage === 1 && <span className="text-teal-deep text-sm font-medium animate-[fade-in-up_0.5s_ease-out_forwards]">"We should completely redesign the landing page by Friday..."</span>}
+                    {recordingStage === 1 && <span className="text-teal-deep text-sm font-medium animate-[fade-in-up_0.5s_ease-out_forwards]">&quot;We should completely redesign the landing page by Friday...&quot;</span>}
                   </div>
                 </div>
               </div>

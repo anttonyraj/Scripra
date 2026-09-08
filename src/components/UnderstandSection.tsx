@@ -76,7 +76,7 @@ export default function UnderstandSection() {
         </div>
 
         {/* UI Mockup */}
-        <div className="relative w-full rounded-[32px] bg-indigo-[0.03] border border-indigo/10 p-6 md:p-8 overflow-hidden shadow-sm group">
+        <div className="relative w-full rounded-[32px] bg-indigo/[0.03] border border-indigo/10 p-6 md:p-8 overflow-hidden shadow-sm group">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTM5IDM5VjFoLTM4djM4aDM4eiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjA0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
           <div className="absolute top-5 left-5 text-[11px] font-mono tracking-[0.2em] text-teal/50 font-bold pointer-events-none select-none">UNDERSTANDING_ENGINE</div>
           
@@ -93,7 +93,7 @@ export default function UnderstandSection() {
               
               <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 relative">
                 {current.transcript.map((line, idx) => (
-                  <div key={`${loopIndex}-${idx}`} className={`grid grid-cols-[48px_1fr] gap-4 transition-all duration-500 animate-[fade-in-up_0.5s_ease-out_forwards] ${line.active ? 'bg-indigo-[0.02] border border-indigo/10 p-4 -mx-4 rounded-xl relative' : ''}`} style={{ animationDelay: `${idx * 150}ms`, opacity: 0 }}>
+                  <div key={`${loopIndex}-${idx}`} className={`grid grid-cols-[48px_1fr] gap-4 transition-all duration-500 animate-[fade-in-up_0.5s_ease-out_forwards] ${line.active ? 'bg-indigo/[0.02] border border-indigo/10 p-4 -mx-4 rounded-xl relative' : ''}`} style={{ animationDelay: `${idx * 150}ms`, opacity: 0 }}>
                     {line.active && <div className="absolute left-0 top-0 bottom-0 w-1 bg-indigo rounded-l-xl" />}
                     <div className="font-mono text-[12px] text-indigo/60 pt-0.5">{line.time}</div>
                     <div>

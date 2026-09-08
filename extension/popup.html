@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scripra Extension</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 320px;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0A0D18;
+      color: #F3F4F8;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(112, 126, 255, 0.16);
+      margin-bottom: 14px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00D2B4;
+      box-shadow: 0 0 8px #00D2B4;
+    }
+    .badge-v3 {
+      font-size: 9.5px;
+      font-family: monospace;
+      background: rgba(67, 83, 255, 0.2);
+      color: #707EFF;
+      border: 1px solid rgba(67, 83, 255, 0.4);
+      padding: 2px 6px;
+      border-radius: 99px;
+      font-weight: 700;
+    }
+    .status-card {
+      background: #121626;
+      border: 1px solid rgba(112, 126, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+    .status-title {
+      font-size: 10.5px;
+      font-family: monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9CA3AF;
+      margin-bottom: 6px;
+    }
+    .status-val {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00D2B4;
+    }
+    .status-desc {
+      font-size: 11px;
+      color: #6B7280;
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .btn {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: #4353FF;
+      color: #FFFFFF;
+      border: none;
+      box-shadow: 0 4px 12px rgba(67, 83, 255, 0.3);
+    }
+    .btn-primary:hover {
+      background: #2B38D1;
+    }
+    .btn-secondary {
+      background: #181E34;
+      color: #E5E7EB;
+      border: 1px solid rgba(112, 126, 255, 0.2);
+    }
+    .btn-secondary:hover {
+      background: rgba(112, 126, 255, 0.1);
+      color: #FFFFFF;
+    }
+    .footer-note {
+      text-align: center;
+      font-size: 10.5px;
+      color: #6B7280;
+      margin-top: 12px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      <span>Scripra</span>
+    </div>
+    <span class="badge-v3">BOT-FREE V1</span>
+  </div>
+
+  <div class="status-card">
+    <div class="status-title">Google Meet Integration</div>
+    <div class="status-val">
+      <span class="status-indicator"></span>
+      <span id="meet-status-text">Active &amp; Monitoring</span>
+    </div>
+    <p class="status-desc">
+      Join any Google Meet call. Scripra automatically captures dialogue turns without visible bots.
+    </p>
+  </div>
+
+  <div class="actions">
+    <button id="open-dashboard-btn" class="btn btn-primary">
+      <span>Open Scripra Dashboard</span>
+      <span>↗</span>
+    </button>
+    <button id="open-conversations-btn" class="btn btn-secondary">
+      <span>Recent Conversations</span>
+    </button>
+  </div>
+
+  <div class="footer-note">
+    Enterprise Security · AES-256
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

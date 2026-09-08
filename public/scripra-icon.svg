@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <!-- Top hook: solid royal blue -->
+  <path
+    d="M 31 10 C 31 10, 10.5 10, 10.5 10 C 10.5 10, 10.5 17, 10.5 17 C 10.5 21, 15.5 23.5, 19.5 23.5"
+    stroke="#3B4AF0"
+    stroke-width="5.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <!-- Bottom hook: solid royal blue (180 deg mirrored) -->
+  <path
+    d="M 9 30 C 9 30, 29.5 30, 29.5 30 C 29.5 30, 29.5 23, 29.5 23 C 29.5 19, 24.5 16.5, 20.5 16.5"
+    stroke="#3B4AF0"
+    stroke-width="5.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

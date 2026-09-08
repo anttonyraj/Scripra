@@ -15,61 +15,59 @@
    No waveforms anywhere: that motif belongs to Sonictra.
    ========================================================================== */
 :root{
-  --ink:#101828;
-  --ink-2:#475467;
-  --ink-3:#8A93A6;
+  --ink:#111827;
+  --ink-2:#4353FF;
+  --ink-3:#6B7280;
 
-  --indigo:#5B5CF0;        /* PRIMARY */
-  --indigo-deep:#3D34C4;   /* hover, dense type */
-  --indigo-lift:#9B9CFF;   /* light strokes */
-  --indigo-mist:#EEEEFE;
+  --indigo:#4353FF;        /* PRIMARY ELECTRIC COBALT */
+  --indigo-deep:#2B38D1;   /* hover, dense type */
+  --indigo-lift:#707EFF;   /* light strokes */
+  --indigo-mist:#EEF0FF;
 
-  --amber:#F0A02A;         /* ACCENT — anything a human owes someone */
-  --amber-deep:#A96A08;
-  --amber-mist:#FDF2DE;
+  --amber:#F5A020;         /* ACCENT — signature memory dot & actions */
+  --amber-deep:#B45309;
+  --amber-mist:#FFFBEB;
 
-  --teal:#12A47C;          /* SEMANTIC — done */
-  --rose:#E14B5A;          /* SEMANTIC — risk. Kept free of brand duty. */
+  --teal:#00D2B4;          /* INTELLIGENCE — speech, active waves, done */
+  --rose:#E14B5A;          /* SEMANTIC — risk */
 
-  --canvas:#FAFAFF;
+  --canvas:#FAFAFC;
   --card:#FFFFFF;
-  --line:rgba(91,92,240,.14);
+  --line:rgba(67,83,255,.11);
 
   --sans:'Inter',system-ui,-apple-system,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
 
-  --wave-a:155,156,255;
-  --wave-b:91,92,240;
-  --wave-c:61,52,196;
+  --wave-a:0,210,180;
+  --wave-b:67,83,255;
+  --wave-c:43,56,209;
 }
 
-/* --- DARK THEME ---
-   Indigo and amber both lift on a dark ground; the light-mode values go
-   muddy. Same brand, different stops. --- */
+/* --- DARK THEME --- */
 [data-theme="dark"]{
-  --ink:#EDEFFA;
-  --ink-2:#9AA3C4;
-  --ink-3:#646E93;
+  --ink:#F3F4F8;
+  --ink-2:#9BA6D8;
+  --ink-3:#6470A0;
 
-  --indigo:#7B7CFF;
-  --indigo-deep:#9B9CFF;
-  --indigo-lift:#5B5CF0;
-  --indigo-mist:rgba(123,124,255,.14);
+  --indigo:#6371FF;
+  --indigo-deep:#8A96FF;
+  --indigo-lift:#4353FF;
+  --indigo-mist:rgba(99,113,255,.15);
 
-  --amber:#F5B14A;
-  --amber-deep:#F5B14A;
-  --amber-mist:rgba(245,177,74,.13);
+  --amber:#FBBF24;
+  --amber-deep:#FBBF24;
+  --amber-mist:rgba(251,191,36,.14);
 
-  --teal:#2DC79B;
+  --teal:#00E5C4;
   --rose:#FF6B7A;
 
-  --canvas:#0B1020;
-  --card:#141C38;
-  --line:rgba(139,148,200,.17);
+  --canvas:#0A0D18;
+  --card:#121626;
+  --line:rgba(112,126,255,.16);
 
-  --wave-a:123,124,255;
-  --wave-b:155,156,255;
-  --wave-c:61,52,196;
+  --wave-a:0,229,196;
+  --wave-b:99,113,255;
+  --wave-c:67,83,255;
 }
 *{box-sizing:border-box;}
 body{
@@ -197,19 +195,12 @@ footer p{font-size:13px;color:var(--ink-3);margin:0;}
     <div class="logo-lab">
       <div class="logo" id="logoA">
         <svg class="logo-mark" viewBox="0 0 40 40" fill="none" aria-label="Scripra">
-          <g stroke-linecap="round" fill="none">
-            <path class="ln" d="M9 9 H31"          stroke="#9B9CFF" stroke-width="3"/>
-            <path class="ln" d="M9 16.5 H26"       stroke="#5B5CF0" stroke-width="3"/>
-            <path class="ln" d="M14 23.5 H31"      stroke="#5B5CF0" stroke-width="3"/>
-            <path class="ln" d="M9 31 H31"         stroke="#3D34C4" stroke-width="3"/>
-            <path class="sc" d="M30 10.5 C30 6.5 10 6.5 10 14 C10 20.5 30 19.5 30 26 C30 33.5 10 33.5 10 29.5"
-                  stroke="#5B5CF0" stroke-width="3.4" opacity="0"/>
-          </g>
-          <circle class="nd" cx="31.5" cy="31" r="3.4" fill="#F0A02A" opacity="0"/>
+          <path d="M 30.5 10.5 C 30.5 5.5, 11 5.5, 11 15 C 11 21.5, 19 22.5, 23 21" stroke="#4353FF" stroke-width="5.6" stroke-linecap="round"/>
+          <path d="M 9.5 29.5 C 9.5 34.5, 29 34.5, 29 25 C 29 18.5, 21 17.5, 17 19" stroke="#3142EB" stroke-width="5.6" stroke-linecap="round"/>
         </svg>
         <div class="logo-type">
-          <div class="name">Scripra</div>
-          <div class="tag">Conversation intelligence</div>
+          <div class="name">Scripra <span style="display:inline-block;width:9px;height:9px;background:#F5A020;border-radius:50%;margin-left:2px;box-shadow:0 0 8px rgba(245,160,32,0.6);"></span></div>
+          <div class="tag">AI Conversation intelligence</div>
         </div>
       </div>
       <div class="hint">Primary lockup · light surface</div>
@@ -218,19 +209,12 @@ footer p{font-size:13px;color:var(--ink-3);margin:0;}
     <div class="dark-strip">
       <div class="logo" id="logoB">
         <svg class="logo-mark" viewBox="0 0 40 40" fill="none" aria-label="Scripra">
-          <g stroke-linecap="round" fill="none">
-            <path class="ln" d="M9 9 H31"     stroke="#6E6FF5" stroke-width="3"/>
-            <path class="ln" d="M9 16.5 H26"  stroke="#9B9CFF" stroke-width="3"/>
-            <path class="ln" d="M14 23.5 H31" stroke="#9B9CFF" stroke-width="3"/>
-            <path class="ln" d="M9 31 H31"    stroke="#FFFFFF" stroke-width="3"/>
-            <path class="sc" d="M30 10.5 C30 6.5 10 6.5 10 14 C10 20.5 30 19.5 30 26 C30 33.5 10 33.5 10 29.5"
-                  stroke="#FFFFFF" stroke-width="3.4" opacity="0"/>
-          </g>
-          <circle class="nd" cx="31.5" cy="31" r="3.4" fill="#F0A02A" opacity="0"/>
+          <path d="M 30.5 10.5 C 30.5 5.5, 11 5.5, 11 15 C 11 21.5, 19 22.5, 23 21" stroke="#7B88FF" stroke-width="5.6" stroke-linecap="round"/>
+          <path d="M 9.5 29.5 C 9.5 34.5, 29 34.5, 29 25 C 29 18.5, 21 17.5, 17 19" stroke="#5362FF" stroke-width="5.6" stroke-linecap="round"/>
         </svg>
         <div class="logo-type">
-          <div class="name">Scripra</div>
-          <div class="tag">Conversation intelligence</div>
+          <div class="name">Scripra <span style="display:inline-block;width:9px;height:9px;background:#F5A020;border-radius:50%;margin-left:2px;box-shadow:0 0 8px rgba(245,160,32,0.6);"></span></div>
+          <div class="tag">AI Conversation intelligence</div>
         </div>
       </div>
       <div class="hint">Inverse lockup · app chrome, footer</div>

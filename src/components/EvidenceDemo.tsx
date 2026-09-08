@@ -63,7 +63,7 @@ export default function EvidenceDemo() {
                 <div className={`text-[15px] leading-relaxed transition-colors duration-500 rounded px-2 py-1 -mx-2 ${
                   highlighted ? "bg-indigo-wash/40 text-ink" : "text-ink-2"
                 }`}>
-                  "Okay — let's commit. We ship the August release Friday."
+                  &quot;Okay — let&apos;s commit. We ship the August release Friday.&quot;
                 </div>
               </div>
             </div>

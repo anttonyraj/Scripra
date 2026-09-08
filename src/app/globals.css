@@ -4,91 +4,92 @@
 
 @layer base {
   :root {
-    /* Brand System - Marketing & App (Light) */
-    --canvas: #FAFAFF;
+    /* Brand System - Electric Cobalt Primary + Luminous Aqua + Signature Amber (Light) */
+    --canvas: #FAFAFC;
     --card: #FFFFFF;
     --panel: #FFFFFF;
-    --raise: #F2F3FC;
+    --raise: #F4F5FB;
     
-    --line: rgba(91,92,240,0.14);
-    --line-hi: rgba(91,92,240,0.26);
+    --line: rgba(67,83,255,0.11);
+    --line-hi: rgba(67,83,255,0.22);
 
-    --ink: #2A258E;
-    --ink-2: #5B5CF0;
-    --ink-3: #8B8DF2;
+    --ink: #111827;
+    --ink-2: #4353FF;
+    --ink-3: #6B7280;
 
-    --indigo: #5B5CF0;
-    --indigo-deep: #3D34C4;
-    --indigo-dim: #5B5CF0;
-    --indigo-lift: #9B9CFF;
-    --indigo-mist: #EEEEFE;
-    --indigo-wash: rgba(91,92,240,0.10);
+    --indigo: #4353FF;
+    --indigo-deep: #2B38D1;
+    --indigo-dim: #4353FF;
+    --indigo-lift: #707EFF;
+    --indigo-mist: #EEF0FF;
+    --indigo-wash: rgba(67,83,255,0.08);
 
-    --amber: #F0A02A;
-    --amber-deep: #A96A08;
-    --amber-mist: #FDF2DE;
-    --amber-wash: rgba(240,160,42,0.16);
+    --amber: #F5A020;
+    --amber-deep: #B45309;
+    --amber-mist: #FFFBEB;
+    --amber-wash: rgba(245,160,32,0.15);
 
-    --teal: #12A47C;
-    --teal-deep: #0E8A66;
-    --teal-wash: rgba(18,164,124,0.14);
+    --teal: #00D2B4;
+    --teal-deep: #00A38C;
+    --teal-wash: rgba(0,210,180,0.12);
 
     --rose: #E14B5A;
     --rose-deep: #C93744;
     --rose-wash: rgba(225,75,90,0.12);
 
-    --av-a: #5B5CF0;
-    --av-b: #F0A02A;
-    --av-c: #12A47C;
+    --av-a: #4353FF;
+    --av-b: #F5A020;
+    --av-c: #00D2B4;
     --av-ink: #FFFFFF;
 
-    /* Hero wave animation */
-    --wave-a: 155, 156, 255;
-    --wave-b: 91, 92, 240;
-    --wave-c: 61, 52, 196;
+    /* Hero wave animation — cobalt and aqua luminous lines */
+    --wave-a: 0, 210, 180;
+    --wave-b: 67, 83, 255;
+    --wave-c: 43, 56, 209;
   }
 
   [data-theme="dark"] {
-    --canvas: #0B1020;
-    --card: #141C38;
-    --panel: #101733;
-    --raise: #1A2445;
+    --canvas: #0A0D18;
+    --card: #121626;
+    --panel: #0E1220;
+    --raise: #181E34;
     
-    --line: rgba(139,148,200,0.17);
-    --line-hi: rgba(139,148,200,0.30);
+    --line: rgba(112,126,255,0.16);
+    --line-hi: rgba(112,126,255,0.30);
 
-    --ink: #EDEFFA;
-    --ink-2: #9AA3C4;
-    --ink-3: #646E93;
+    --ink: #F3F4F8;
+    --ink-2: #9BA6D8;
+    --ink-3: #6470A0;
 
-    --indigo: #7B7CFF;
-    --indigo-deep: #9B9CFF;
-    --indigo-dim: #5B5CF0;
-    --indigo-lift: #5B5CF0;
-    --indigo-mist: rgba(123,124,255,0.14);
-    --indigo-wash: rgba(123,124,255,0.14);
+    --indigo: #6371FF;
+    --indigo-deep: #8A96FF;
+    --indigo-dim: #4353FF;
+    --indigo-lift: #6371FF;
+    --indigo-mist: rgba(99,113,255,0.15);
+    --indigo-wash: rgba(99,113,255,0.15);
 
-    --amber: #F5B14A;
-    --amber-deep: #F5B14A;
-    --amber-mist: rgba(245,177,74,0.13);
-    --amber-wash: rgba(245,177,74,0.13);
+    --amber: #FBBF24;
+    --amber-deep: #FBBF24;
+    --amber-mist: rgba(251,191,36,0.14);
+    --amber-wash: rgba(251,191,36,0.14);
 
-    --teal: #2DC79B;
-    --teal-deep: #2DC79B;
-    --teal-wash: rgba(45,199,155,0.13);
+    --teal: #00E5C4;
+    --teal-deep: #00E5C4;
+    --teal-wash: rgba(0,229,196,0.14);
 
     --rose: #FF6B7A;
     --rose-deep: #FF6B7A;
     --rose-wash: rgba(255,107,122,0.13);
 
-    --av-a: #7B7CFF;
-    --av-b: #F5B14A;
-    --av-c: #2DC79B;
-    --av-ink: #0B1020;
+    --av-a: #6371FF;
+    --av-b: #FBBF24;
+    --av-c: #00E5C4;
+    --av-ink: #0A0D18;
 
-    --wave-a: 123, 124, 255;
-    --wave-b: 155, 156, 255;
-    --wave-c: 61, 52, 196;
+    /* Hero wave animation — cobalt and aqua (dark) */
+    --wave-a: 0, 229, 196;
+    --wave-b: 99, 113, 255;
+    --wave-c: 67, 83, 255;
   }
 }
 

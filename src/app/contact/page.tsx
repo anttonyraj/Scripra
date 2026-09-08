@@ -15,7 +15,7 @@ export default function ContactPage() {
           <div className="bg-panel border border-line rounded-3xl p-8 lg:p-10 shadow-xl">
             <div className="text-center mb-8">
               <h1 className="text-[28px] font-bold text-ink tracking-tight mb-2">Get in touch</h1>
-              <p className="text-[14px] text-ink-2">Have a question or looking for enterprise deployment? We'd love to help.</p>
+              <p className="text-[14px] text-ink-2">Have a question or looking for enterprise deployment? We&apos;d love to help.</p>
             </div>
 
             <form className="flex flex-col gap-4">
