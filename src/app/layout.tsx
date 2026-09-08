@@ -68,6 +68,9 @@ export const metadata: Metadata = {
     ],
     shortcut: "/scripra-curvy-s-hd.png",
   },
+  verification: {
+    google: "googleb3f88da066692fe9",
+  },
   robots: {
     index: true,
     follow: true,
