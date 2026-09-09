@@ -104,6 +104,8 @@ export default function LiveMeetingStudio() {
   const durationSecondsRef = useRef(0);
   const organizerNameRef = useRef(organizerName);
   const botJoinAttemptRef = useRef(0);
+  const isRecordingRef = useRef(isRecording);
+  useEffect(() => { isRecordingRef.current = isRecording; }, [isRecording]);
   useEffect(() => { durationSecondsRef.current = durationSeconds; }, [durationSeconds]);
   useEffect(() => { organizerNameRef.current = organizerName; }, [organizerName]);
 
@@ -386,6 +388,14 @@ export default function LiveMeetingStudio() {
 
       recognition.onerror = (err: any) => {
         console.log("Mic recognition event:", err?.error);
+      };
+
+      recognition.onend = () => {
+        if (isRecordingRef.current) {
+          try {
+            recognition.start();
+          } catch (e) {}
+        }
       };
 
       recognitionRef.current = recognition;
@@ -763,6 +773,7 @@ export default function LiveMeetingStudio() {
         return;
       }
     }
+    isRecordingRef.current = false;
     setIsRecording(false);
     setIsBotStarting(false);
     setBotConnectionStage("idle");
@@ -1093,7 +1104,7 @@ export default function LiveMeetingStudio() {
                   <span>Meeting Session / Platform Link</span>
                 </label>
                 <span className="text-[10px] font-mono text-indigo font-bold bg-indigo-wash px-2 py-0.5 rounded border border-indigo/20">
-                  🎙️ Mic Transcription
+                  🎙️ Live Speech Mode
                 </span>
               </div>
 
@@ -1156,7 +1167,7 @@ export default function LiveMeetingStudio() {
                   ) : (
                     <>
                       <span>🎙️</span>
-                      <span>{meetingInviteUrl.trim() ? "Join with Scripra Bot" : "Start Microphone Capture"}</span>
+                      <span>{meetingInviteUrl.trim() ? "Join with Scripra Bot" : "Start Live Transcription"}</span>
                     </>
                   )}
                 </button>
@@ -1172,7 +1183,7 @@ export default function LiveMeetingStudio() {
                   }`}
                 >
                   <span>⏹</span>
-                  <span>{meetingInviteUrl.trim() ? "Leave Meeting" : "End Capture"}</span>
+                  <span>{meetingInviteUrl.trim() ? "Leave Meeting" : "Stop Transcribing"}</span>
                 </button>
               </div>
 

@@ -18,40 +18,19 @@ export default function DashboardLayout({
   const { data: session, status } = useSession();
   const { plan, meetingsUsed, meetingsLimit, openUpgradeModal } = useSubscription();
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login?callbackUrl=" + encodeURIComponent(pathname));
-    }
-  }, [status, router, pathname]);
+  const isGuestMode = !session?.user;
+  const currentUser = session?.user || {
+    name: "Pilot Guest",
+    email: "demo@scripra.com",
+    image: null,
+  };
 
   if (status === "loading") {
     return (
       <div className="min-h-screen bg-canvas flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-3 border-indigo border-t-transparent rounded-full animate-spin" />
-          <span className="text-[13px] font-mono text-ink-3">Verifying Scripra session...</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (status === "unauthenticated") {
-    return (
-      <div className="min-h-screen bg-canvas flex items-center justify-center p-6">
-        <div className="text-center max-w-sm">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-wash text-indigo font-bold flex items-center justify-center mx-auto mb-4 text-xl">
-            🔒
-          </div>
-          <h2 className="text-xl font-bold text-ink mb-2">Authentication Required</h2>
-          <p className="text-sm text-ink-3 mb-6">
-            Please sign in with Google to access your Scripra meetings and workspace.
-          </p>
-          <Link
-            href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
-            className="inline-block px-6 py-3 rounded-xl bg-indigo text-white font-bold text-sm hover:bg-indigo-deep transition-all shadow-xs"
-          >
-            Continue with Google ↗
-          </Link>
+          <span className="text-[13px] font-mono text-ink-3">Initializing Scripra workspace...</span>
         </div>
       </div>
     );
@@ -233,45 +212,89 @@ export default function DashboardLayout({
           {/* User Profile & Sign Out */}
           <div className="mt-3 pt-3 border-t border-line flex items-center justify-between gap-2 px-1">
             <div className="flex items-center gap-2.5 min-w-0">
-              {session?.user?.image ? (
+              {currentUser?.image ? (
                 <img
-                  src={session.user.image}
-                  alt={session.user.name || "User"}
+                  src={currentUser.image}
+                  alt={currentUser.name || "User"}
                   className="w-8 h-8 rounded-full border border-line object-cover flex-shrink-0"
                 />
               ) : (
                 <div className="w-8 h-8 rounded-full bg-indigo-wash text-indigo font-bold flex items-center justify-center text-xs flex-shrink-0">
-                  {session?.user?.name?.charAt(0) || "U"}
+                  {currentUser?.name?.charAt(0) || "P"}
                 </div>
               )}
               <div className="min-w-0 flex-1">
-                <p className="text-[12px] font-semibold text-ink truncate leading-tight">
-                  {session?.user?.name || "Scripra User"}
-                </p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-[12px] font-semibold text-ink truncate leading-tight">
+                    {currentUser?.name || "Pilot Guest"}
+                  </p>
+                  {isGuestMode && (
+                    <span className="text-[9px] font-mono font-bold uppercase tracking-wider bg-teal-wash text-teal px-1 py-0.5 rounded border border-teal/20 shrink-0">
+                      Pilot
+                    </span>
+                  )}
+                </div>
                 <p className="text-[10px] text-ink-3 truncate leading-tight font-mono">
-                  {session?.user?.email || ""}
+                  {currentUser?.email || "demo@scripra.com"}
                 </p>
               </div>
             </div>
-            <button
-              onClick={() => signOut({ callbackUrl: "/" })}
-              title="Sign out"
-              className="p-1.5 rounded-lg text-ink-3 hover:text-ink hover:bg-raise transition-colors flex-shrink-0"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-            </button>
+            {isGuestMode ? (
+              <Link
+                href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
+                title="Sign in to save meetings"
+                className="p-1 px-2 rounded-lg text-indigo hover:text-indigo-deep hover:bg-indigo-wash transition-colors flex-shrink-0 text-[11px] font-bold border border-indigo/20"
+              >
+                Sign In
+              </Link>
+            ) : (
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                title="Sign out"
+                className="p-1.5 rounded-lg text-ink-3 hover:text-ink hover:bg-raise transition-colors flex-shrink-0"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </button>
+            )}
           </div>
         </div>
       </aside>
 
       {/* Main content */}
       <main className="flex-1 min-w-0 flex flex-col relative bg-[radial-gradient(ellipse_70%_50%_at_50%_-10%,rgba(67,83,255,0.06),transparent)]">
+        {/* Guest Mode Banner */}
+        {isGuestMode && (
+          <div className="bg-indigo-wash/70 border-b border-indigo/20 px-4 py-2 flex items-center justify-between gap-3 text-[12px]">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="w-2 h-2 rounded-full bg-teal shrink-0 animate-pulse" />
+              <span className="font-bold text-indigo shrink-0">Pilot Guest Mode:</span>
+              <span className="text-ink-2 truncate">
+                Previewing live speech transcription, neural memory &amp; executive intelligence.
+              </span>
+            </div>
+            <Link
+              href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
+              className="px-2.5 py-1 rounded-lg bg-indigo text-white text-[11px] font-bold hover:bg-indigo-deep transition-all shadow-2xs whitespace-nowrap shrink-0"
+            >
+              Save with Google ↗
+            </Link>
+          </div>
+        )}
+
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between px-5 py-3.5 bg-panel border-b border-line sticky top-0 z-40">
           <Logo showTagline={false} />
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {isGuestMode && (
+              <Link
+                href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
+                className="px-2.5 py-1 rounded-lg bg-indigo text-white text-[11px] font-bold"
+              >
+                Sign In
+              </Link>
+            )}
             <ThemeToggle />
             <Link
               href="/dashboard/conversations"
