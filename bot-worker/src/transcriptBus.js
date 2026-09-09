@@ -21,7 +21,7 @@ export class TranscriptBus {
 
   publish(text) {
     if (!text || !text.trim()) return;
-    if (text.startsWith('[') || text.startsWith('~ ')) {
+    if (text.startsWith('[Bot') || text.startsWith('~ ')) {
       this.publishSystem(text);
     } else {
       this.publishFinal(text);

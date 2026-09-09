@@ -39,9 +39,14 @@ yarn-error.log*
 # bot browser profiles & user session directories (prevent credential leaks)
 .bot-profile/
 .webex-edge-profile/
+.guest-profiles/
 *.bot-profile/
 google-session.json
 *.session.json
+transcripts/
+diagnostics/
+SelfHosted-GuestBot/
+SelfHosted-GuestBot.zip
 SingletonLock
 SingletonCookie
 SingletonSocket

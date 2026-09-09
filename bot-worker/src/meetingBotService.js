@@ -1,10 +1,16 @@
 import path from 'path';
+import fs from 'node:fs';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'url';
 import { chromium } from 'playwright';
 import { PlatformDetector, PlatformJoiners, MeetingPlatform } from './platformJoiners.js';
 import { DeepgramTranscriber } from './deepgramTranscriber.js';
+import { SonioxTranscriber } from './sonioxTranscriber.js';
+import { GoogleCloudSpeechTranscriber } from './googleCloudSpeechTranscriber.js';
+import { MeetCaptionTranscriber } from './meetCaptionTranscriber.js';
 import { AzureSpeechTranscriber } from './azureSpeechTranscriber.js';
 import { browserAudioCaptureScript } from './browserAudioCaptureScript.js';
+import { launchNativeChrome } from './native-browser.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -15,6 +21,8 @@ export class MeetingBotService {
 
     this.playwright = null;
     this.browser = null;
+    this.nativeChild = null;
+    this.nativeProfile = null;
     this.context = null;
     this.page = null;
     this.speech = null;
@@ -55,8 +63,12 @@ export class MeetingBotService {
       throw new Error('Bot is currently transitioning states. Please wait.');
     }
     const platform = PlatformDetector.detect(meetingUrl);
-    if (platform === MeetingPlatform.Unknown) throw new Error('Use a valid HTTPS meeting link. Google Meet links must use meet.google.com/abc-defg-hij.');
-    if (this.page && !this.page.isClosed()) throw new Error('A bot is already active. Leave the current meeting before joining another.');
+    if (platform === MeetingPlatform.Unknown) {
+      throw new Error('Use a valid HTTPS meeting link. Google Meet links must use meet.google.com/abc-defg-hij.');
+    }
+    if (this.page && !this.page.isClosed()) {
+      throw new Error('A bot is already active. Leave the current meeting before joining another.');
+    }
     this.isBusy = true;
     this.joinCancelled = false;
 
@@ -71,10 +83,6 @@ export class MeetingBotService {
       this.audioBytes = 0;
       this.lastAudioEvent = null;
 
-      if (platform === MeetingPlatform.Unknown) {
-        throw new Error('Unsupported meeting URL. Supported: Teams, Zoom, Google Meet and Webex.');
-      }
-
       this.platform = platform;
       this.url = meetingUrl;
       this.state = 'Starting background bot';
@@ -82,6 +90,8 @@ export class MeetingBotService {
 
       if (platform === MeetingPlatform.Webex) {
         await this.startWebexChrome();
+      } else if (platform === MeetingPlatform.GoogleMeet && this.config.bot.browserMode === 'native') {
+        await this.startNativeChrome();
       } else {
         await this.startDefaultBrowser();
       }
@@ -96,7 +106,7 @@ export class MeetingBotService {
         await this.page.addInitScript(browserAudioCaptureScript);
       }
 
-      const botName = this.config.bot.name || 'MRCL Meeting Bot';
+      const botName = this.config.bot.name || 'Scripra AI Notetaker';
       const effectiveUrl = PlatformJoiners.normalizeJoinUrl(platform, meetingUrl, botName);
 
       this.state = 'Opening meeting';
@@ -131,6 +141,23 @@ export class MeetingBotService {
     }
   }
 
+  async startNativeChrome() {
+    this.bus.publish('[Bot] Launching isolated browser process with disposable profile...');
+    try {
+      const { browser, child, profile } = await launchNativeChrome({ headless: this.config.bot.headless });
+      this.browser = browser;
+      this.nativeChild = child;
+      this.nativeProfile = profile;
+      this.context = this.browser.contexts()[0] || await this.browser.newContext();
+      this.page = this.context.pages()[0] || await this.context.newPage();
+      this.page.setDefaultTimeout(this.config.bot.joinTimeoutSeconds * 1000);
+    } catch (err) {
+      console.warn('[Native Chrome Launch Failed, Falling Back to Playwright]', err.message);
+      this.bus.publish(`[Bot Warning] Native Chrome launch failed: ${err.message}. Falling back to default browser.`);
+      await this.startDefaultBrowser();
+    }
+  }
+
   async startDefaultBrowser() {
     const profileDir = path.resolve(__dirname, '../../.bot-profile');
     const launchOptions = {
@@ -142,8 +169,6 @@ export class MeetingBotService {
       ignoreDefaultArgs: ['--enable-automation']
     };
 
-    // Try launching installed Google Chrome first for maximum site compatibility,
-    // falling back to bundled Chromium
     try {
       this.context = await chromium.launchPersistentContext(profileDir, {
         ...launchOptions,
@@ -232,44 +257,87 @@ export class MeetingBotService {
     });
   }
 
+  // 4-Tier Speech Cascade Hierarchy:
+  // Tier 1: Deepgram Nova-2 (using active $200 credit)
+  // Tier 2: Soniox (failover when Deepgram credit is over or errors)
+  // Tier 3: Google Cloud Speech-to-Text (if GCP service account credentials configured)
+  // Tier 4: Google Meet Native Captions DOM Extractor ($0 guaranteed fail-safe)
   async ensureSpeechStarted() {
     if (!this.config.bot.transcriptionEnabled) return;
     if (this.speech) return;
     this.transcriptionError = null;
 
-    // Prioritize Deepgram Nova-2 (utilizing active credit)
+    // 1. Tier 1: Deepgram Nova-2
     if (this.config.deepgramKey && this.config.deepgramKey.trim().length > 10) {
       try {
         this.speech = new DeepgramTranscriber(this.config.deepgramKey, this.bus);
         await this.speech.start();
-        this.bus.publish('[Bot] Scripra Neural Acoustic Core (Deepgram Nova-2) streaming ready.');
+        this.bus.publish('[Bot] Tier 1: Scripra Neural Core (Deepgram Nova-2 Diarization) streaming active.');
         return;
       } catch (ex) {
-        console.warn('[Deepgram Start Failed, Trying Fallback]', ex.message);
-        this.transcriptionError = 'Deepgram could not connect: ' + ex.message;
+        console.warn('[Deepgram Start Failed / Credit Over, Trying Tier 2 Soniox]', ex.message);
+        this.bus.publish('[Bot Warning] Deepgram unavailable or credit exhausted. Switching to Tier 2: Soniox.');
         await this.speech?.dispose();
         this.speech = null;
       }
     }
 
-    // Fallback: Azure Speech if configured
+    // 2. Tier 2: Soniox
+    if (this.config.sonioxKey && this.config.sonioxKey.trim().length > 10) {
+      try {
+        this.speech = new SonioxTranscriber(this.config.sonioxKey, this.bus);
+        await this.speech.start();
+        this.bus.publish('[Bot] Tier 2: Soniox Real-Time Speech Core active.');
+        return;
+      } catch (ex) {
+        console.warn('[Soniox Failed, Trying Tier 3 Google Cloud Speech]', ex.message);
+        this.bus.publish('[Bot Warning] Soniox failed. Switching to Tier 3: Google Cloud Speech.');
+        await this.speech?.dispose();
+        this.speech = null;
+      }
+    }
+
+    // 3. Tier 3: Google Cloud Speech-to-Text Streaming
+    if (this.config.googleSpeech?.credentialsPath || process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.GOOGLE_CLOUD_CREDENTIALS_JSON) {
+      try {
+        this.speech = new GoogleCloudSpeechTranscriber(this.config, this.bus);
+        await this.speech.start();
+        this.bus.publish('[Bot] Tier 3: Google Cloud Speech Streaming with Diarization active.');
+        return;
+      } catch (ex) {
+        console.warn('[Google Cloud Speech Failed, Falling back to Tier 4 Meet Captions]', ex.message);
+        this.bus.publish('[Bot Warning] Google Cloud Speech unavailable. Switching to Tier 4: Google Meet Native Captions.');
+        await this.speech?.dispose();
+        this.speech = null;
+      }
+    }
+
+    // 4. Tier 4 ($0 Fail-Safe): Google Meet Native Captions DOM Extractor
+    if (this.platform === MeetingPlatform.GoogleMeet && this.page && !this.page.isClosed()) {
+      try {
+        this.speech = new MeetCaptionTranscriber(this.page, this.bus);
+        await this.speech.start();
+        this.bus.publish('[Bot] Tier 4: Google Meet Native Live Captions (Zero-Cost Fail-Safe) active.');
+        return;
+      } catch (ex) {
+        console.warn('[Meet Native Captions Failed]', ex.message);
+      }
+    }
+
+    // Azure Fallback if configured
     if (this.config.azureSpeech?.key && !this.config.azureSpeech.key.includes('put_azure')) {
       try {
         this.speech = new AzureSpeechTranscriber(this.config, this.bus);
         await this.speech.start();
-        this.transcriptionError = null;
-        this.bus.publish('[Bot] Azure Speech recognizer ready.');
+        this.bus.publish('[Bot] Azure Speech recognizer active.');
         return;
       } catch (ex) {
-        this.error = 'Azure Speech: ' + ex.message;
-        this.transcriptionError = this.error;
-        this.bus.publish(`[Bot Error] Azure Speech could not start: ${ex.message}`);
         await this.speech?.dispose();
         this.speech = null;
       }
     }
 
-    this.transcriptionError ||= 'No working transcription provider is configured.';
+    this.transcriptionError = 'No working transcription provider is currently available.';
     this.bus.publish('[Bot Error] ' + this.transcriptionError);
   }
 
@@ -278,7 +346,7 @@ export class MeetingBotService {
     this.meetingStartedAt = new Date().toISOString();
     this.state = 'Meeting started / listening';
     this.bus.publish(this.config.bot.transcriptionEnabled
-      ? '[Bot] Bot admitted. Starting meeting transcription.'
+      ? '[Bot] Bot admitted. Starting meeting transcription cascade.'
       : '[Bot] Scripra bot admitted. Join-only mode: no audio capture or paid transcription.');
     await this.ensureSpeechStarted();
   }
@@ -334,12 +402,39 @@ export class MeetingBotService {
     }
   }
 
+  saveTranscriptToDisk() {
+    try {
+      const sessionId = crypto.randomUUID();
+      const dir = path.resolve(__dirname, '../transcripts');
+      fs.mkdirSync(dir, { recursive: true });
+      const transcriptText = this.bus.getTranscript ? this.bus.getTranscript() : '';
+      const textPath = path.join(dir, `${sessionId}.txt`);
+      const jsonPath = path.join(dir, `${sessionId}.json`);
+      fs.writeFileSync(textPath, transcriptText || 'Empty transcript');
+      fs.writeFileSync(jsonPath, JSON.stringify({
+        id: sessionId,
+        url: this.url,
+        platform: this.platform,
+        startedAt: this.meetingStartedAt,
+        endedAt: this.meetingEndedAt,
+        audioPackets: this.audioPackets,
+        audioBytes: this.audioBytes,
+        transcript: transcriptText
+      }, null, 2));
+      console.log(`[Transcript Saved] Saved to transcripts/${sessionId}.json`);
+    } catch (e) {
+      console.warn('[Save Transcript Error]', e.message);
+    }
+  }
+
   async finishMeetingFromMonitor(platform, page, reason) {
     if (this.page !== page) return;
 
     this.meetingEndedAt = this.meetingEndedAt || new Date().toISOString();
     this.state = 'Leaving meeting';
     this.bus.publishSystem(`[Bot] ${reason}. Leaving automatically.`);
+
+    this.saveTranscriptToDisk();
 
     await PlatformJoiners.leaveMeeting(platform, page);
     await this.leaveInternal({ keepState: true, preserveMeetingInfo: true });
@@ -354,6 +449,8 @@ export class MeetingBotService {
     if (this.meetingStartedAt || this.page) {
       this.meetingEndedAt = new Date().toISOString();
     }
+
+    this.saveTranscriptToDisk();
 
     if (this.page && this.platform) {
       await PlatformJoiners.leaveMeeting(this.platform, this.page);
@@ -390,6 +487,11 @@ export class MeetingBotService {
         await this.browser.close();
       }
     } catch (_) {}
+
+    if (this.nativeChild) {
+      try { this.nativeChild.kill(); } catch (_) {}
+      this.nativeChild = null;
+    }
 
     if (this.speech) {
       try {

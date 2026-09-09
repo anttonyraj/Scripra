@@ -503,101 +503,57 @@ export class PlatformJoiners {
     }
   }
 
-  static async joinMeet(p, name, abortSignal, timeoutSeconds = 90) {
-    const deadline = Date.now() + timeoutSeconds * 1000;
-    // Google Meet pre-join loop: handles device permission modals, name input,
-    // mic/cam mute, and Ask to join / Join now buttons.
-    for (let attempt = 0; attempt < 35; attempt++) {
-      if (abortSignal && abortSignal.aborted) throw new Error('Join canceled');
+  static accessFailure(body) {
+    const lines = body.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+    const rules = [
+      [/^no one responded/i, 'Nobody admitted the bot. Ask the host to admit it, then retry.'],
+      [/^(you.ve been removed|you were removed)/i, 'The bot was removed from the meeting.'],
+      [/^(your )?request to join (was |has been )?denied[.!]?$/i, 'The join request was declined.'],
+      [/^(you can.t join this (video call|meeting)|you.re not allowed to join|you are not allowed to join)/i, 'Meet blocked guest entry. This message alone does not establish whether the cause is meeting access settings or browser rejection.']
+    ];
+    for (const [pattern, explanation] of rules) {
+      const line = lines.find(value => pattern.test(value));
+      if (line) return `${explanation} Google Meet says: "${line}"`;
+    }
+    return null;
+  }
 
-      if (Date.now() >= deadline) throw new Error('Google Meet pre-join timed out. Check the link and whether Google sign-in is required.');
-
-      if (await this.isInMeeting(MeetingPlatform.GoogleMeet, p) ||
-          await this.detectLobbyState(MeetingPlatform.GoogleMeet, p) !== null) {
-        return;
-      }
-
-      const body = await this.safeBodyText(p);
-      const lower = body.toLowerCase();
-
-      if (lower.includes("you can't join this video call") || lower.includes('you cannot join this video call')) {
-        throw new Error("Google Meet reported: \"You can't join this video call\". This meeting is either inactive/ended, or the host organization requires participants to sign in with a Google Account.");
-      }
-
-      if (lower.includes('returning to home screen') || (lower.includes('return to home screen') && !lower.includes('ask to join') && !lower.includes('join now'))) {
-        throw new Error("Google Meet reported that this meeting is no longer active (Return to home screen).");
-      }
-
-      if (lower.includes('sign in') && (lower.includes('sign in to join') || lower.includes('google account'))) {
-        throw new Error('Google Meet requires Google Account sign-in. Guest browser join is not enabled by the organizer.');
-      }
-
-      if (lower.includes('check your meeting code') || lower.includes("couldn't find your meeting") || lower.includes("invalid meeting code")) {
-        throw new Error('Invalid Google Meet meeting code or meeting does not exist.');
-      }
-
-      // 1) Dismiss any Google Meet overlay dialogs / prompts
-      await this.clickAnyDeep(p, 'Got it', 'Dismiss', 'Close', 'No thanks', 'Allow', 'Continue without microphone');
-
-      // 2) Fill display name if present
-      const filledName = await this.fillFirstDeepWithResult(p, name,
-        "input[placeholder*='Your name' i]",
-        "input[aria-label*='Your name' i]",
-        "input[placeholder*='name' i]",
-        "input[aria-label*='name' i]",
-        "input[type='text']");
-
-      if (filledName) {
-        await p.waitForTimeout(300);
-      }
-
-      // 3) Turn off camera and microphone on the pre-join preview
-      await this.turnOffMediaDeep(p);
-      await this.turnOffGoogleMeetMedia(p);
-
-      // 4) Click Join button
-      const clickedJoin = await this.clickSelectorAnyDeep(p,
-        "button[aria-label*='Ask to join' i]",
-        "button[aria-label*='Join now' i]",
-        "button[data-idom-class*='join' i]",
-        "button[jsname*='Qx7uuf']",
-        "button:has-text('Ask to join')",
-        "button:has-text('Join now')",
-        "button:has-text('Join')",
-        "[role='button']:has-text('Ask to join')",
-        "[role='button']:has-text('Join now')",
-        "span:has-text('Ask to join')",
-        "span:has-text('Join now')") ||
-        await this.clickAnyDeep(p, 'Ask to join', 'Join now', 'Join', 'Ask to join meeting') ||
-        await this.clickLooseDeep(p, 'ask to join', 'join now');
-
-      // 5) If name is filled and attempt >= 2, also press Enter to trigger form submission
-      if (!clickedJoin && filledName && attempt >= 2) {
-        try {
-          await p.keyboard.press('Enter');
-          await p.waitForTimeout(600);
-        } catch (_) {}
-      }
-
-      if (clickedJoin || filledName) {
-        for (let wait = 0; wait < 8; wait++) {
-          await p.waitForTimeout(600);
-          if (await this.isInMeeting(MeetingPlatform.GoogleMeet, p)) return;
-          if (await this.detectLobbyState(MeetingPlatform.GoogleMeet, p) !== null) return;
+  static async dismissMediaPrompt(page) {
+    try {
+      const dialog = page.getByRole('dialog').filter({ hasText: /Do you want people to (see and )?hear you in the meeting\?/i }).last();
+      if (await dialog.isVisible()) {
+        const close = dialog.getByRole('button', { name: /^Close dialog$/i }).first();
+        if (await close.isVisible()) {
+          await close.click({ timeout: 1500 });
+          return true;
         }
-        continue;
       }
+    } catch (_) {}
 
-      await p.waitForTimeout(850);
+    const label = /^Continue without microphone and camera$/i;
+    for (const control of [page.getByRole('button', { name: label }), page.getByRole('link', { name: label }), page.getByText(label)]) {
+      try {
+        const target = control.first();
+        if (await target.isVisible()) {
+          await target.click({ timeout: 1500 });
+          return true;
+        }
+      } catch (_) {}
     }
+    return false;
+  }
 
-    const finalBody = (await this.safeBodyText(p)).toLowerCase();
-    if (finalBody.includes('sign in')) {
-      throw new Error('Google Meet requires Google Account sign-in. Guest browser join is not permitted for this meeting.');
+  static async muteMedia(page) {
+    for (const media of ['microphone', 'camera']) {
+      if (await this.dismissMediaPrompt(page)) return false;
+      try {
+        const off = page.getByRole('button', { name: new RegExp(`turn off ${media}`, 'i') }).first();
+        if (await off.isVisible()) {
+          await off.click({ timeout: 1500 });
+        }
+      } catch (_) {}
     }
-
-    const controls = await this.describeInteractiveControlsDeep(p);
-    throw new Error(`Google Meet join button not found after multiple attempts. Controls detected: ${controls}`);
+    return true;
   }
 
   static async turnOffGoogleMeetMedia(p) {
@@ -611,12 +567,128 @@ export class PlatformJoiners {
             const aria = (await btn.getAttribute('aria-label') || '').toLowerCase();
             if (aria.includes('turn off') || (aria.includes('mute') && !aria.includes('unmute'))) {
               await btn.click({ force: true });
-              await p.waitForTimeout(150);
+              await p.waitForTimeout?.(150);
             }
           } catch (_) {}
         }
       } catch (_) {}
     }
+  }
+
+  static async tryJoin(page, join, label) {
+    if (await this.dismissMediaPrompt(page)) return false;
+    try {
+      if (page?.mouse && typeof join.boundingBox === 'function') {
+        const box = await join.boundingBox();
+        if (box) {
+          const targetX = box.x + box.width / 2;
+          const targetY = box.y + box.height / 2;
+          await page.mouse.move(targetX, targetY, { steps: 30 });
+          await page.waitForTimeout?.(150);
+          await page.mouse.down();
+          await page.waitForTimeout?.(100);
+          await page.mouse.up();
+        } else {
+          await join.click({ timeout: 3000 });
+        }
+      } else {
+        await join.click({ timeout: 3000 });
+      }
+      return true;
+    } catch (error) {
+      await this.dismissMediaPrompt(page);
+      return false;
+    }
+  }
+
+  static async joinMeet(p, name, abortSignal, timeoutSeconds = 90) {
+    const deadline = Date.now() + timeoutSeconds * 1000;
+    let requested = false;
+
+    while (Date.now() < deadline) {
+      if (abortSignal && abortSignal.aborted) throw new Error('Join canceled');
+      if (p.isClosed()) throw new Error('Meeting browser was closed.');
+
+      // 1) Complete first-visit media prompt
+      if (await this.dismissMediaPrompt(p)) {
+        await p.waitForTimeout(400);
+        continue;
+      }
+
+      // 2) Check if accounts.google.com sign-in was forced
+      try {
+        if (new URL(p.url()).hostname === 'accounts.google.com') {
+          throw new Error('This meeting requires Google sign-in. Guest access is unavailable.');
+        }
+      } catch (urlErr) {
+        if (urlErr.message.includes('requires Google sign-in')) throw urlErr;
+      }
+
+      // 3) Check for standard rejection / access failures
+      const body = await this.safeBodyText(p);
+      const failure = this.accessFailure(body);
+      if (failure) throw new Error(failure);
+
+      // 4) Check if already in meeting or waiting in lobby
+      if (await this.isInMeeting(MeetingPlatform.GoogleMeet, p)) return;
+      if (await this.detectLobbyState(MeetingPlatform.GoogleMeet, p) !== null) return;
+
+      // 5) Dismiss callouts ("Got it")
+      const gotIt = p.locator('button').filter({ hasText: /^Got it$/i }).first();
+      if (await gotIt.isVisible().catch(() => false)) {
+        await gotIt.click().catch(() => {});
+        await p.waitForTimeout(300);
+      }
+
+      // 6) Fill guest name if present
+      const nameInput = p.locator('input[placeholder*="Your name" i], input[aria-label*="Your name" i]').first();
+      if (!requested && await nameInput.isVisible().catch(() => false)) {
+        const currentVal = await nameInput.inputValue().catch(() => '');
+        if (currentVal !== name) {
+          const box = await nameInput.boundingBox().catch(() => null);
+          if (box && p?.mouse) {
+            await p.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 20 });
+            await p.waitForTimeout(80);
+            await p.mouse.down();
+            await p.waitForTimeout(60);
+            await p.mouse.up();
+          } else {
+            await nameInput.click({ timeout: 3000 }).catch(() => {});
+          }
+          await p.waitForTimeout(150);
+          if (typeof nameInput.pressSequentially === 'function') {
+            await nameInput.pressSequentially(name, { delay: 30, timeout: 8000 });
+          } else {
+            await nameInput.fill(name, { timeout: 8000 });
+          }
+          await p.waitForTimeout(300);
+        }
+      }
+
+      // 7) Mute mic and camera
+      if (!await this.muteMedia(p)) {
+        await p.waitForTimeout(400);
+        continue;
+      }
+
+      // 8) Click Join button
+      if (!requested) {
+        const join = p.getByRole('button', { name: /^(Ask to join|Join now|Join meeting)$/i }).first();
+        if (await join.isVisible().catch(() => false) && await join.isEnabled().catch(() => false)) {
+          const label = await join.innerText().catch(() => '');
+          requested = await this.tryJoin(p, join, label);
+          if (requested) {
+            await p.waitForTimeout(1000);
+            if (await this.isInMeeting(MeetingPlatform.GoogleMeet, p)) return;
+            if (await this.detectLobbyState(MeetingPlatform.GoogleMeet, p) !== null) return;
+          }
+        }
+      }
+
+      await p.waitForTimeout(600);
+    }
+
+    throw new Error('Timed out completing Google Meet guest entry or waiting for admission.');
   }
 
   static async joinWebex(p, name, email, abortSignal) {
