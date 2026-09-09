@@ -88,7 +88,7 @@ export class PlatformJoiners {
         return 'Waiting for host admission';
       }
       if (platform === MeetingPlatform.GoogleMeet &&
-          (text.includes('asking to join') || text.includes("you'll join the call when someone lets you in"))) {
+          /asking to be let in|asking to join|you.ll join (the call )?when someone lets you in|waiting for (the host|someone) to let you in|ask(ed|ing) the host to let you in|someone in the (meeting|call) will let you in/i.test(text)) {
         return 'Waiting for host admission';
       }
       if (platform === MeetingPlatform.Webex &&
@@ -642,7 +642,8 @@ export class PlatformJoiners {
 
       // 6) Fill guest name if present
       const nameInput = p.locator('input[placeholder*="Your name" i], input[aria-label*="Your name" i]').first();
-      if (!requested && await nameInput.isVisible().catch(() => false)) {
+      let nameEntered = false;
+      if (await nameInput.isVisible().catch(() => false)) {
         const currentVal = await nameInput.inputValue().catch(() => '');
         if (currentVal !== name) {
           const box = await nameInput.boundingBox().catch(() => null);
@@ -662,6 +663,9 @@ export class PlatformJoiners {
             await nameInput.fill(name, { timeout: 8000 });
           }
           await p.waitForTimeout(300);
+          nameEntered = true;
+        } else {
+          nameEntered = true;
         }
       }
 
@@ -671,18 +675,77 @@ export class PlatformJoiners {
         continue;
       }
 
-      // 8) Click Join button
+      // 8) Multi-strategy Join submission
       if (!requested) {
-        const join = p.getByRole('button', { name: /^(Ask to join|Join now|Join meeting)$/i }).first();
-        if (await join.isVisible().catch(() => false) && await join.isEnabled().catch(() => false)) {
-          const label = await join.innerText().catch(() => '');
-          requested = await this.tryJoin(p, join, label);
-          if (requested) {
-            await p.waitForTimeout(1000);
-            if (await this.isInMeeting(MeetingPlatform.GoogleMeet, p)) return;
-            if (await this.detectLobbyState(MeetingPlatform.GoogleMeet, p) !== null) return;
+        // Strategy A: Press Enter on the name input (native Google Meet form submit)
+        if (nameEntered && await nameInput.isVisible().catch(() => false)) {
+          try {
+            await nameInput.focus();
+            await p.keyboard.press('Enter');
+            await p.waitForTimeout(800);
+            if (await this.isInMeeting(MeetingPlatform.GoogleMeet, p) ||
+                await this.detectLobbyState(MeetingPlatform.GoogleMeet, p) !== null) {
+              return;
+            }
+          } catch (_) {}
+        }
+
+        // Strategy B: Click Join button via Playwright role locator
+        const joinRole = p.getByRole('button', { name: /^(Ask to join|Join now|Join meeting)$/i }).first();
+        if (await joinRole.isVisible().catch(() => false) && await joinRole.isEnabled().catch(() => false)) {
+          const label = await joinRole.innerText().catch(() => '');
+          requested = await this.tryJoin(p, joinRole, label);
+        }
+
+        // Strategy C: Click Join button via CSS / text selectors
+        if (!requested) {
+          const joinSelectors = [
+            "button:has-text('Ask to join')",
+            "button:has-text('Join now')",
+            "button[aria-label*='Ask to join' i]",
+            "button[aria-label*='Join now' i]",
+            "div[role='button']:has-text('Ask to join')",
+            "div[role='button']:has-text('Join now')",
+            "button[jsname='Qx7uuf']",
+            "[role='button'][jsname='Qx7uuf']"
+          ];
+          for (const sel of joinSelectors) {
+            const el = p.locator(sel).first();
+            if (await el.isVisible().catch(() => false)) {
+              requested = await this.tryJoin(p, el, 'Ask to join');
+              if (requested) break;
+            }
           }
         }
+
+        // Strategy D: Native DOM click via page.evaluate
+        if (!requested) {
+          requested = await p.evaluate(() => {
+            const targets = Array.from(document.querySelectorAll('button, div[role="button"], span[role="button"]'));
+            const btn = targets.find(el => /ask to join|join now|join meeting/i.test(el.innerText || el.getAttribute('aria-label') || ''));
+            if (btn) {
+              btn.click();
+              return true;
+            }
+            return false;
+          }).catch(() => false);
+        }
+
+        // If join request was fired (or user clicked it manually):
+        if (requested) {
+          await p.waitForTimeout(1500);
+          // Check if admitted or in waiting lobby immediately
+          if (await this.isInMeeting(MeetingPlatform.GoogleMeet, p)) return;
+          if (await this.detectLobbyState(MeetingPlatform.GoogleMeet, p) !== null) return;
+          // Join request is already dispatched; return so meetingBotService advances to 'Join request sent'
+          return;
+        }
+      }
+
+      // Check if user manually clicked "Ask to join" or if page reached lobby
+      if (await this.detectLobbyState(MeetingPlatform.GoogleMeet, p) !== null ||
+          await this.isInMeeting(MeetingPlatform.GoogleMeet, p)) {
+        return;
       }
 
       await p.waitForTimeout(600);

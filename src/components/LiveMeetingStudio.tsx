@@ -630,7 +630,7 @@ export default function LiveMeetingStudio() {
               } else if (data.state === "Auto joining") {
                 setBotStatusText(`Entering name 'Scripra AI Notetaker' & clicking Join...`);
                 setBotConnectionStage("lobby");
-              } else if (data.state === "Join request sent" || (data.state && data.state.includes("Waiting for host admission"))) {
+              } else if (data.state === "Join request sent" || (data.state && data.state.includes("Waiting for host admission")) || data.state === "Waiting for meeting entry") {
                 setBotStatusText(`In Lobby · Host please admit Scripra bot into ${platformName}!`);
                 setBotConnectionStage("lobby");
               } else if (data.state === "Meeting started / listening") {
