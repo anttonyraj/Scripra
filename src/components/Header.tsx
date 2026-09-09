@@ -59,6 +59,13 @@ export default function Header() {
                 <div className="flex flex-col gap-4">
                   <div className="text-[11px] font-bold tracking-[0.15em] uppercase text-indigo">Specialized Products</div>
                   <div className="flex flex-col gap-3">
+                    <Link href="/ai-notetaker" className="group/item block">
+                      <div className="text-[13.5px] font-semibold text-ink group-hover/item:text-indigo transition-colors flex items-center gap-1.5">
+                        <span>🎙️</span> AI Notetaker
+                        <span className="text-[9.5px] font-mono bg-indigo-wash text-indigo px-1.5 py-0.5 rounded font-bold">NEW</span>
+                      </div>
+                      <div className="text-[11px] text-ink-3">Automated MoM &amp; diarized notes.</div>
+                    </Link>
                     <Link href="/product" className="group/item block">
                       <div className="text-[13.5px] font-semibold text-ink group-hover/item:text-teal transition-colors flex items-center gap-1.5">
                         <span>🌐</span> Scripra Global
