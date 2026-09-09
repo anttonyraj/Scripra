@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function botProxy(path: string, method: 'GET' | 'POST', body?: unknown, stream = false) {
   const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ error: 'Sign in to control your bot.' }, { status: 401 });
+  const ownerId = session?.user?.id || 'pilot-guest';
   const base = process.env.BOT_SERVER_URL || 'http://127.0.0.1:5000';
   try {
     const workerUrl = new URL(base);
@@ -12,7 +12,7 @@ export async function botProxy(path: string, method: 'GET' | 'POST', body?: unkn
     }
     const response = await fetch(`${base}${path}`, {
       method,
-      headers: { 'Content-Type': 'application/json', 'x-scripra-owner': session.user.id },
+      headers: { 'Content-Type': 'application/json', 'x-scripra-owner': ownerId },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       cache: 'no-store',
       ...(!stream ? { signal: AbortSignal.timeout(180_000) } : {}),
